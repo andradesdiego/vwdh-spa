@@ -1,17 +1,8 @@
-export type VWBrand =
-  | "Volkswagen"
-  | "Audi"
-  | "SEAT"
-  | "Škoda"
-  | "Porsche"
-  | "Cupra";
-export type FuelType = "Gasoline" | "Diesel" | "Electric" | "Hybrid";
-
-export interface CarModel {
+export type CarModel = {
   id: number;
   name: string;
-  brand: VWBrand;
+  brand: string;
   year: number;
-  fuelType: FuelType;
+  fuelType: "Gasoline" | "Diesel" | "Electric" | "Hybrid";
   horsepower: number;
-}
+};
