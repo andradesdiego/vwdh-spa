@@ -5,9 +5,9 @@ export function CarShowcase({ car }: { car: CarModel }) {
   const clearSelection = useCarStore((s) => s.clearSelection);
 
   return (
-    <div className="mt-6 p-4 rounded border bg-white shadow-md">
+    <div className="mt-6 p-4 rounded border bg-gray-300 shadow-md">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">{car.name}</h2>
+        <h2 className="text-xl text-gray-500 font-semibold">{car.name}</h2>
         <button
           onClick={clearSelection}
           className="text-sm text-blue-600 hover:underline"

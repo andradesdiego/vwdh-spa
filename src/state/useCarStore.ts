@@ -13,6 +13,7 @@ type CarStore = {
   selectCar: (car: CarModel) => void;
   clearSelection: () => void;
   addCar: (car: Omit<CarModel, "id">) => void;
+  updateCar: (car: CarModel) => void;
 };
 export const useCarStore = create<CarStore>()(
   devtools((set, get) => ({
@@ -35,5 +36,10 @@ export const useCarStore = create<CarStore>()(
       const carWithId = { ...newCar, id: nextId };
       set((state) => ({ cars: [...state.cars, carWithId] }));
     },
+    updateCar: (updated) =>
+      set((state) => ({
+        cars: state.cars.map((c) => (c.id === updated.id ? updated : c)),
+        selectedCar: undefined,
+      })),
   }))
 );

@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCarStore } from "@/state/useCarStore";
+import type { CarModel } from "@/domain/models/CarModel";
 
 export function CarForm() {
   const addCar = useCarStore((s) => s.addCar);
+  const updateCar = useCarStore((s) => s.updateCar);
+  const selectedCar = useCarStore((s) => s.selectedCar);
+  const clearSelection = useCarStore((s) => s.clearSelection);
 
   const [form, setForm] = useState({
     name: "",
@@ -11,6 +15,19 @@ export function CarForm() {
     fuelType: "Gasoline",
     horsepower: "",
   });
+
+  // Si estamos editando, cargar valores
+  useEffect(() => {
+    if (selectedCar) {
+      setForm({
+        name: selectedCar.name,
+        brand: selectedCar.brand,
+        year: String(selectedCar.year),
+        fuelType: selectedCar.fuelType,
+        horsepower: String(selectedCar.horsepower),
+      });
+    }
+  }, [selectedCar]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -27,14 +44,19 @@ export function CarForm() {
       return;
     }
 
-    addCar({
+    const data = {
       name: form.name,
       brand: form.brand,
       year: Number(form.year),
-      fuelType: form.fuelType as any,
+      fuelType: form.fuelType as CarModel["fuelType"],
       horsepower: Number(form.horsepower),
-    });
+    };
 
+    if (selectedCar) {
+      updateCar({ ...selectedCar, ...data });
+    } else {
+      addCar(data);
+    }
     setForm({
       name: "",
       brand: "",
@@ -42,6 +64,8 @@ export function CarForm() {
       fuelType: "Gasoline",
       horsepower: "",
     });
+
+    clearSelection();
   };
 
   return (
@@ -49,7 +73,11 @@ export function CarForm() {
       onSubmit={handleSubmit}
       className="space-y-3 mb-6 p-4 border rounded bg-white shadow-sm"
     >
-      <h2 className="text-lg font-semibold">Añadir nuevo coche</h2>
+      <h2 className="text-lg font-semibold">
+        {selectedCar
+          ? `Editar coche: ${selectedCar.name}`
+          : "Añadir nuevo coche"}
+      </h2>
 
       <div className="grid grid-cols-2 gap-4">
         <input
@@ -95,12 +123,24 @@ export function CarForm() {
         </select>
       </div>
 
-      <button
-        type="submit"
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
-        Guardar
-      </button>
+      <div className="flex gap-2">
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          {selectedCar ? "Actualizar" : "Guardar"}
+        </button>
+
+        {selectedCar && (
+          <button
+            type="button"
+            onClick={clearSelection}
+            className="px-4 py-2 text-sm text-gray-600 underline"
+          >
+            Cancelar edición
+          </button>
+        )}
+      </div>
     </form>
   );
 }
