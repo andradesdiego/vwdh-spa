@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
-import { useCarStore } from "@/state/useCarStore";
-import type { CarModel } from "@/domain/models/CarModel";
 import { CarShowcase } from "./CarShowcase";
+import type { CarModel } from "@/domain/models/CarModel";
+import { useCarStore } from "@/state/useCarStore";
 
 type SortKey = keyof CarModel;
 type SortDirection = "asc" | "desc";
