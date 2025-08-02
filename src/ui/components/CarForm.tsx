@@ -3,6 +3,7 @@ import { useCarStore } from "@/state/useCarStore";
 import type { CarModel } from "@/domain/models/CarModel";
 import { createCarUseCase } from "@/application/use-cases/createCarUseCase";
 import toast from "react-hot-toast";
+import { updateCarUseCase } from "@/application/use-cases/updateCarUseCase";
 interface CarFormProps {
   onSubmit?: (data: Partial<CarModel>) => void;
 }
@@ -68,7 +69,8 @@ export function CarForm({ onSubmit }: CarFormProps) {
 
     try {
       if (selectedCar) {
-        updateCar({ ...selectedCar, ...data });
+        const updatedCar = await updateCarUseCase({ ...selectedCar, ...data });
+        updateCar(updatedCar);
         toast.success("Coche actualizado con éxito");
       } else {
         const createdCar = await createCarUseCase(data);
