@@ -17,7 +17,7 @@ export function CarRow({ car }: Props) {
 
   return (
     <tr
-      className="hover:bg-gray-50 text-sm transition-colors cursor-pointer"
+      className="hover:bg-gray-700 text-sm transition-colors cursor-pointer"
       onClick={() => selectCar(car)}
     >
       <td className="p-3 border">{car.name}</td>

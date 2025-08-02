@@ -23,7 +23,7 @@ export default function CarListPage() {
   }, [setCars]);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="bg-gray-900 p-6 space-y-6 min-h-screen">
       <h1 className="text-2xl font-bold">Catálogo Grupo Volkswagen</h1>
       <button
         onClick={openForm}
