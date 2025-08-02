@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { CarShowcase } from "./CarShowcase";
 import type { CarModel } from "@/domain/models/CarModel";
 import { useCarStore } from "@/state/useCarStore";
+import { CarRow } from "./CarRow";
 
 type SortKey = keyof CarModel;
 type SortDirection = "asc" | "desc";
@@ -96,32 +97,7 @@ export function DataTable() {
                 </td>
               </tr>
             ) : (
-              filteredAndSorted.map((car) => (
-                <tr
-                  key={car.id}
-                  onClick={() => selectCar(car)}
-                  className="hover:bg-gray-700 text-sm transition-colors"
-                >
-                  <td className="p-3 border">{car.name}</td>
-                  <td className="p-3 border">{car.brand}</td>
-                  <td className="p-3 border">{car.year}</td>
-                  <td className="p-3 border">{car.fuelType}</td>
-                  <td className="p-3 border flex items-center justify-between gap-2">
-                    <span>{car.horsepower}</span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const confirmDelete = confirm(`¿Eliminar ${car.name}?`);
-                        if (confirmDelete) deleteCar(car.id);
-                      }}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                      title="Eliminar"
-                    >
-                      🗑️
-                    </button>
-                  </td>
-                </tr>
-              ))
+              filteredAndSorted.map((car) => <CarRow key={car.id} car={car} />)
             )}
           </tbody>
         </table>
