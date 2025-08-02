@@ -1,7 +1,16 @@
-import type { CarModel } from "@/domain/models/CarModel";
+import { CarModel } from "@/domain/models/CarModel";
 
-export async function fetchCars(): Promise<CarModel[]> {
-  const res = await fetch("http://localhost:3001/cars");
-  if (!res.ok) throw new Error("Error fetching cars");
-  return res.json();
+const API_URL = "http://localhost:4000/cars";
+
+export async function fetchCarsFromApi(): Promise<CarModel[]> {
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) {
+      throw new Error(`API Error: ${res.status} ${res.statusText}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("fetchCarsFromApi error:", error);
+    throw error;
+  }
 }

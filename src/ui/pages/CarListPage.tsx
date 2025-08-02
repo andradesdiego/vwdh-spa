@@ -1,18 +1,26 @@
 import { useEffect } from "react";
+import { fetchCarsUseCase } from "@/application/use-cases/fetchCarsUseCase";
 import { useCarStore } from "@/state/useCarStore";
 import { DataTable } from "@/ui/components/DataTable";
 import { CarForm } from "@/ui/components/CarForm";
 import { Modal } from "@/ui/components/Modal";
 
 export default function CarListPage() {
-  const fetchCars = useCarStore((state) => state.fetchCars);
+  const setCars = useCarStore((state) => state.setCars);
+  const cars = useCarStore((state) => state.cars);
+
   const isFormOpen = useCarStore((s) => s.isFormOpen);
   const openForm = useCarStore((s) => s.openForm);
   const closeForm = useCarStore((s) => s.closeForm);
 
   useEffect(() => {
-    fetchCars();
-  }, []);
+    fetchCarsUseCase()
+      .then(setCars)
+      .catch((err) => {
+        console.error("Failed to load cars:", err);
+        // aquí podrías setear un estado de error en el store si lo necesitas
+      });
+  }, [setCars]);
 
   return (
     <div className="p-6 space-y-6">

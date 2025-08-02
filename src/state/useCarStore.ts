@@ -1,15 +1,11 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-
-import { fetchCarsUseCase } from "@/application/usecases/fetchCars";
 import type { CarModel } from "@/domain/models/CarModel";
-import { CarModelRepositoryImpl } from "@/infrastructure/repositories/CarModelRepositoryImpl";
 
 type CarStore = {
   cars: CarModel[];
   loading: boolean;
   selectedCar?: CarModel;
-  fetchCars: () => Promise<void>;
   selectCar: (car: CarModel) => void;
   clearSelection: () => void;
   addCar: (car: Omit<CarModel, "id">) => void;
@@ -18,21 +14,15 @@ type CarStore = {
   isFormOpen: boolean;
   openForm: () => void;
   closeForm: () => void;
+  setCars: (cars: CarModel[]) => void;
 };
 export const useCarStore = create<CarStore>()(
   devtools((set, get) => ({
     cars: [],
     loading: false,
     selectedCar: undefined,
-    fetchCars: async () => {
-      set({ loading: true });
-      try {
-        const cars = await fetchCarsUseCase(CarModelRepositoryImpl);
-        set({ cars });
-      } finally {
-        set({ loading: false });
-      }
-    },
+
+    setCars: (cars) => set({ cars }),
     selectCar: (car) => set({ selectedCar: car }),
     clearSelection: () => set({ selectedCar: undefined }),
     addCar: (newCar) => {
