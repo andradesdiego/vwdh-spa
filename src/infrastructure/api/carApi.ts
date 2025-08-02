@@ -63,3 +63,20 @@ export async function updateCarInApi(car: CarModel): Promise<CarModel> {
     throw error;
   }
 }
+/**
+ * Delete a car by ID using the mock API
+ */
+export async function deleteCarInApi(id: number): Promise<void> {
+  try {
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      throw new Error(`API Error: ${res.status} ${res.statusText}`);
+    }
+  } catch (error) {
+    console.error("deleteCarInApi error:", error);
+    throw error;
+  }
+}

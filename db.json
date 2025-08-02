@@ -1,14 +1,6 @@
 {
   "cars": [
     {
-      "id": "1",
-      "name": "Golf GTI",
-      "brand": "Volkswagen",
-      "year": 2023,
-      "fuelType": "Gasoline",
-      "horsepower": 245
-    },
-    {
       "id": "2",
       "name": "Taycan Turbo S",
       "brand": "Porsche",
