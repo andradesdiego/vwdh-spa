@@ -12,10 +12,10 @@ type CarStore = {
   fetchCars: () => Promise<void>;
   selectCar: (car: CarModel) => void;
   clearSelection: () => void;
+  addCar: (car: Omit<CarModel, "id">) => void;
 };
-
 export const useCarStore = create<CarStore>()(
-  devtools((set) => ({
+  devtools((set, get) => ({
     cars: [],
     loading: false,
     selectedCar: undefined,
@@ -30,5 +30,10 @@ export const useCarStore = create<CarStore>()(
     },
     selectCar: (car) => set({ selectedCar: car }),
     clearSelection: () => set({ selectedCar: undefined }),
+    addCar: (newCar) => {
+      const nextId = get().cars.reduce((max, c) => Math.max(max, c.id), 0) + 1;
+      const carWithId = { ...newCar, id: nextId };
+      set((state) => ({ cars: [...state.cars, carWithId] }));
+    },
   }))
 );
