@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useCarStore } from "@/state/useCarStore";
 import type { CarModel } from "@/domain/models/CarModel";
+import { CarShowcase } from "./CarShowcase";
 
 type SortKey = keyof CarModel;
 type SortDirection = "asc" | "desc";
@@ -8,6 +9,8 @@ type SortDirection = "asc" | "desc";
 export function DataTable() {
   const cars = useCarStore((state) => state.cars);
   const loading = useCarStore((state) => state.loading);
+  const selectCar = useCarStore((s) => s.selectCar);
+  const selectedCar = useCarStore((s) => s.selectedCar);
 
   const [query, setQuery] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
@@ -95,7 +98,8 @@ export function DataTable() {
               filteredAndSorted.map((car) => (
                 <tr
                   key={car.id}
-                  className="hover:bg-gray-50 text-sm transition-colors"
+                  onClick={() => selectCar(car)}
+                  className="hover:bg-gray-700 text-sm transition-colors"
                 >
                   <td className="p-3 border">{car.name}</td>
                   <td className="p-3 border">{car.brand}</td>
@@ -107,6 +111,7 @@ export function DataTable() {
             )}
           </tbody>
         </table>
+        {selectedCar && <CarShowcase car={selectedCar} />}
       </div>
     </div>
   );

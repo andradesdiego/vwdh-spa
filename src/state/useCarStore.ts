@@ -8,13 +8,17 @@ import { CarModelRepositoryImpl } from "@/infrastructure/repositories/CarModelRe
 type CarStore = {
   cars: CarModel[];
   loading: boolean;
+  selectedCar?: CarModel;
   fetchCars: () => Promise<void>;
+  selectCar: (car: CarModel) => void;
+  clearSelection: () => void;
 };
 
 export const useCarStore = create<CarStore>()(
   devtools((set) => ({
     cars: [],
     loading: false,
+    selectedCar: undefined,
     fetchCars: async () => {
       set({ loading: true });
       try {
@@ -24,5 +28,7 @@ export const useCarStore = create<CarStore>()(
         set({ loading: false });
       }
     },
+    selectCar: (car) => set({ selectedCar: car }),
+    clearSelection: () => set({ selectedCar: undefined }),
   }))
 );
