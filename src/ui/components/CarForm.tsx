@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useCarStore } from "@/state/useCarStore";
 import type { CarModel } from "@/domain/models/CarModel";
-
+import { createCarUseCase } from "@/application/use-cases/createCarUseCase";
+import toast from "react-hot-toast";
 interface CarFormProps {
   onSubmit?: (data: Partial<CarModel>) => void;
 }
@@ -19,6 +20,16 @@ export function CarForm({ onSubmit }: CarFormProps) {
     fuelType: "Gasoline",
     horsepower: "",
   });
+
+  const resetForm = () => {
+    setForm({
+      name: "",
+      brand: "",
+      year: "",
+      fuelType: "Gasoline",
+      horsepower: "",
+    });
+  };
 
   useEffect(() => {
     if (selectedCar) {
@@ -39,7 +50,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!form.name || !form.brand || !form.year || !form.horsepower) {
@@ -55,23 +66,22 @@ export function CarForm({ onSubmit }: CarFormProps) {
       horsepower: Number(form.horsepower),
     };
 
-    if (selectedCar) {
-      updateCar({ ...selectedCar, ...data });
-    } else {
-      addCar(data);
+    try {
+      if (selectedCar) {
+        updateCar({ ...selectedCar, ...data });
+        toast.success("Coche actualizado con éxito");
+      } else {
+        const createdCar = await createCarUseCase(data);
+        addCar(createdCar);
+        toast.success("Coche añadido con éxito");
+      }
+
+      onSubmit?.(data);
+      clearSelection();
+      resetForm();
+    } catch (error) {
+      toast.error("Error al guardar el coche");
     }
-
-    onSubmit?.(data);
-
-    setForm({
-      name: "",
-      brand: "",
-      year: "",
-      fuelType: "Gasoline",
-      horsepower: "",
-    });
-
-    clearSelection();
   };
 
   return (

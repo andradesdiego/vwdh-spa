@@ -1,7 +1,7 @@
 {
   "cars": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Golf GTI",
       "brand": "Volkswagen",
       "year": 2023,
@@ -9,7 +9,7 @@
       "horsepower": 245
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Taycan Turbo S",
       "brand": "Porsche",
       "year": 2024,
@@ -17,7 +17,7 @@
       "horsepower": 750
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "A3 Sportback",
       "brand": "Audi",
       "year": 2022,
@@ -25,7 +25,7 @@
       "horsepower": 150
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Ibiza FR",
       "brand": "SEAT",
       "year": 2021,
@@ -33,12 +33,36 @@
       "horsepower": 110
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Enyaq iV",
       "brand": "Škoda",
       "year": 2023,
       "fuelType": "Electric",
       "horsepower": 204
+    },
+    {
+      "id": "7961",
+      "name": "Tiguan",
+      "brand": "Volkswagen",
+      "year": 2023,
+      "fuelType": "Gasoline",
+      "horsepower": 150
+    },
+    {
+      "id": "8b6e",
+      "name": "Alhambra Sport",
+      "brand": "SEAT",
+      "year": 2024,
+      "fuelType": "Gasoline",
+      "horsepower": 240
+    },
+    {
+      "id": "b715",
+      "name": "Tiguan",
+      "brand": "Volkswagen",
+      "year": 2023,
+      "fuelType": "Gasoline",
+      "horsepower": 150
     }
   ]
 }
