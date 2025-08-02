@@ -15,6 +15,9 @@ type CarStore = {
   addCar: (car: Omit<CarModel, "id">) => void;
   updateCar: (car: CarModel) => void;
   deleteCar: (id: number) => void;
+  isFormOpen: boolean;
+  openForm: () => void;
+  closeForm: () => void;
 };
 export const useCarStore = create<CarStore>()(
   devtools((set, get) => ({
@@ -48,5 +51,8 @@ export const useCarStore = create<CarStore>()(
         selectedCar:
           state.selectedCar?.id === id ? undefined : state.selectedCar,
       })),
+    isFormOpen: false,
+    openForm: () => set({ isFormOpen: true }),
+    closeForm: () => set({ isFormOpen: false, selectedCar: undefined }),
   }))
 );
