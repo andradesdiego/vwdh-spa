@@ -1,69 +1,121 @@
-# React + TypeScript + Vite
+# 🚗 VWDH SPA – React Frontend Challenge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a single-page application (SPA) built with **React**, **TypeScript**, **Vite**, **Zustand**, and **TailwindCSS**, developed as part of a technical challenge. The app manages a catalog of Volkswagen Group cars and demonstrates clean code, modern UI/UX, testing, and architectural clarity.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📦 Features
 
-## Expanding the ESLint configuration
+- View, search, sort, add, edit, and delete cars
+- Showcase panel for selected car details
+- Modal-based form with validation
+- Zustand for global state management
+- Fully responsive layout using TailwindCSS
+- Unit-tested components and store
+- Domain-Driven Design (DDD) folder structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🚀 Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+```bash
+# Clone the repository
+git clone https://github.com/your-username/vwdh-spa.git
+cd vwdh-spa
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🧪 Testing
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Run tests once
+npm run test
+
+# Run tests in watch mode
+npm run test:watch
 ```
+
+Tested with:
+
+- Vitest
+- @testing-library/react
+- @testing-library/jest-dom
+
+All components and state logic are covered.
+
+---
+
+## 🧠 Tech Stack & Decisions
+
+| Category     | Tool                     | Reason                                             |
+| ------------ | ------------------------ | -------------------------------------------------- |
+| UI Framework | React                    | Declarative, component-based architecture          |
+| Bundler      | Vite                     | Fast dev/build, native ESM support                 |
+| Language     | TypeScript               | Type safety and maintainability                    |
+| State        | Zustand                  | Minimal, scalable, easy to test                    |
+| Styling      | TailwindCSS              | Utility-first, responsive by default               |
+| Testing      | Vitest + Testing Library | Fast, modern, supports jsdom and hooks             |
+| Architecture | DDD                      | Clear separation of concerns between domain and UI |
+
+---
+
+## 🗂️ Folder Structure
+
+```
+src/
+├── domain/             # Business models (e.g., CarModel)
+├── state/              # Zustand store and actions
+├── ui/                 # Components and views
+│   ├── components/     # Reusable UI elements
+│   └── pages/          # Main screen/page
+├── main.tsx            # App entry point
+└── index.css           # TailwindCSS config
+```
+
+---
+
+## 🌐 Accessibility & Responsiveness
+
+- Mobile-first layout using Tailwind's responsive utilities
+- Components are keyboard-accessible
+- Semantics and ARIA roles considered where appropriate
+
+---
+
+## 🤖 AI Tool Usage
+
+AI-assisted development was used to:
+
+- Draft boilerplate and improve setup speed
+- Generate test case scaffolding
+- Explain complex TypeScript or React errors
+
+However, **all logic and architecture were fully authored and reviewed by the developer** to ensure quality, maintainability, and relevance.
+
+---
+
+## 📑 Documentation
+
+- [CONTRIBUTING.md](./CONTRIBUTING.md) – Git workflow, commit rules, testing
+- [CHANGELOG.md](./CHANGELOG.md) – Version history
+- [architecture.md](./docs/architecture.md) – Architecture & structure overview
+
+---
+
+## 👤 Author
+
+**Full name:** _[Diego Andrades]_
+[GitHub Profile](https://github.com/andradesdiego)
+
+---
+
+## 📜 License
+
+This project is provided for educational and assessment purposes.
