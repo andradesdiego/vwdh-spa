@@ -14,6 +14,7 @@ type CarStore = {
   clearSelection: () => void;
   addCar: (car: Omit<CarModel, "id">) => void;
   updateCar: (car: CarModel) => void;
+  deleteCar: (id: number) => void;
 };
 export const useCarStore = create<CarStore>()(
   devtools((set, get) => ({
@@ -40,6 +41,12 @@ export const useCarStore = create<CarStore>()(
       set((state) => ({
         cars: state.cars.map((c) => (c.id === updated.id ? updated : c)),
         selectedCar: undefined,
+      })),
+    deleteCar: (id) =>
+      set((state) => ({
+        cars: state.cars.filter((c) => c.id !== id),
+        selectedCar:
+          state.selectedCar?.id === id ? undefined : state.selectedCar,
       })),
   }))
 );

@@ -11,6 +11,7 @@ export function DataTable() {
   const loading = useCarStore((state) => state.loading);
   const selectCar = useCarStore((s) => s.selectCar);
   const selectedCar = useCarStore((s) => s.selectedCar);
+  const deleteCar = useCarStore((s) => s.deleteCar);
 
   const [query, setQuery] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
@@ -105,7 +106,20 @@ export function DataTable() {
                   <td className="p-3 border">{car.brand}</td>
                   <td className="p-3 border">{car.year}</td>
                   <td className="p-3 border">{car.fuelType}</td>
-                  <td className="p-3 border">{car.horsepower}</td>
+                  <td className="p-3 border flex items-center justify-between gap-2">
+                    <span>{car.horsepower}</span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const confirmDelete = confirm(`¿Eliminar ${car.name}?`);
+                        if (confirmDelete) deleteCar(car.id);
+                      }}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                      title="Eliminar"
+                    >
+                      🗑️
+                    </button>
+                  </td>
                 </tr>
               ))
             )}
