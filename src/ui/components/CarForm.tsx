@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useCarStore } from "@/state/useCarStore";
 import type { CarModel } from "@/domain/models/CarModel";
 
-export function CarForm() {
+interface CarFormProps {
+  onSubmit?: (data: Partial<CarModel>) => void;
+}
+
+export function CarForm({ onSubmit }: CarFormProps) {
   const addCar = useCarStore((s) => s.addCar);
   const updateCar = useCarStore((s) => s.updateCar);
   const selectedCar = useCarStore((s) => s.selectedCar);
@@ -16,7 +20,6 @@ export function CarForm() {
     horsepower: "",
   });
 
-  // Si estamos editando, cargar valores
   useEffect(() => {
     if (selectedCar) {
       setForm({
@@ -57,6 +60,9 @@ export function CarForm() {
     } else {
       addCar(data);
     }
+
+    onSubmit?.(data);
+
     setForm({
       name: "",
       brand: "",
@@ -80,21 +86,29 @@ export function CarForm() {
       </h2>
 
       <div className="grid grid-cols-2 gap-4">
+        <label htmlFor="name">Nombre</label>
         <input
+          id="name"
           name="name"
           placeholder="Nombre"
           value={form.name}
           onChange={handleChange}
           className="p-2 border rounded"
         />
+
+        <label htmlFor="brand">Marca</label>
         <input
+          id="brand"
           name="brand"
           placeholder="Marca"
           value={form.brand}
           onChange={handleChange}
           className="p-2 border rounded"
         />
+
+        <label htmlFor="year">Año</label>
         <input
+          id="year"
           name="year"
           placeholder="Año"
           type="number"
@@ -102,15 +116,23 @@ export function CarForm() {
           onChange={handleChange}
           className="p-2 border rounded"
         />
+
+        <label htmlFor="horsepower">Potencia</label>
         <input
+          id="horsepower"
           name="horsepower"
-          placeholder="CV"
+          placeholder="Potencia"
           type="number"
           value={form.horsepower}
           onChange={handleChange}
           className="p-2 border rounded"
         />
+
+        <label htmlFor="fuelType" className="col-span-2">
+          Combustible
+        </label>
         <select
+          id="fuelType"
           name="fuelType"
           value={form.fuelType}
           onChange={handleChange}

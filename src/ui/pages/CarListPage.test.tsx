@@ -4,6 +4,7 @@ import CarListPage from "@/ui/pages/CarListPage";
 import * as fetchUseCase from "@/application/use-cases/fetchCarsUseCase";
 import { useCarStore } from "@/state/useCarStore";
 import { CarModel } from "@/domain/models/CarModel";
+import userEvent from "@testing-library/user-event";
 
 // Mock de coches
 const mockCars: CarModel[] = [
@@ -53,6 +54,19 @@ describe("CarListPage", () => {
       expect(screen.getByText("Golf")).toBeInTheDocument();
       expect(screen.getByText("Ibiza")).toBeInTheDocument();
       expect(screen.getByText("Catálogo Grupo Volkswagen")).toBeInTheDocument();
+    });
+  });
+
+  it("opens the modal when clicking 'Añadir coche'", async () => {
+    render(<CarListPage />);
+
+    const button = screen.getByRole("button", { name: /añadir coche/i });
+    await userEvent.click(button);
+
+    // El formulario está dentro del modal
+    await waitFor(() => {
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(/Nombre/i)).toBeInTheDocument(); // input del CarForm
     });
   });
 });

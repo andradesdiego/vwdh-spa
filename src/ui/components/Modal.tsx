@@ -8,7 +8,10 @@ export function Modal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4">
+    <div
+      role="dialog"
+      className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4"
+    >
       <div className="bg-white rounded-lg shadow-lg w-full max-w-xl relative">
         <button
           onClick={onClose}
