@@ -1,8 +1,8 @@
-import { deleteCarInApi } from "@/infrastructure/api/carApi";
+import { CarApiRepository } from "@/infrastructure/repositories/CarApiRepository";
+import type { CarRepository } from "@/domain/repositories/CarRepository";
 
-/**
- * Caso de uso: eliminar un coche por ID
- */
-export async function deleteCarUseCase(id: number): Promise<void> {
-  return await deleteCarInApi(id);
+const repo: CarRepository = CarApiRepository;
+
+export async function deleteCarUseCase(id: number) {
+  return await repo.delete(id);
 }

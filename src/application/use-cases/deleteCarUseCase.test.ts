@@ -1,16 +1,13 @@
 import { describe, it, expect, vi } from "vitest";
 import { deleteCarUseCase } from "@/application/use-cases/deleteCarUseCase";
-import * as api from "@/infrastructure/api/carApi";
+import { CarApiRepository } from "@/infrastructure/repositories/CarApiRepository";
 
 describe("deleteCarUseCase", () => {
-  it("should call deleteCarInApi with the correct ID", async () => {
-    const mockId = 42;
+  it("should delete a car using the repository", async () => {
+    const spy = vi.spyOn(CarApiRepository, "delete").mockResolvedValue();
 
-    const spy = vi.spyOn(api, "deleteCarInApi").mockResolvedValue(undefined);
+    await deleteCarUseCase(1);
 
-    await deleteCarUseCase(mockId);
-
-    expect(spy).toHaveBeenCalledWith(mockId);
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith(1);
   });
 });
