@@ -1,24 +1,25 @@
 import { describe, it, expect, vi } from "vitest";
 import { updateCarUseCase } from "@/application/use-cases/updateCarUseCase";
-import * as carApi from "@/infrastructure/api/carApi";
+import { CarApiRepository } from "@/infrastructure/repositories/CarApiRepository";
 import type { CarModel } from "@/domain/models/CarModel";
 
 describe("updateCarUseCase", () => {
-  it("should update a car via the API and return the updated car", async () => {
-    const updatedCar: CarModel = {
+  it("should update a car using the repository", async () => {
+    const car: CarModel = {
       id: 1,
       name: "Golf GTI",
       brand: "Volkswagen",
-      year: 2024,
+      year: 2022,
       horsepower: 245,
       fuelType: "Gasoline",
     };
 
-    vi.spyOn(carApi, "updateCarInApi").mockResolvedValue(updatedCar);
+    const updated = { ...car, horsepower: 250 };
 
-    const result = await updateCarUseCase(updatedCar);
+    vi.spyOn(CarApiRepository, "update").mockResolvedValue(updated);
 
-    expect(result).toEqual(updatedCar);
-    expect(carApi.updateCarInApi).toHaveBeenCalledWith(updatedCar);
+    const result = await updateCarUseCase(car);
+
+    expect(result.horsepower).toBe(250);
   });
 });

@@ -1,9 +1,9 @@
-import { CarModel } from "@/domain/models/CarModel";
-import { updateCarInApi } from "@/infrastructure/api/carApi";
+import { CarApiRepository } from "@/infrastructure/repositories/CarApiRepository";
+import type { CarRepository } from "@/domain/repositories/CarRepository";
+import type { CarModel } from "@/domain/models/CarModel";
 
-/**
- * Caso de uso: actualizar un coche existente
- */
-export async function updateCarUseCase(car: CarModel): Promise<CarModel> {
-  return await updateCarInApi(car);
+const repo: CarRepository = CarApiRepository;
+
+export async function updateCarUseCase(car: CarModel) {
+  return await repo.update(car);
 }
