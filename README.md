@@ -138,3 +138,143 @@ Volkswagen Digital Hub – Frontend Challenge
 ## 📄 License
 
 This project is for technical evaluation and not licensed for commercial use.
+
+---
+
+### @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+---
+
+### @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+---
+
+# Volkswagen DDD React App
+
+## 📦 Project Overview
+
+This project is a front-end web application simulating a car catalogue for the Volkswagen Group. It follows Domain-Driven Design (DDD) principles and is built using React, TypeScript, Vite, TailwindCSS, and Zustand for state management. The app includes full CRUD operations powered by a mock API via JSON Server.
+
+## 🧱 Tech Stack
+
+- **React 18 + Vite** for fast dev experience
+- **TypeScript** for static typing
+- **TailwindCSS** for UI styling
+- **Zustand** for global state
+- **Vitest + React Testing Library** for testing
+- **JSON Server** as mocked backend
+- **DDD (Domain-Driven Design)** layered architecture
+
+## 🗂️ Architecture
+
+- `domain/`: Entities, Value Objects
+- `application/`: Use cases (business logic)
+- `infrastructure/`: API and DTOs
+- `ui/`: Components, pages, and styling
+- `state/`: Global Zustand store
+
+## 📑 DDD Refactors
+
+### 🔹 Value Object: `Power`
+
+Introduced a `Power` Value Object to encapsulate the `horsepower` field.
+
+#### Why:
+
+- Enforces that horsepower is a positive number.
+- Can expose extra functionality like unit conversion or formatting (e.g. `"150 CV"`).
+- Immutable and ensures better domain integrity.
+
+```ts
+const power = Power.create(150);
+power.getValue(); // 150
+power.toString(); // "150 CV"
+```
+
+#### Validation:
+
+```ts
+Power.create(-10); // Throws error
+```
+
+### 🔹 DTO: `CarDTO`
+
+A `CarDTO` object has been created to separate domain (`CarModel`) from infrastructure.
+
+#### Why:
+
+- Prevents leaking domain logic to the API.
+- Avoids serialization issues with complex types like `Power`.
+- Makes testing easier by using plain objects.
+
+#### Conversion helpers:
+
+```ts
+// Convert to domain
+const model = toCarModel(dto);
+
+// Convert to DTO
+const dto = toCarDTO(model);
+```
+
+These are located in `infrastructure/dto/carDTO.ts`.
+
+## 🤖 AI Tool Usage
+
+- **ChatGPT** was used to:
+  - Define initial architecture
+  - Draft README and documentation
+  - Generate test templates and DTO logic
+  - Review and debug Value Object design
+- Developer made manual decisions on folder structure, implementation details, testing strategy, and DDD adherence.
+
+## 📐 Design Decisions
+
+- Value objects introduced only where semantic domain value applies (e.g. `Power` for `horsepower`).
+- DTOs help decouple external interfaces from internal domain.
+- Zustand preferred over Redux for simplicity and flexibility.
+
+## 📋 Running the Project
+
+```bash
+npm install
+npm run dev
+```
+
+Visit `http://localhost:5173`.
+
+## 🔌 Mock API with JSON Server
+
+```bash
+npx json-server --watch db.json --port 4000
+```
+
+## ✅ Testing
+
+Run all tests:
+
+```bash
+npm run test
+```
+
+Watch mode:
+
+```bash
+npm run test:watch
+```
+
+## 🧪 Coverage
+
+- Unit + integration tests for:
+  - UI components
+  - Store logic
+  - Use cases
+  - API adapters
+
+## 🚀 CI/CD
+
+- Tests are integrated and designed for future GitHub Actions CI pipeline.
+
+## 👤 Author
+
+Diego Andrades
