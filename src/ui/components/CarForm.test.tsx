@@ -9,6 +9,7 @@ import * as createModule from "@/application/use-cases/createCarUseCase";
 import * as updateModule from "@/application/use-cases/updateCarUseCase";
 import toast from "react-hot-toast";
 import { Power } from "@/domain/value-objects/Power";
+import { toDomainCar } from "@/infrastructure/dto/carDTO";
 
 // 🧪 Mock el toast
 vi.mock("react-hot-toast", () => ({
@@ -69,19 +70,20 @@ describe("CarForm - edición", () => {
       name: "Golf",
       brand: "Volkswagen",
       year: 2020,
-      horsepower: Power.create(150),
+      horsepower: 150,
       fuelType: "Gasoline" as CarModel["fuelType"],
     };
 
     const updatedCar = { ...selectedCar, name: "Golf GTI" };
 
     // 1. Establecer el coche seleccionado en el estado antes de renderizar
+
     useCarStore.setState({ selectedCar });
 
     // 2. Mockear el use case
     const spy = vi
       .spyOn(updateModule, "updateCarUseCase")
-      .mockResolvedValue(updatedCar);
+      .mockResolvedValue(toDomainCar(updatedCar));
 
     // 3. Renderizar el formulario
     render(<CarForm />);
@@ -97,7 +99,7 @@ describe("CarForm - edición", () => {
 
     // 6. Esperar a que se llame al use case con el coche actualizado
     await waitFor(() => {
-      expect(spy).toHaveBeenCalledWith(updatedCar);
+      expect(spy).toHaveBeenCalledWith(toDomainCar(updatedCar));
       expect(toast.success).toHaveBeenCalledWith("Coche actualizado con éxito");
     });
   });

@@ -12,7 +12,7 @@ export default function CarListPage() {
   const isFormOpen = useCarStore((s) => s.isFormOpen);
   const openForm = useCarStore((s) => s.openForm);
   const closeForm = useCarStore((s) => s.closeForm);
-
+  const selectedCar = useCarStore((s) => s.selectedCar);
   useEffect(() => {
     fetchCarsUseCase()
       .then((cars) => setCars(cars.map(toCarDTO))) // ✅ conversión aquí
@@ -28,9 +28,9 @@ export default function CarListPage() {
       <h1 className="text-2xl font-bold">Catálogo Grupo Volkswagen</h1>
       <button
         onClick={openForm}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
       >
-        Añadir coche
+        {selectedCar ? "Editar coche" : "Añadir coche"}
       </button>
       <DataTable />
       {isFormOpen && (
