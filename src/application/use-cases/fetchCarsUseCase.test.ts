@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
 import { fetchCarsUseCase } from "@/application/use-cases/fetchCarsUseCase";
-import * as carApi from "@/infrastructure/api/carApi";
+import { CarApiRepository } from "@/infrastructure/repositories/CarApiRepository";
+import { CarModel } from "@/domain/models/CarModel";
 
 describe("fetchCarsUseCase", () => {
-  it("should return a list of cars from the API", async () => {
-    // Arrange (mock de infraestructura)
+  it("should return a list of cars from the repository", async () => {
     const mockCars = [
       {
         id: 1,
@@ -12,7 +12,7 @@ describe("fetchCarsUseCase", () => {
         brand: "Volkswagen",
         year: 2022,
         horsepower: 245,
-        fuelType: "Gasoline",
+        fuelType: "Gasoline" as CarModel["fuelType"],
       },
       {
         id: 2,
@@ -20,17 +20,17 @@ describe("fetchCarsUseCase", () => {
         brand: "SEAT",
         year: 2021,
         horsepower: 115,
-        fuelType: "Diesel",
+        fuelType: "Diesel" as CarModel["fuelType"],
       },
     ];
-    vi.spyOn(carApi, "fetchCarsFromApi").mockResolvedValue(mockCars);
 
-    // Act
-    const cars = await fetchCarsUseCase();
+    // Mock del método del repositorio
+    vi.spyOn(CarApiRepository, "getAll").mockResolvedValue(mockCars);
 
-    // Assert
-    expect(cars).toHaveLength(2);
-    expect(cars[0].name).toBe("Golf");
-    expect(cars[1].brand).toBe("SEAT");
+    const result = await fetchCarsUseCase();
+
+    expect(result).toHaveLength(2);
+    expect(result[0].name).toBe("Golf");
+    expect(result[1].brand).toBe("SEAT");
   });
 });

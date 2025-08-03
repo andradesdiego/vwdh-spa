@@ -1,9 +1,8 @@
-import { fetchCarsFromApi } from "@/infrastructure/api/carApi";
-import { CarModel } from "@/domain/models/CarModel";
+import { CarApiRepository } from "@/infrastructure/repositories/CarApiRepository";
+import type { CarRepository } from "@/domain/repositories/CarRepository";
 
-/**
- * Domain use case for fetching all cars
- */
-export async function fetchCarsUseCase(): Promise<CarModel[]> {
-  return await fetchCarsFromApi();
+const repo: CarRepository = CarApiRepository;
+
+export async function fetchCarsUseCase() {
+  return await repo.getAll();
 }
