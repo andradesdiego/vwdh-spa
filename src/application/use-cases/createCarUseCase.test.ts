@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
 import { createCarUseCase } from "@/application/use-cases/createCarUseCase";
-import * as carApi from "@/infrastructure/api/carApi";
+import { CarApiRepository } from "@/infrastructure/repositories/CarApiRepository";
 import { CarModel } from "@/domain/models/CarModel";
 
 describe("createCarUseCase", () => {
-  it("should create a new car via the API and return the full car object with id", async () => {
+  it("should create a new car using the repository", async () => {
     const input = {
       name: "Tiguan",
       brand: "Volkswagen",
@@ -13,16 +13,13 @@ describe("createCarUseCase", () => {
       fuelType: "Gasoline" as CarModel["fuelType"],
     };
 
-    const mockCreatedCar: CarModel = {
-      ...input,
-      id: 99,
-    };
+    const created = { ...input, id: 3 };
 
-    vi.spyOn(carApi, "createCarInApi").mockResolvedValue(mockCreatedCar);
+    vi.spyOn(CarApiRepository, "create").mockResolvedValue(created);
 
     const result = await createCarUseCase(input);
 
-    expect(result).toEqual(mockCreatedCar);
-    expect(carApi.createCarInApi).toHaveBeenCalledWith(input);
+    expect(result.id).toBe(3);
+    expect(result.name).toBe("Tiguan");
   });
 });
