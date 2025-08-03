@@ -1,121 +1,140 @@
-# 🚗 VWDH SPA – React Frontend Challenge
+# Volkswagen Group Car Catalog SPA
 
-This is a single-page application (SPA) built with **React**, **TypeScript**, **Vite**, **Zustand**, and **TailwindCSS**, developed as part of a technical challenge. The app manages a catalog of Volkswagen Group cars and demonstrates clean code, modern UI/UX, testing, and architectural clarity.
-
----
-
-## 📦 Features
-
-- View, search, sort, add, edit, and delete cars
-- Showcase panel for selected car details
-- Modal-based form with validation
-- Zustand for global state management
-- Fully responsive layout using TailwindCSS
-- Unit-tested components and store
-- Domain-Driven Design (DDD) folder structure
+This is a Single Page Application (SPA) built with React, TypeScript, TailwindCSS and Zustand to manage a catalog of Volkswagen Group cars. It supports CRUD operations via a mocked REST API using JSON Server. The architecture follows DDD principles with a layered approach and a focus on Clean Code and maintainability.
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Features
+
+- Display a list of cars
+- Sort and search cars
+- Add, update, and delete cars
+- Modal form with validation
+- Showcase selected car
+- Full CRUD integration
+- Fully typed with TypeScript
+- State management with Zustand
+- Architecture based on DDD: Domain / Application / Infrastructure / UI
+- Unit & Integration Testing with Vitest and Testing Library
+- Mocked API using JSON Server
+
+---
+
+## 🧠 Stack
+
+- **Framework**: React 18 + Vite + TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Testing**: Vitest + Testing Library
+- **Mock API**: JSON Server
+
+---
+
+## 📦 Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/vwdh-spa.git
+git clone https://github.com/andradesdiego/vwdh-spa.git
 cd vwdh-spa
-
-# Install dependencies
 npm install
+```
 
-# Run development server
+### Run dev server
+
+```bash
 npm run dev
 ```
 
----
-
-## 🧪 Testing
+### Run tests in watch mode
 
 ```bash
-# Run tests once
-npm run test
-
-# Run tests in watch mode
-npm run test:watch
+npm run test -- --watch
 ```
 
-Tested with:
+### Start JSON Server (mocked API)
 
-- Vitest
-- @testing-library/react
-- @testing-library/jest-dom
-
-All components and state logic are covered.
-
----
-
-## 🧠 Tech Stack & Decisions
-
-| Category     | Tool                     | Reason                                             |
-| ------------ | ------------------------ | -------------------------------------------------- |
-| UI Framework | React                    | Declarative, component-based architecture          |
-| Bundler      | Vite                     | Fast dev/build, native ESM support                 |
-| Language     | TypeScript               | Type safety and maintainability                    |
-| State        | Zustand                  | Minimal, scalable, easy to test                    |
-| Styling      | TailwindCSS              | Utility-first, responsive by default               |
-| Testing      | Vitest + Testing Library | Fast, modern, supports jsdom and hooks             |
-| Architecture | DDD                      | Clear separation of concerns between domain and UI |
-
----
-
-## 🗂️ Folder Structure
-
-```
-src/
-├── domain/             # Business models (e.g., CarModel)
-├── state/              # Zustand store and actions
-├── ui/                 # Components and views
-│   ├── components/     # Reusable UI elements
-│   └── pages/          # Main screen/page
-├── main.tsx            # App entry point
-└── index.css           # TailwindCSS config
+```bash
+npx json-server --watch db.json --port 4000
 ```
 
 ---
 
-## 🌐 Accessibility & Responsiveness
+## 📐 Architectural Decisions
 
-- Mobile-first layout using Tailwind's responsive utilities
-- Components are keyboard-accessible
-- Semantics and ARIA roles considered where appropriate
+### 1. Repository Pattern
+
+To decouple the application logic from data access and improve maintainability, we applied the **Repository Pattern**. All use cases (e.g., `fetchCarsUseCase`, `createCarUseCase`, etc.) depend on the domain-defined interface `CarRepository`. The actual implementation `CarApiRepository` is injected from infrastructure.
+
+**Benefits:**
+
+- 💡 **Separation of concerns**: Use cases know nothing about HTTP or persistence.
+- 🔁 **Swap implementations easily**: The repository can switch from REST API to local storage or IndexedDB.
+- 🧪 **Better testability**: Tests mock the repository instead of network calls.
+
+### 2. HTTP Adapter
+
+The actual HTTP logic (with `fetch`, `try/catch`, headers, etc.) is encapsulated in a dedicated file:
+`src/infrastructure/http/http.car.ts`.
+
+This adapter is used internally by `CarApiRepository` and contains all the side-effect logic.
+
+```txt
+use-cases/              ← Application layer
+  fetchCarsUseCase.ts
+  ...
+
+domain/
+  models/
+  repositories/         ← CarRepository interface
+
+infrastructure/
+  http/http.car.ts      ← HTTP adapter with try/catch
+  repositories/
+    CarApiRepository.ts ← Implements CarRepository using http.car.ts
+```
+
+### 3. Test Strategy
+
+All use cases are unit tested using mocked repositories (`CarApiRepository`).
+We no longer mock `fetch` in those tests, ensuring:
+
+- Less coupling to implementation
+- Consistent behavior
+- Better alignment with Clean Architecture principles
 
 ---
 
 ## 🤖 AI Tool Usage
 
-AI-assisted development was used to:
+This project was developed using [ChatGPT](https://chat.openai.com/) and [GitHub Copilot] for productivity support.
 
-- Draft boilerplate and improve setup speed
-- Generate test case scaffolding
-- Explain complex TypeScript or React errors
+- ChatGPT was used to scaffold architectural decisions, refine TypeScript types, and generate boilerplate logic for UI and tests.
+- Developer input focused on domain modeling (Volkswagen cars), DDD structure, and test refinement.
 
-However, **all logic and architecture were fully authored and reviewed by the developer** to ensure quality, maintainability, and relevance.
-
----
-
-## 📑 Documentation
-
-- [CONTRIBUTING.md](./CONTRIBUTING.md) – Git workflow, commit rules, testing
-- [CHANGELOG.md](./CHANGELOG.md) – Version history
-- [architecture.md](./docs/architecture.md) – Architecture & structure overview
+All AI-generated code was reviewed and adjusted manually to meet best practices and project requirements.
 
 ---
 
-## 👤 Author
+## 🧪 Testing
 
-**Full name:** _[Diego Andrades]_
-[GitHub Profile](https://github.com/andradesdiego)
+- **Unit tests** for all use cases and business logic
+- **Integration tests** for CarForm, DataTable, and UI interactions
+- **Mocks** replace API calls in tests
+
+Run tests:
+
+```bash
+npm run test
+```
 
 ---
 
-## 📜 License
+## ✍️ Author
 
-This project is provided for educational and assessment purposes.
+Diego Andrades [@andradesdiego]
+Volkswagen Digital Hub – Frontend Challenge
+
+---
+
+## 📄 License
+
+This project is for technical evaluation and not licensed for commercial use.
