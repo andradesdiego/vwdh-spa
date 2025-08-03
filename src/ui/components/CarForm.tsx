@@ -5,6 +5,7 @@ import { createCarUseCase } from "@/application/use-cases/createCarUseCase";
 import toast from "react-hot-toast";
 import { updateCarUseCase } from "@/application/use-cases/updateCarUseCase";
 import { Power } from "@/domain/value-objects/Power";
+import { toCarDTO } from "@/infrastructure/dto/carDTO";
 
 interface CarFormProps {
   onSubmit?: (data: Partial<CarModel>) => void;
@@ -41,7 +42,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
         brand: selectedCar.brand,
         year: String(selectedCar.year),
         fuelType: selectedCar.fuelType,
-        horsepower: String(selectedCar.horsepower.getValue()),
+        horsepower: String(selectedCar.horsepower),
       });
     }
   }, [selectedCar]);
@@ -78,11 +79,11 @@ export function CarForm({ onSubmit }: CarFormProps) {
     try {
       if (selectedCar) {
         const updatedCar = await updateCarUseCase({ ...selectedCar, ...data });
-        updateCar(updatedCar);
+        updateCar(toCarDTO(updatedCar));
         toast.success("Coche actualizado con éxito");
       } else {
         const createdCar = await createCarUseCase(data);
-        addCar(createdCar);
+        addCar(toCarDTO(createdCar));
         toast.success("Coche añadido con éxito");
       }
 

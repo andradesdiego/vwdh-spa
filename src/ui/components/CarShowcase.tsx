@@ -1,37 +1,25 @@
-import type { CarModel } from "@/domain/models/CarModel";
-import { useCarStore } from "@/state/useCarStore";
+import type { CarDTO } from "@/infrastructure/dto/carDTO";
 
-export function CarShowcase({ car }: { car: CarModel }) {
-  const clearSelection = useCarStore((s) => s.clearSelection);
+type Props = {
+  car: CarDTO;
+};
 
+export function CarShowcase({ car }: Props) {
   return (
-    <div className="mt-6 p-4 rounded border bg-gray-300 shadow-md">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl text-gray-500 font-semibold">{car.name}</h2>
-        <button
-          onClick={clearSelection}
-          className="text-sm text-blue-600 hover:underline"
-        >
-          Cerrar
-        </button>
-      </div>
-      <ul className="text-sm text-gray-700 space-y-1">
-        <li>
-          <strong>Marca:</strong> {car.brand}
-        </li>
-        <li>
-          <strong>Año:</strong> {car.year}
-        </li>
-        <li>
-          <strong>Tipo de combustible:</strong> {car.fuelType}
-        </li>
-        <li>
-          <strong>Potencia:</strong> {car.horsepower} CV
-        </li>
-        <li>
-          <strong>ID:</strong> {car.id}
-        </li>
-      </ul>
+    <div className="p-4 bg-gray-900 rounded shadow">
+      <h2 className="text-xl font-semibold">{car.name}</h2>
+      <p>
+        <strong>Marca:</strong> {car.brand}
+      </p>
+      <p>
+        <strong>Año:</strong> {car.year}
+      </p>
+      <p>
+        <strong>Potencia:</strong> {car.horsepower} CV
+      </p>
+      <p>
+        <strong>Combustible:</strong> {car.fuelType}
+      </p>
     </div>
   );
 }

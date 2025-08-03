@@ -4,21 +4,22 @@ import { useCarStore } from "@/state/useCarStore";
 import { DataTable } from "@/ui/components/DataTable";
 import { CarForm } from "@/ui/components/CarForm";
 import { Modal } from "@/ui/components/Modal";
+import toast from "react-hot-toast";
+import { toCarDTO } from "@/infrastructure/dto/carDTO";
 
 export default function CarListPage() {
   const setCars = useCarStore((state) => state.setCars);
-  const cars = useCarStore((state) => state.cars);
-
   const isFormOpen = useCarStore((s) => s.isFormOpen);
   const openForm = useCarStore((s) => s.openForm);
   const closeForm = useCarStore((s) => s.closeForm);
 
   useEffect(() => {
     fetchCarsUseCase()
-      .then(setCars)
+      .then((cars) => setCars(cars.map(toCarDTO))) // ✅ conversión aquí
       .catch((err) => {
         console.error("Failed to load cars:", err);
-        // aquí podrías setear un estado de error en el store si lo necesitas
+        toast.error("Error al cargar los coches");
+        setCars([]); // Limpia la lista en caso de error
       });
   }, [setCars]);
 

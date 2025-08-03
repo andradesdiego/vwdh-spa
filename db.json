@@ -12,7 +12,7 @@
       "id": "3",
       "name": "A3 Sportback",
       "brand": "Audi",
-      "year": 2022,
+      "year": 2028,
       "fuelType": "Diesel",
       "horsepower": 150
     },
@@ -20,7 +20,7 @@
       "id": "4",
       "name": "Ibiza FR",
       "brand": "SEAT",
-      "year": 2021,
+      "year": 2022,
       "fuelType": "Gasoline",
       "horsepower": 110
     },
@@ -47,14 +47,6 @@
       "year": 2024,
       "fuelType": "Gasoline",
       "horsepower": 240
-    },
-    {
-      "id": "f26e",
-      "name": "Tiguan",
-      "brand": "Volkswagen",
-      "year": 2023,
-      "horsepower": 150,
-      "fuelType": "Gasoline"
     },
     {
       "id": "0164",
