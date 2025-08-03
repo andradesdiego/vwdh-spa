@@ -4,6 +4,8 @@ import type { CarModel } from "@/domain/models/CarModel";
 import { createCarUseCase } from "@/application/use-cases/createCarUseCase";
 import toast from "react-hot-toast";
 import { updateCarUseCase } from "@/application/use-cases/updateCarUseCase";
+import { Power } from "@/domain/value-objects/Power";
+
 interface CarFormProps {
   onSubmit?: (data: Partial<CarModel>) => void;
 }
@@ -19,7 +21,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
     brand: "",
     year: "",
     fuelType: "Gasoline",
-    horsepower: "",
+    horsepower: "", // mantener como string para facilitar el binding
   });
 
   const resetForm = () => {
@@ -39,7 +41,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
         brand: selectedCar.brand,
         year: String(selectedCar.year),
         fuelType: selectedCar.fuelType,
-        horsepower: String(selectedCar.horsepower),
+        horsepower: String(selectedCar.horsepower.getValue()),
       });
     }
   }, [selectedCar]);
@@ -54,17 +56,23 @@ export function CarForm({ onSubmit }: CarFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!form.name || !form.brand || !form.year || !form.horsepower) {
+    if (
+      !form.name ||
+      !form.brand ||
+      !form.year ||
+      !form.horsepower ||
+      isNaN(Number(form.horsepower))
+    ) {
       alert("Por favor, completa todos los campos.");
       return;
     }
 
-    const data = {
+    const data: Omit<CarModel, "id"> = {
       name: form.name,
       brand: form.brand,
       year: Number(form.year),
       fuelType: form.fuelType as CarModel["fuelType"],
-      horsepower: Number(form.horsepower),
+      horsepower: Power.create(Number(form.horsepower)),
     };
 
     try {

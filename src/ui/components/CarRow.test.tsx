@@ -4,6 +4,7 @@ import { CarRow } from "./CarRow";
 import { useCarStore } from "@/state/useCarStore";
 import type { CarModel } from "@/domain/models/CarModel";
 import * as carApi from "@/application/use-cases/deleteCarUseCase";
+import { Power } from "@/domain/value-objects/Power";
 
 // 🔁 Mock del store
 vi.mock("@/state/useCarStore", () => ({
@@ -24,7 +25,7 @@ const car: CarModel = {
   brand: "Volkswagen",
   year: 2021,
   fuelType: "Gasoline",
-  horsepower: 150,
+  horsepower: Power.create(150),
 };
 
 (useCarStore as any).mockImplementation((selector: any) =>

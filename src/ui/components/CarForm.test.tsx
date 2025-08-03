@@ -8,6 +8,7 @@ import user from "@testing-library/user-event";
 import * as createModule from "@/application/use-cases/createCarUseCase";
 import * as updateModule from "@/application/use-cases/updateCarUseCase";
 import toast from "react-hot-toast";
+import { Power } from "@/domain/value-objects/Power";
 
 // 🧪 Mock el toast
 vi.mock("react-hot-toast", () => ({
@@ -30,7 +31,7 @@ describe("CarForm", () => {
       name: "Tiguan",
       brand: "Volkswagen",
       year: 2023,
-      horsepower: 150,
+      horsepower: Power.create(150),
       fuelType: "Gasoline",
     };
 
@@ -53,7 +54,7 @@ describe("CarForm", () => {
         name: "Tiguan",
         brand: "Volkswagen",
         year: 2023,
-        horsepower: 150,
+        horsepower: Power.create(150),
         fuelType: "Gasoline" as CarModel["fuelType"],
       });
       expect(mockSubmit).toHaveBeenCalledTimes(1);
@@ -68,7 +69,7 @@ describe("CarForm - edición", () => {
       name: "Golf",
       brand: "Volkswagen",
       year: 2020,
-      horsepower: 150,
+      horsepower: Power.create(150),
       fuelType: "Gasoline" as CarModel["fuelType"],
     };
 

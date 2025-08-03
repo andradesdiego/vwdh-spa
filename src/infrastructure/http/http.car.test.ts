@@ -1,6 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import * as httpCar from "./http.car";
 import { CarModel } from "@/domain/models/CarModel";
+import { Power } from "@/domain/value-objects/Power";
 
 global.fetch = vi.fn();
 
@@ -10,7 +11,7 @@ const mockCar = {
   brand: "Volkswagen",
   year: 2022,
   fuelType: "Gasoline" as CarModel["fuelType"],
-  horsepower: 150,
+  horsepower: Power.create(150),
 };
 
 describe("http.car", () => {

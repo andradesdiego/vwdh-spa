@@ -10,9 +10,7 @@ type SortDirection = "asc" | "desc";
 export function DataTable() {
   const cars = useCarStore((state) => state.cars);
   const loading = useCarStore((state) => state.loading);
-  const selectCar = useCarStore((s) => s.selectCar);
   const selectedCar = useCarStore((s) => s.selectedCar);
-  const deleteCar = useCarStore((s) => s.deleteCar);
 
   const [query, setQuery] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");

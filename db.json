@@ -55,6 +55,14 @@
       "year": 2023,
       "horsepower": 150,
       "fuelType": "Gasoline"
+    },
+    {
+      "id": "0164",
+      "name": "311 Carrera",
+      "brand": "Porsche",
+      "year": 2020,
+      "fuelType": "Gasoline",
+      "horsepower": 370
     }
   ]
 }

@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, test, expect, vi } from "vitest";
 import { DataTable } from "./DataTable";
 import { useCarStore } from "@/state/useCarStore";
+import { Power } from "@/domain/value-objects/Power";
 
 vi.mock("@/state/useCarStore", () => ({
   useCarStore: vi.fn(),
@@ -35,7 +36,7 @@ describe("DataTable", () => {
             brand: "VW",
             year: 2022,
             fuelType: "Gasoline",
-            horsepower: 245,
+            horsepower: Power.create(150),
           },
         ],
         selectedCar: undefined,

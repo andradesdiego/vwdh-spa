@@ -38,7 +38,7 @@ export function CarRow({ car }: Props) {
       <td className="p-3 border">{car.year}</td>
       <td className="p-3 border">{car.fuelType}</td>
       <td className="p-3 border flex items-center justify-between gap-2">
-        <span>{car.horsepower}</span>
+        <span>{car.horsepower.getValue()}</span>
         <button
           onClick={handleDelete}
           className="text-red-600 hover:text-red-800 text-sm"

@@ -1,8 +1,12 @@
-export type CarModel = {
+import { Power } from "@/domain/value-objects/Power";
+
+export type FuelType = "Gasoline" | "Diesel" | "Electric" | "Hybrid";
+
+export interface CarModel {
   id: number;
   name: string;
   brand: string;
   year: number;
-  fuelType: "Gasoline" | "Diesel" | "Electric" | "Hybrid";
-  horsepower: number;
-};
+  fuelType: FuelType;
+  horsepower: Power;
+}

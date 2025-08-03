@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { createCarUseCase } from "@/application/use-cases/createCarUseCase";
 import { CarApiRepository } from "@/infrastructure/repositories/CarApiRepository";
 import { CarModel } from "@/domain/models/CarModel";
+import { Power } from "@/domain/value-objects/Power";
 
 describe("createCarUseCase", () => {
   it("should create a new car using the repository", async () => {
@@ -9,7 +10,7 @@ describe("createCarUseCase", () => {
       name: "Tiguan",
       brand: "Volkswagen",
       year: 2023,
-      horsepower: 150,
+      horsepower: Power.create(150),
       fuelType: "Gasoline" as CarModel["fuelType"],
     };
 
