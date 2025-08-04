@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import type { CarDTO } from "@/infrastructure/dto/carDTO";
 import { useCarStore } from "@/state/useCarStore";
 
@@ -16,24 +17,29 @@ export function CarRow({ car }: Props) {
   };
 
   return (
-    <tr
-      className="hover:bg-gray-700 text-sm transition-colors cursor-pointer"
+    <motion.tr
+      layout
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -5 }}
+      transition={{ duration: 0.25 }}
       onClick={() => selectCar(car)}
+      className="hover:bg-gray-700 cursor-pointer transition-colors duration-200 text-sm group"
     >
-      <td className="p-3 border">{car.name}</td>
-      <td className="p-3 border">{car.brand}</td>
-      <td className="p-3 border">{car.year}</td>
-      <td className="p-3 border">{car.fuelType}</td>
-      <td className="p-3 border flex items-center justify-between gap-2">
-        <span>{car.horsepower}</span>
+      <td className="p-3">{car.name}</td>
+      <td className="p-3">{car.brand}</td>
+      <td className="p-3">{car.year}</td>
+      <td className="p-3">{car.fuelType}</td>
+      <td className="p-3">{car.horsepower}</td>
+      <td className="p-3">
         <button
           onClick={handleDelete}
-          className="text-red-600 hover:text-red-800 text-sm"
+          className="text-red-600 hover:text-red-800 text-sm transition-colors"
           title="Eliminar"
         >
           🗑️
         </button>
       </td>
-    </tr>
+    </motion.tr>
   );
 }

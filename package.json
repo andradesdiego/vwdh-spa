@@ -13,6 +13,7 @@
     "api": "json-server --watch db.json --port 4000"
   },
   "dependencies": {
+    "framer-motion": "^12.23.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.5.2",

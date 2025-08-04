@@ -3,6 +3,7 @@ import { CarShowcase } from "./CarShowcase";
 import type { CarModel } from "@/domain/models/CarModel";
 import { useCarStore } from "@/state/useCarStore";
 import { CarRow } from "./CarRow";
+import { AnimatePresence } from "framer-motion";
 
 type SortKey = keyof CarModel;
 type SortDirection = "asc" | "desc";
@@ -47,6 +48,8 @@ export function DataTable() {
     return sorted;
   }, [cars, query, sortKey, sortDirection]);
 
+  // const renderSortArrow = (key: SortKey) =>
+  //   sortDirection === "asc" ? "↑" : "↓";
   const renderSortArrow = (key: SortKey) =>
     sortKey === key ? (sortDirection === "asc" ? "↑" : "↓") : "";
 
@@ -57,26 +60,32 @@ export function DataTable() {
         placeholder="Buscar por cualquier campo..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="w-full p-2 border rounded shadow-sm focus:outline-none focus:ring"
+        className="bg-gray-900 border-gray-800 w-full p-2 border rounded shadow-sm focus:outline-none focus:ring"
       />
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border-collapse border rounded bg-gray-900 shadow">
-          <thead>
-            <tr className="bg-gray-100 text-left text-sm font-semibold text-gray-700">
+      <div className="overflow-x-auto rounded shadow-sm">
+        <table className="min-w-full text-left border-collapse">
+          <thead className="bg-gray-500 text-sm text-gray-50">
+            <tr className="bg-gray-500 text-left text-sm font-semibold text-gray-50">
               {[
                 ["name", "Nombre"],
                 ["brand", "Marca"],
                 ["year", "Año"],
                 ["fuelType", "Combustible"],
                 ["horsepower", "CV"],
+                ["actions", "Eliminar"],
               ].map(([key, label]) => (
                 <th
                   key={key}
-                  className="p-3 border cursor-pointer hover:bg-gray-200"
+                  className="p-3 cursor-pointer hover:bg-gray-600"
                   onClick={() => handleSort(key as SortKey)}
                 >
-                  {label} {renderSortArrow(key as SortKey)}
+                  <div className="flex items-center justify-between">
+                    <span>{label}</span>
+                    {label != "Eliminar" ? (
+                      <span>{renderSortArrow(key as SortKey)}</span>
+                    ) : null}
+                  </div>
                 </th>
               ))}
             </tr>
@@ -95,7 +104,11 @@ export function DataTable() {
                 </td>
               </tr>
             ) : (
-              filteredAndSorted.map((car) => <CarRow key={car.id} car={car} />)
+              <AnimatePresence>
+                {filteredAndSorted.map((car) => (
+                  <CarRow key={car.id} car={car} />
+                ))}
+              </AnimatePresence>
             )}
           </tbody>
         </table>
