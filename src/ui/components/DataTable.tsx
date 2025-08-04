@@ -58,17 +58,17 @@ export function DataTable() {
         placeholder="Buscar por cualquier campo..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="text-white placeholder-gray-100 bg-gray-900 w-full p-2 border rounded shadow-md focus:outline-gray-300"
+        className="text-white placeholder-gray-100 bg-gray-800 w-full p-2 rounded shadow-md focus:outline-gray-300"
       />
 
-      <div className="overflow-x-auto rounded shadow-sm flex">
+      <div className="h-96 overflow-auto rounded flex">
         <div className={`${!selectedCar ? "min-w-full" : "w-3/4 flex-2 mr-4"}`}>
           <table className="min-w-full text-left border-collapse">
-            <thead className="bg-gray-500 text-sm text-gray-50">
+            <thead className="bg-gray-500 text-sm text-gray-50 sticky top-0 z-10">
               <tr className="bg-gray-500 text-left text-sm font-semibold text-gray-50">
                 {[
-                  ["name", "Nombre"],
                   ["brand", "Marca"],
+                  ["name", "Modelo"],
                   ["year", "Año"],
                   ["fuelType", "Combustible"],
                   ["horsepower", "CV"],
@@ -79,7 +79,13 @@ export function DataTable() {
                     className="p-3 cursor-pointer hover:bg-gray-600"
                     onClick={() => handleSort(key as SortKey)}
                   >
-                    <div className="flex items-center justify-between">
+                    <div
+                      className={`${
+                        label != "Eliminar"
+                          ? "flex items-center justify-between"
+                          : "flex justify-center"
+                      }`}
+                    >
                       <span>{label}</span>
                       {label != "Eliminar" ? (
                         <span>{renderSortArrow(key as SortKey)}</span>
@@ -89,7 +95,7 @@ export function DataTable() {
                 ))}
               </tr>
             </thead>
-            <tbody>
+            <tbody className="">
               {loading ? (
                 <tr>
                   <td colSpan={5} className="p-4 text-center text-gray-500">

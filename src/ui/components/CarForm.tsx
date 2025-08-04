@@ -97,10 +97,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-3 mb-6 p-4 rounded bg-gray-900"
-    >
+    <form onSubmit={handleSubmit} className="space-y-3 p-4 rounded bg-gray-900">
       <h2 className="px-4 text-lg font-semibold">
         {selectedCar
           ? `Editar coche: ${selectedCar.name}`
@@ -108,26 +105,28 @@ export function CarForm({ onSubmit }: CarFormProps) {
       </h2>
 
       <div className="space-y-4 gap-4 p-4 rounded">
-        <label className="sr-only" htmlFor="name">
-          Nombre
-        </label>
-        <input
-          id="name"
-          name="name"
-          placeholder="Nombre"
-          value={form.name}
-          onChange={handleChange}
-          className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
-        />
-
         <label className="sr-only" htmlFor="brand">
           Marca
         </label>
+
         <input
+          autoFocus
           id="brand"
           name="brand"
           placeholder="Marca"
           value={form.brand}
+          onChange={handleChange}
+          className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+        />
+
+        <label className="sr-only" htmlFor="name">
+          Modelo
+        </label>
+        <input
+          id="name"
+          name="name"
+          placeholder="Modelo"
+          value={form.name}
           onChange={handleChange}
           className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
         />

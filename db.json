@@ -55,6 +55,22 @@
       "year": 2021,
       "fuelType": "Gasoline",
       "horsepower": 370
+    },
+    {
+      "id": "088e",
+      "name": "Tourbillon",
+      "brand": "Bugatti",
+      "year": 2026,
+      "fuelType": "Hybrid",
+      "horsepower": 1800
+    },
+    {
+      "id": "65ff",
+      "name": "A4 Avant SLine ",
+      "brand": "Audi",
+      "year": 2020,
+      "fuelType": "Diesel",
+      "horsepower": 150
     }
   ]
 }

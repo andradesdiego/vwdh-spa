@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type ModalProps = {
@@ -15,19 +15,28 @@ export function Modal({ children, onClose }: ModalProps) {
     }
   };
 
+  // Cerrar con ESC
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
   return (
     <AnimatePresence>
       <motion.div
         role="dialog"
         ref={backdropRef}
         onClick={handleBackdropClick}
-        className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4"
+        className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center px-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
         <motion.div
-          className="bg-gray-900 rounded-xl shadow-xl w-full max-w-xl relative overflow-hidden p-4"
+          className="bg-gray-900 rounded-xl shadow-xl w-full max-w-xl relative overflow-hidden px-4"
           initial={{ opacity: 0, scale: 0.9, y: -20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}

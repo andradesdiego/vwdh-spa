@@ -24,13 +24,18 @@ export default function CarListPage() {
   }, [setCars]);
 
   return (
-    <div className="bg-gray-900 lg:mx-12 p-4 space-y-6">
-      <button
-        onClick={openForm}
-        className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
-      >
-        {selectedCar ? "Editar coche" : "Añadir coche"}
-      </button>
+    <div className="bg-gray-900 lg:mx-12 pb-4">
+      <div className="flex justify-between items-center mb-6 sticky top-0 z-10 bg-gray-900 py-4 border-b border-gray-500">
+        <h1 className="text-xl text-title font-bold">
+          Catálogo Grupo Volkswagen
+        </h1>
+        <button
+          onClick={openForm}
+          className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+        >
+          {selectedCar ? "Editar coche" : "Añadir coche"}
+        </button>
+      </div>
       <DataTable />
       {isFormOpen && (
         <Modal onClose={closeForm}>

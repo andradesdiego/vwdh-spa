@@ -42,7 +42,7 @@ describe("CarForm", () => {
     render(<CarForm onSubmit={mockSubmit} />);
     const user = userEvent.setup();
 
-    await user.type(screen.getByLabelText(/nombre/i), "Tiguan");
+    await user.type(screen.getByLabelText(/modelo/i), "Tiguan");
     await user.type(screen.getByLabelText(/marca/i), "Volkswagen");
     await user.type(screen.getByLabelText(/año/i), "2023");
     await user.type(screen.getByLabelText(/potencia/i), "150");
@@ -88,8 +88,8 @@ describe("CarForm - edición", () => {
     // 3. Renderizar el formulario
     render(<CarForm />);
 
-    // 4. Modificar el campo "Nombre"
-    const nameInput = screen.getByLabelText(/nombre/i);
+    // 4. Modificar el campo "Modelo"
+    const nameInput = screen.getByLabelText(/modelo/i);
     await user.clear(nameInput);
     await user.type(nameInput, "Golf GTI");
 
