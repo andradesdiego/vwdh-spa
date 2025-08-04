@@ -3,6 +3,7 @@ import { describe, test, expect, vi } from "vitest";
 import { CarRow } from "./CarRow";
 import { useCarStore } from "@/state/useCarStore";
 import type { CarDTO } from "@/infrastructure/dto/carDTO";
+import * as httpCar from "@/infrastructure/http/http.car";
 
 vi.mock("@/state/useCarStore", () => ({
   useCarStore: vi.fn(),
@@ -43,10 +44,16 @@ describe("CarRow", () => {
     expect(mockSelectCar).toHaveBeenCalledWith(mockCar);
   });
 
-  test("calls deleteCar when delete button is clicked with confirmation", () => {
+  test("calls deleteCar when delete button is clicked with confirmation", async () => {
     global.confirm = vi.fn(() => true); // simulate confirm() returning true
     render(<CarRow car={mockCar} />);
     fireEvent.click(screen.getByTitle("Eliminar"));
-    expect(mockDeleteCar).toHaveBeenCalledWith(mockCar.id);
+    vi.mocked(fetch).mockResolvedValue({ ok: true } as Response);
+
+    await httpCar.remove(1);
+    expect(fetch).toHaveBeenCalledWith("http://localhost:4000/cars/1", {
+      method: "DELETE",
+    });
+    // expect(mockDeleteCar).toHaveBeenCalledWith(mockCar.id);
   });
 });

@@ -17,7 +17,9 @@ export default {
         title: ["Ginto", "Open Sans", ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        brand: "#428a9eff",
+        brand: "#02323E",
+        secondary: "#c2fe06",
+        sec_hover: "#00806e",
         gray: {
           50: "#ECEDEE",
           100: "#DCDDDE",
@@ -28,8 +30,9 @@ export default {
           550: "#4f545c",
           600: "#464950",
           700: "#36393F",
-          800: "#2F3136",
-          900: "#202225",
+          800: "#02323E",
+          // 900: "#202225",
+          900: "#002733",
           950: "#040405",
         },
       },

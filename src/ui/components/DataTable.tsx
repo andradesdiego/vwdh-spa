@@ -52,7 +52,7 @@ export function DataTable() {
     sortKey === key ? (sortDirection === "asc" ? "↑" : "↓") : "";
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 lg:px-0">
       <input
         type="text"
         placeholder="Buscar por cualquier campo..."
@@ -61,11 +61,17 @@ export function DataTable() {
         className="text-white placeholder-gray-100 bg-gray-800 w-full p-2 rounded shadow-md focus:outline-gray-300"
       />
 
-      <div className="h-96 overflow-auto rounded flex">
-        <div className={`${!selectedCar ? "min-w-full" : "w-3/4 flex-2 mr-4"}`}>
+      <div className="flex">
+        <div
+          className={`${
+            !selectedCar
+              ? "min-w-full h-96 overflow-auto"
+              : "w-3/4 flex-2 mr-4 h-96 overflow-auto"
+          }`}
+        >
           <table className="min-w-full text-left border-collapse">
-            <thead className="bg-gray-500 text-sm text-gray-50 sticky top-0 z-10">
-              <tr className="bg-gray-500 text-left text-sm font-semibold text-gray-50">
+            <thead className="text-sm text-gray-50 sticky top-0 z-10 ">
+              <tr className="bg-gray-800 text-left text-sm font-semibold text-gray-50 ">
                 {[
                   ["brand", "Marca"],
                   ["name", "Modelo"],
