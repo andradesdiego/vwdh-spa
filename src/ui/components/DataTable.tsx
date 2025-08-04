@@ -63,56 +63,60 @@ export function DataTable() {
         className="text-white placeholder-gray-100 bg-gray-900 w-full p-2 border rounded shadow-md focus:outline-gray-300"
       />
 
-      <div className="overflow-x-auto rounded shadow-sm">
-        <table className="min-w-full text-left border-collapse">
-          <thead className="bg-gray-500 text-sm text-gray-50">
-            <tr className="bg-gray-500 text-left text-sm font-semibold text-gray-50">
-              {[
-                ["name", "Nombre"],
-                ["brand", "Marca"],
-                ["year", "Año"],
-                ["fuelType", "Combustible"],
-                ["horsepower", "CV"],
-                ["actions", "Eliminar"],
-              ].map(([key, label]) => (
-                <th
-                  key={key}
-                  className="p-3 cursor-pointer hover:bg-gray-600"
-                  onClick={() => handleSort(key as SortKey)}
-                >
-                  <div className="flex items-center justify-between">
-                    <span>{label}</span>
-                    {label != "Eliminar" ? (
-                      <span>{renderSortArrow(key as SortKey)}</span>
-                    ) : null}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan={5} className="p-4 text-center text-gray-500">
-                  Cargando...
-                </td>
-              </tr>
-            ) : filteredAndSorted.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="p-4 text-center text-gray-500">
-                  No hay resultados
-                </td>
-              </tr>
-            ) : (
-              <AnimatePresence>
-                {filteredAndSorted.map((car) => (
-                  <CarRow key={car.id} car={car} />
+      <div className="overflow-x-auto rounded shadow-sm flex">
+        <div className={`${!selectedCar ? "min-w-full" : "w-3/4 flex-2 mx-4"}`}>
+          <table className="min-w-full text-left border-collapse">
+            <thead className="bg-gray-500 text-sm text-gray-50">
+              <tr className="bg-gray-500 text-left text-sm font-semibold text-gray-50">
+                {[
+                  ["name", "Nombre"],
+                  ["brand", "Marca"],
+                  ["year", "Año"],
+                  ["fuelType", "Combustible"],
+                  ["horsepower", "CV"],
+                  ["actions", "Eliminar"],
+                ].map(([key, label]) => (
+                  <th
+                    key={key}
+                    className="p-3 cursor-pointer hover:bg-gray-600"
+                    onClick={() => handleSort(key as SortKey)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span>{label}</span>
+                      {label != "Eliminar" ? (
+                        <span>{renderSortArrow(key as SortKey)}</span>
+                      ) : null}
+                    </div>
+                  </th>
                 ))}
-              </AnimatePresence>
-            )}
-          </tbody>
-        </table>
-        {selectedCar && <CarShowcase car={selectedCar} />}
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={5} className="p-4 text-center text-gray-500">
+                    Cargando...
+                  </td>
+                </tr>
+              ) : filteredAndSorted.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="p-4 text-center text-gray-500">
+                    No hay resultados
+                  </td>
+                </tr>
+              ) : (
+                <AnimatePresence>
+                  {filteredAndSorted.map((car) => (
+                    <CarRow key={car.id} car={car} />
+                  ))}
+                </AnimatePresence>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex-1">
+          {selectedCar && <CarShowcase car={selectedCar} />}
+        </div>
       </div>
     </div>
   );
