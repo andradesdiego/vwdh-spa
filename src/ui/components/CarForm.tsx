@@ -16,7 +16,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
   const updateCar = useCarStore((s) => s.updateCar);
   const selectedCar = useCarStore((s) => s.selectedCar);
   const clearSelection = useCarStore((s) => s.clearSelection);
-
+  const closeForm = useCarStore((s) => s.closeForm);
   const [form, setForm] = useState({
     name: "",
     brand: "",
@@ -114,7 +114,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
           placeholder="Nombre"
           value={form.name}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 rounded"
         />
 
         <label htmlFor="brand">Marca</label>
@@ -124,7 +124,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
           placeholder="Marca"
           value={form.brand}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 rounded"
         />
 
         <label htmlFor="year">Año</label>
@@ -135,7 +135,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
           type="number"
           value={form.year}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 rounded"
         />
 
         <label htmlFor="horsepower">Potencia</label>
@@ -146,7 +146,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
           type="number"
           value={form.horsepower}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 rounded"
         />
 
         <label htmlFor="fuelType">Combustible</label>
@@ -155,9 +155,11 @@ export function CarForm({ onSubmit }: CarFormProps) {
           name="fuelType"
           value={form.fuelType}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 rounded"
         >
-          <option value="Gasoline">Gasolina</option>
+          <option value="Gasoline" className="pr-4">
+            Gasolina
+          </option>
           <option value="Diesel">Diésel</option>
           <option value="Electric">Eléctrico</option>
           <option value="Hybrid">Híbrido</option>
@@ -176,18 +178,18 @@ export function CarForm({ onSubmit }: CarFormProps) {
           <button
             type="button"
             onClick={clearSelection}
-            className="px-4 py-2 text-sm text-gray-600 underline"
+            className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700"
           >
             Cancelar edición
           </button>
         )}
-        {/* <button
+        <button
           type="button"
           onClick={closeForm}
           className="px-4 py-2 text-sm text-gray-600 underline"
         >
           Cerrar
-        </button> */}
+        </button>
       </div>
     </form>
   );

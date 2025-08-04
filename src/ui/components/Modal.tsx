@@ -26,13 +26,13 @@ export function Modal({
           transition={{ duration: 0.2 }}
           onClick={(e) => e.stopPropagation()}
         >
-          <button
-            onClick={onClose}
-            className="absolute top-2 right-3 text-gray-500 hover:text-black text-xl"
-          >
-            &times;
-          </button>
           <div className="fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center">
+            <button
+              onClick={onClose}
+              className="rounded border shadow-sm bg-gray-500 py-2 px-4 absolute top-2 right-3 text-white hover:text-gray-100 text-xl"
+            >
+              Cerrar
+            </button>
             <div className="bg-gray-900 p-8 rounded-md shadow-md backdrop-blur-md">
               {children}
             </div>
