@@ -48,13 +48,11 @@ export function DataTable() {
     return sorted;
   }, [cars, query, sortKey, sortDirection]);
 
-  // const renderSortArrow = (key: SortKey) =>
-  //   sortDirection === "asc" ? "↑" : "↓";
   const renderSortArrow = (key: SortKey) =>
     sortKey === key ? (sortDirection === "asc" ? "↑" : "↓") : "";
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <input
         type="text"
         placeholder="Buscar por cualquier campo..."
@@ -64,7 +62,7 @@ export function DataTable() {
       />
 
       <div className="overflow-x-auto rounded shadow-sm flex">
-        <div className={`${!selectedCar ? "min-w-full" : "w-3/4 flex-2 mx-4"}`}>
+        <div className={`${!selectedCar ? "min-w-full" : "w-3/4 flex-2 mr-4"}`}>
           <table className="min-w-full text-left border-collapse">
             <thead className="bg-gray-500 text-sm text-gray-50">
               <tr className="bg-gray-500 text-left text-sm font-semibold text-gray-50">

@@ -90,6 +90,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
       onSubmit?.(data);
       clearSelection();
       resetForm();
+      closeForm();
     } catch (error) {
       toast.error("Error al guardar el coche");
     }
@@ -98,36 +99,42 @@ export function CarForm({ onSubmit }: CarFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-3 mb-6 p-4 border rounded bg-gray-600 shadow-sm"
+      className="space-y-3 mb-6 p-4 rounded bg-gray-900"
     >
-      <h2 className="text-lg font-semibold">
+      <h2 className="px-4 text-lg font-semibold">
         {selectedCar
           ? `Editar coche: ${selectedCar.name}`
           : "Añadir nuevo coche"}
       </h2>
 
-      <div className="grid grid-cols-2 gap-4 bg-gray-600 p-4 rounded  ">
-        <label htmlFor="name">Nombre</label>
+      <div className="space-y-4 gap-4 p-4 rounded">
+        <label className="sr-only" htmlFor="name">
+          Nombre
+        </label>
         <input
           id="name"
           name="name"
           placeholder="Nombre"
           value={form.name}
           onChange={handleChange}
-          className="p-2 rounded"
+          className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
         />
 
-        <label htmlFor="brand">Marca</label>
+        <label className="sr-only" htmlFor="brand">
+          Marca
+        </label>
         <input
           id="brand"
           name="brand"
           placeholder="Marca"
           value={form.brand}
           onChange={handleChange}
-          className="p-2 rounded"
+          className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
         />
 
-        <label htmlFor="year">Año</label>
+        <label className="sr-only" htmlFor="year">
+          Año
+        </label>
         <input
           id="year"
           name="year"
@@ -135,10 +142,12 @@ export function CarForm({ onSubmit }: CarFormProps) {
           type="number"
           value={form.year}
           onChange={handleChange}
-          className="p-2 rounded"
+          className="mb-4 p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
         />
 
-        <label htmlFor="horsepower">Potencia</label>
+        <label className="sr-only mt-4" htmlFor="horsepower">
+          Potencia
+        </label>
         <input
           id="horsepower"
           name="horsepower"
@@ -146,27 +155,29 @@ export function CarForm({ onSubmit }: CarFormProps) {
           type="number"
           value={form.horsepower}
           onChange={handleChange}
-          className="p-2 rounded"
+          className="mt-2 p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
         />
-
-        <label htmlFor="fuelType">Combustible</label>
-        <select
-          id="fuelType"
-          name="fuelType"
-          value={form.fuelType}
-          onChange={handleChange}
-          className="p-2 rounded"
-        >
-          <option value="Gasoline" className="pr-4">
-            Gasolina
-          </option>
-          <option value="Diesel">Diésel</option>
-          <option value="Electric">Eléctrico</option>
-          <option value="Hybrid">Híbrido</option>
-        </select>
+        <div className="flex flex-row items-center gap-2">
+          <label className="mr-4" htmlFor="fuelType">
+            Combustible
+          </label>
+          <select
+            id="fuelType"
+            name="fuelType"
+            value={form.fuelType}
+            onChange={handleChange}
+            className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+          >
+            <option value="Gasoline" className="pr-4">
+              Gasolina
+            </option>
+            <option value="Diesel">Diésel</option>
+            <option value="Electric">Eléctrico</option>
+            <option value="Hybrid">Híbrido</option>
+          </select>
+        </div>
       </div>
-
-      <div className="flex gap-2">
+      <div className="flex gap-4 justify-end px-4 py-2">
         <button
           type="submit"
           className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700"
@@ -186,7 +197,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
         <button
           type="button"
           onClick={closeForm}
-          className="px-4 py-2 text-sm text-gray-600 underline"
+          className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700"
         >
           Cerrar
         </button>

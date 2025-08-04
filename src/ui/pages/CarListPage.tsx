@@ -24,8 +24,7 @@ export default function CarListPage() {
   }, [setCars]);
 
   return (
-    <div className="bg-gray-900 lg:my-6 lg:mx-12 p-6 space-y-6 min-h-screen">
-      <h1 className="text-2xl font-bold">Catálogo Grupo Volkswagen</h1>
+    <div className="bg-gray-900 lg:mx-12 p-4 space-y-6">
       <button
         onClick={openForm}
         className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"

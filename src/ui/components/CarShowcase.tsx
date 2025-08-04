@@ -10,13 +10,13 @@ export function CarShowcase({ car }: Props) {
   const clearSelection = useCarStore((s) => s.clearSelection);
   return (
     <motion.div
-      className="mt-4 p-4 border rounded bg-gray-900 shadow-md"
+      className="p-4 border rounded bg-gray-900 shadow-md"
       initial={{ opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 40 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="p-4 bg-gray-900 rounded shadow">
+      <div className="bg-gray-900 rounded shadow">
         <h2 className="text-xl font-semibold">{car.name}</h2>
         <p>
           <strong>Marca:</strong> {car.brand}
