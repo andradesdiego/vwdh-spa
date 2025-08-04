@@ -98,7 +98,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-3 mb-6 p-4 border rounded bg-white shadow-sm"
+      className="space-y-3 mb-6 p-4 border rounded bg-gray-600 shadow-sm"
     >
       <h2 className="text-lg font-semibold">
         {selectedCar
@@ -106,7 +106,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
           : "Añadir nuevo coche"}
       </h2>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 bg-gray-600 p-4 rounded  ">
         <label htmlFor="name">Nombre</label>
         <input
           id="name"
@@ -149,15 +149,13 @@ export function CarForm({ onSubmit }: CarFormProps) {
           className="p-2 border rounded"
         />
 
-        <label htmlFor="fuelType" className="col-span-2">
-          Combustible
-        </label>
+        <label htmlFor="fuelType">Combustible</label>
         <select
           id="fuelType"
           name="fuelType"
           value={form.fuelType}
           onChange={handleChange}
-          className="p-2 border rounded col-span-2"
+          className="p-2 border rounded"
         >
           <option value="Gasoline">Gasolina</option>
           <option value="Diesel">Diésel</option>
@@ -169,7 +167,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
       <div className="flex gap-2">
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700"
         >
           {selectedCar ? "Actualizar" : "Guardar"}
         </button>
@@ -183,6 +181,13 @@ export function CarForm({ onSubmit }: CarFormProps) {
             Cancelar edición
           </button>
         )}
+        {/* <button
+          type="button"
+          onClick={closeForm}
+          className="px-4 py-2 text-sm text-gray-600 underline"
+        >
+          Cerrar
+        </button> */}
       </div>
     </form>
   );

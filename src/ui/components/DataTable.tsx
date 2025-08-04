@@ -60,7 +60,7 @@ export function DataTable() {
         placeholder="Buscar por cualquier campo..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="bg-gray-900 border-gray-800 w-full p-2 border rounded shadow-sm focus:outline-none focus:ring"
+        className="text-white placeholder-gray-100 bg-gray-900 w-full p-2 border rounded shadow-md focus:outline-gray-300"
       />
 
       <div className="overflow-x-auto rounded shadow-sm">
