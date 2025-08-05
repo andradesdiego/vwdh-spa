@@ -1,37 +1,54 @@
-import type { CarModel } from "@/domain/models/CarModel";
+import type { CarDTO } from "@/infrastructure/dto/carDTO";
 import { useCarStore } from "@/state/useCarStore";
+import { motion } from "framer-motion";
+import { useEffect } from "react";
 
-export function CarShowcase({ car }: { car: CarModel }) {
+type Props = {
+  car: CarDTO;
+};
+
+export function CarShowcase({ car }: Props) {
   const clearSelection = useCarStore((s) => s.clearSelection);
+  const openForm = useCarStore((s) => s.openForm);
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") clearSelection();
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [clearSelection]);
 
   return (
-    <div className="mt-6 p-4 rounded border bg-gray-300 shadow-md">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl text-gray-500 font-semibold">{car.name}</h2>
-        <button
-          onClick={clearSelection}
-          className="text-sm text-blue-600 hover:underline"
-        >
-          Cerrar
-        </button>
-      </div>
-      <ul className="text-sm text-gray-700 space-y-1">
-        <li>
-          <strong>Marca:</strong> {car.brand}
-        </li>
-        <li>
+    <motion.div
+      className="p-4 border rounded shadow-sm border-secondary"
+      initial={{ opacity: 0, x: 40 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 40 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="flex flex-col bg-gray-900 rounded shadow space-y-4 ">
+        <h2 className="text-xl font-semibold">Marca: {car.brand}</h2>
+        <p>
+          <strong>Modelo:</strong> {car.name}
+        </p>
+        <p>
           <strong>Año:</strong> {car.year}
-        </li>
-        <li>
-          <strong>Tipo de combustible:</strong> {car.fuelType}
-        </li>
-        <li>
+        </p>
+        <p>
           <strong>Potencia:</strong> {car.horsepower} CV
-        </li>
-        <li>
-          <strong>ID:</strong> {car.id}
-        </li>
-      </ul>
-    </div>
+        </p>
+        <p>
+          <strong>Combustible:</strong> {car.fuelType}
+        </p>
+        <div className="flex justify-center">
+          <button
+            onClick={openForm}
+            className="mt-4 px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
+          >
+            Editar
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 }

@@ -1,21 +1,27 @@
-import type { CarRepository } from "@/domain/repositories/CarRepository";
-import type { CarModel } from "@/domain/models/CarModel";
-import * as HttpCar from "@/infrastructure/http/http.car";
+import { CarModel } from "@/domain/models/CarModel";
+import { CarRepository } from "@/domain/repositories/CarRepository";
+import * as http from "../http/http.car";
+import { toCarDTO, toDomainCar } from "@/infrastructure/dto/carDTO";
 
 export const CarApiRepository: CarRepository = {
   async getAll(): Promise<CarModel[]> {
-    return await HttpCar.getAll();
+    const dtos = await http.getAll();
+    return dtos.map(toDomainCar);
   },
 
-  async create(car: Omit<CarModel, "id">): Promise<CarModel> {
-    return await HttpCar.create(car);
+  async create(car: Partial<CarModel>): Promise<CarModel> {
+    const dto = toCarDTO(car as CarModel);
+    const result = await http.create(dto);
+    return toDomainCar(result);
   },
 
   async update(car: CarModel): Promise<CarModel> {
-    return await HttpCar.update(car);
+    const dto = toCarDTO(car);
+    const result = await http.update(dto);
+    return toDomainCar(result);
   },
 
   async delete(id: number): Promise<void> {
-    return await HttpCar.remove(id);
+    await http.remove(id);
   },
 };

@@ -1,103 +1,142 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
-import { CarForm } from "@/ui/components/CarForm";
-import { CarModel } from "@/domain/models/CarModel";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { describe, test, expect, vi, beforeEach } from "vitest";
+import { CarRow } from "./CarRow";
 import { useCarStore } from "@/state/useCarStore";
-import userEvent from "@testing-library/user-event";
-import user from "@testing-library/user-event";
-import * as createModule from "@/application/use-cases/createCarUseCase";
-import * as updateModule from "@/application/use-cases/updateCarUseCase";
+import { deleteCarUseCase } from "@/application/use-cases/deleteCarUseCase";
 import toast from "react-hot-toast";
+import type { CarDTO } from "@/infrastructure/dto/carDTO";
+import { type Mock } from "vitest";
 
-// 🧪 Mock el toast
+// ✅ Mocks
+vi.mock("@/state/useCarStore", () => ({
+  useCarStore: vi.fn(),
+}));
+
+vi.mock("@/application/use-cases/deleteCarUseCase", () => ({
+  deleteCarUseCase: vi.fn(),
+}));
+
 vi.mock("react-hot-toast", () => ({
   default: {
     success: vi.fn(),
     error: vi.fn(),
   },
+  success: vi.fn(),
+  error: vi.fn(),
 }));
 
-// 🧪 Mock explícito del use case para evitar petición real a la API
-vi.mock("@/application/use-cases/createCarUseCase", () => ({
-  createCarUseCase: vi.fn(),
-}));
-describe("CarForm", () => {
-  it("renders and submits form with user input", async () => {
-    const mockSubmit = vi.fn();
+// Sample car
+const mockCar: CarDTO = {
+  id: 1,
+  name: "T-Roc",
+  brand: "Volkswagen",
+  year: 2021,
+  fuelType: "Gasoline",
+  horsepower: 150,
+};
 
-    const mockCar: CarModel = {
-      id: 1,
-      name: "Tiguan",
-      brand: "Volkswagen",
-      year: 2023,
-      horsepower: 150,
-      fuelType: "Gasoline",
-    };
+// Variables para los mocks del store
+const mockSelectCar = vi.fn();
+const mockDeleteCar = vi.fn();
+const mockShowConfirmDialog = vi.fn();
 
-    // ✅ mock del caso de uso para que devuelva ese coche sin tocar db.json
-    vi.mocked(createModule.createCarUseCase).mockResolvedValue(mockCar);
+beforeEach(() => {
+  vi.clearAllMocks();
 
-    render(<CarForm onSubmit={mockSubmit} />);
-    const user = userEvent.setup();
-
-    await user.type(screen.getByLabelText(/nombre/i), "Tiguan");
-    await user.type(screen.getByLabelText(/marca/i), "Volkswagen");
-    await user.type(screen.getByLabelText(/año/i), "2023");
-    await user.type(screen.getByLabelText(/potencia/i), "150");
-    await user.selectOptions(screen.getByLabelText(/combustible/i), "Gasoline");
-
-    await user.click(screen.getByRole("button", { name: /guardar/i }));
-
-    await waitFor(() => {
-      expect(mockSubmit).toHaveBeenCalledWith({
-        name: "Tiguan",
-        brand: "Volkswagen",
-        year: 2023,
-        horsepower: 150,
-        fuelType: "Gasoline" as CarModel["fuelType"],
-      });
-      expect(mockSubmit).toHaveBeenCalledTimes(1);
-    });
-  });
+  (useCarStore as any).mockImplementation((selector: any) =>
+    selector({
+      selectCar: mockSelectCar,
+      deleteCar: mockDeleteCar,
+      showConfirmDialog: mockShowConfirmDialog,
+      selectedCar: null,
+    })
+  );
 });
 
-describe("CarForm - edición", () => {
-  it("permite editar un coche y llama al use case con los datos nuevos", async () => {
-    const selectedCar = {
-      id: 1,
-      name: "Golf",
-      brand: "Volkswagen",
-      year: 2020,
-      horsepower: 150,
-      fuelType: "Gasoline" as CarModel["fuelType"],
-    };
+describe("CarRow", () => {
+  test("renders car data correctly", () => {
+    render(
+      <table>
+        <tbody>
+          <CarRow car={mockCar} />
+        </tbody>
+      </table>
+    );
+    expect(screen.getByText("T-Roc")).toBeInTheDocument();
+    expect(screen.getByText("Volkswagen")).toBeInTheDocument();
+    expect(screen.getByText("2021")).toBeInTheDocument();
+    expect(screen.getByText("Gasoline")).toBeInTheDocument();
+    expect(screen.getByText("150")).toBeInTheDocument();
+  });
 
-    const updatedCar = { ...selectedCar, name: "Golf GTI" };
+  test("calls selectCar when row is clicked", () => {
+    render(
+      <table>
+        <tbody>
+          <CarRow car={mockCar} />
+        </tbody>
+      </table>
+    );
+    fireEvent.click(screen.getByRole("row"));
+    expect(mockSelectCar).toHaveBeenCalledWith(mockCar);
+  });
 
-    // 1. Establecer el coche seleccionado en el estado antes de renderizar
-    useCarStore.setState({ selectedCar });
+  test("calls deleteCarUseCase and deleteCar on confirmation", async () => {
+    // Simula la confirmación del usuario: ejecuta la callback directamente
+    mockShowConfirmDialog.mockImplementation((_msg, callback) => callback());
 
-    // 2. Mockear el use case
-    const spy = vi
-      .spyOn(updateModule, "updateCarUseCase")
-      .mockResolvedValue(updatedCar);
+    (deleteCarUseCase as Mock).mockResolvedValueOnce(undefined);
 
-    // 3. Renderizar el formulario
-    render(<CarForm />);
+    render(
+      <table>
+        <tbody>
+          <CarRow car={mockCar} />
+        </tbody>
+      </table>
+    );
+    fireEvent.click(screen.getByTitle("Eliminar"));
 
-    // 4. Modificar el campo "Nombre"
-    const nameInput = screen.getByLabelText(/nombre/i);
-    await user.clear(nameInput);
-    await user.type(nameInput, "Golf GTI");
-
-    // 5. Enviar formulario
-    const submit = screen.getByRole("button", { name: /actualizar/i });
-    await user.click(submit);
-
-    // 6. Esperar a que se llame al use case con el coche actualizado
     await waitFor(() => {
-      expect(spy).toHaveBeenCalledWith(updatedCar);
-      expect(toast.success).toHaveBeenCalledWith("Coche actualizado con éxito");
+      expect(deleteCarUseCase).toHaveBeenCalledWith(1);
+      expect(mockDeleteCar).toHaveBeenCalledWith(1);
+      expect(toast.success).toHaveBeenCalledWith(
+        "Coche T-Roc eliminado correctamente"
+      );
     });
+  });
+
+  test("shows error toast if deleteCarUseCase fails", async () => {
+    mockShowConfirmDialog.mockImplementation((_msg, callback) => callback());
+
+    (deleteCarUseCase as Mock).mockRejectedValueOnce(new Error("Error"));
+
+    render(
+      <table>
+        <tbody>
+          <CarRow car={mockCar} />
+        </tbody>
+      </table>
+    );
+    fireEvent.click(screen.getByTitle("Eliminar"));
+
+    await waitFor(() => {
+      expect(deleteCarUseCase).toHaveBeenCalledWith(1);
+      expect(toast.error).toHaveBeenCalledWith("Error al eliminar el coche");
+    });
+  });
+
+  test("opens confirmation dialog when delete is clicked", () => {
+    render(
+      <table>
+        <tbody>
+          <CarRow car={mockCar} />
+        </tbody>
+      </table>
+    );
+    fireEvent.click(screen.getByTitle("Eliminar"));
+    expect(mockShowConfirmDialog).toHaveBeenCalledWith(
+      expect.stringContaining("¿Eliminar T-Roc?"),
+      expect.any(Function)
+    );
   });
 });

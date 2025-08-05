@@ -1,52 +1,63 @@
-import type { CarModel } from "@/domain/models/CarModel";
+import { motion } from "framer-motion";
+import type { CarDTO } from "@/infrastructure/dto/carDTO";
 import { useCarStore } from "@/state/useCarStore";
 import { deleteCarUseCase } from "@/application/use-cases/deleteCarUseCase";
 import toast from "react-hot-toast";
+import Trash from "@/ui/icons/Trash";
+import { T } from "vitest/dist/chunks/reporters.d.BFLkQcL6.js";
 
 type Props = {
-  car: CarModel;
+  car: CarDTO;
 };
 
 export function CarRow({ car }: Props) {
   const selectCar = useCarStore((s) => s.selectCar);
   const deleteCar = useCarStore((s) => s.deleteCar);
+  const selectedCar = useCarStore((s) => s.selectedCar);
+  const showConfirmDialog = useCarStore((s) => s.showConfirmDialog);
 
-  const handleDelete = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-    const confirmDelete = confirm(`¿Eliminar ${car.name}?`);
-    if (!confirmDelete) return;
-
-    try {
-      await deleteCarUseCase(car.id);
-      deleteCar(car.id);
-      toast.success("Coche eliminado");
-    } catch (error) {
-      console.error("Error al eliminar:", error);
-      toast.error("Error al eliminar el coche");
-    }
+  const handleDelete = () => {
+    showConfirmDialog(`¿Eliminar ${car.name}?`, async () => {
+      try {
+        await deleteCarUseCase(car.id);
+        deleteCar(car.id);
+        toast.success(`Coche ${car.name} eliminado correctamente`);
+      } catch (error) {
+        console.error("Error al eliminar:", error);
+        toast.error("Error al eliminar el coche");
+      }
+    });
   };
 
   return (
-    <tr
-      className="hover:bg-gray-700 text-sm transition-colors cursor-pointer"
+    <motion.tr
+      layout
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -5 }}
+      transition={{ duration: 0.4 }}
       onClick={() => selectCar(car)}
+      className={`${
+        selectedCar?.id === car.id ? "bg-gray-800" : "bg-gray-900"
+      } hover:bg-gray-800 hover:bg-opacity-50 cursor-pointer transition-colors duration-200 text-sm border-b border-gray-800`}
     >
-      <td className="p-3 border">{car.name}</td>
-      <td className="p-3 border">{car.brand}</td>
-      <td className="p-3 border">{car.year}</td>
-      <td className="p-3 border">{car.fuelType}</td>
-      <td className="p-3 border flex items-center justify-between gap-2">
-        <span>{car.horsepower}</span>
+      <td className="p-3">{car.brand}</td>
+      <td className="p-3">{car.name}</td>
+      <td className="p-3 md:table-cell hidden">{car.year}</td>
+      <td className="p-3 md:table-cell hidden">{car.fuelType}</td>
+      <td className="p-3">{car.horsepower}</td>
+      <td className="p-3 flex justify-center">
         <button
-          onClick={handleDelete}
-          className="text-red-600 hover:text-red-800 text-sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete();
+          }}
+          className="text-secondary hover:text-sec_hover text-sm"
           title="Eliminar"
         >
-          🗑️
+          <Trash color="currentColor" />
         </button>
       </td>
-    </tr>
+    </motion.tr>
   );
 }

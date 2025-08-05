@@ -1,8 +1,55 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: false, // or 'media' or 'class'
+  mode: "jit",
   theme: {
-    extend: {},
+    boxShadow: {
+      sm: "0 1px 0 rgba(4,4,5,0.2),0 1.5px 0 rgba(6,6,7,0.05),0 2px 0 rgba(4,4,5,0.05)",
+      md: "0 4px 4px rgba(0,0,0,0.16)",
+      lg: "0 8px 16px rgba(0,0,0,0.24)",
+    },
+    extend: {
+      fontFamily: {
+        sans: ["Whitney", "Open Sans", ...defaultTheme.fontFamily.sans],
+        title: ["Ginto", "Open Sans", ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        brand: "#02323E",
+        secondary: "#c2fe06ff",
+        sec_hover: "#00806e",
+        gray: {
+          50: "#ECEDEE",
+          100: "#DCDDDE",
+          200: "#B9BBBE",
+          300: "#8E9297",
+          400: "#72767D",
+          500: "#5C6067",
+          550: "#4f545c",
+          600: "#464950",
+          700: "#024151",
+          800: "#02323E",
+          // 900: "#202225",
+          900: "#002733",
+          950: "#040405",
+        },
+      },
+    },
+  },
+  variants: {
+    extend: {
+      animation: {
+        "slide-in": "slideIn 0.3s ease-out forwards",
+      },
+      keyframes: {
+        slideIn: {
+          "0%": { transform: "translateY(100%)", opacity: 0 },
+          "100%": { transform: "translateY(0)", opacity: 1 },
+        },
+      },
+    },
   },
   plugins: [],
 };

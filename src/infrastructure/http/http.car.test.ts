@@ -1,6 +1,8 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import * as httpCar from "./http.car";
 import { CarModel } from "@/domain/models/CarModel";
+import { Power } from "@/domain/value-objects/Power";
+import { toCarDTO } from "../dto/carDTO";
 
 global.fetch = vi.fn();
 
@@ -10,7 +12,7 @@ const mockCar = {
   brand: "Volkswagen",
   year: 2022,
   fuelType: "Gasoline" as CarModel["fuelType"],
-  horsepower: 150,
+  horsepower: Power.create(150),
 };
 
 describe("http.car", () => {
@@ -55,13 +57,19 @@ describe("http.car", () => {
       json: async () => mockCar,
     } as Response);
 
-    const result = await httpCar.update(mockCar);
+    const dto = toCarDTO(mockCar);
+
+    const result = await httpCar.update(dto);
+
     expect(result).toEqual(mockCar);
     expect(fetch).toHaveBeenCalledWith(
       "http://localhost:4000/cars/1",
       expect.objectContaining({
         method: "PUT",
-        body: JSON.stringify(mockCar),
+        body: JSON.stringify(dto), // ✅ importante
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
     );
   });

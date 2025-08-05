@@ -1,11 +1,12 @@
 import type { CarModel } from "@/domain/models/CarModel";
+import { CarDTO } from "../dto/carDTO";
 
 const API_URL = "http://localhost:4000/cars";
 
 /**
  * GET /cars
  */
-export async function getAll(): Promise<CarModel[]> {
+export async function getAll(): Promise<CarDTO[]> {
   try {
     const res = await fetch(API_URL);
     if (!res.ok) throw new Error("Error al obtener los coches");
@@ -19,7 +20,7 @@ export async function getAll(): Promise<CarModel[]> {
 /**
  * POST /cars
  */
-export async function create(car: Omit<CarModel, "id">): Promise<CarModel> {
+export async function create(car: CarDTO): Promise<CarDTO> {
   try {
     const res = await fetch(API_URL, {
       method: "POST",
@@ -37,7 +38,7 @@ export async function create(car: Omit<CarModel, "id">): Promise<CarModel> {
 /**
  * PUT /cars/:id
  */
-export async function update(car: CarModel): Promise<CarModel> {
+export async function update(car: CarDTO): Promise<CarDTO> {
   try {
     const res = await fetch(`${API_URL}/${car.id}`, {
       method: "PUT",
@@ -58,9 +59,9 @@ export async function update(car: CarModel): Promise<CarModel> {
 export async function remove(id: number): Promise<void> {
   try {
     const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-    if (!res.ok) throw new Error("Error al eliminar el coche");
+    if (!res.ok) throw new Error("API error");
   } catch (err) {
     console.error("[HTTP] remove error:", err);
-    throw err;
+    throw new Error("API error");
   }
 }

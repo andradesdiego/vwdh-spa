@@ -1,26 +1,57 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-export function Modal({
-  children,
-  onClose,
-}: {
+type ModalProps = {
   children: ReactNode;
   onClose: () => void;
-}) {
+};
+
+export function Modal({ children, onClose }: ModalProps) {
+  const backdropRef = useRef<HTMLDivElement>(null);
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === backdropRef.current) {
+      onClose();
+    }
+  };
+
+  // Cerrar con ESC
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
   return (
-    <div
-      role="dialog"
-      className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4"
-    >
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-xl relative">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-3 text-gray-500 hover:text-black text-xl"
+    <AnimatePresence>
+      <motion.div
+        role="dialog"
+        ref={backdropRef}
+        onClick={handleBackdropClick}
+        className="fixed inset-0 z-50 bg-gray-900 lg:bg-gray-900/90 flex items-center justify-center px-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div
+          className="bg-gray-900 rounded-xl shadow-xl w-full max-w-xl relative overflow-hidden"
+          initial={{ opacity: 0, scale: 0.9, y: -20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          transition={{ duration: 0.2 }}
         >
-          &times;
-        </button>
-        <div className="p-6">{children}</div>
-      </div>
-    </div>
+          <button
+            onClick={onClose}
+            className="absolute top-2 right-3 text-secondary hover:text-sec_hover text-2xl font-light"
+            aria-label="Cerrar"
+          >
+            &times;
+          </button>
+          <div className="p-6">{children}</div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
