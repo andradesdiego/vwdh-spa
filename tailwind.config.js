@@ -18,7 +18,7 @@ export default {
       },
       colors: {
         brand: "#02323E",
-        secondary: "#c2fe06",
+        secondary: "#c2fe06ff",
         sec_hover: "#00806e",
         gray: {
           50: "#ECEDEE",

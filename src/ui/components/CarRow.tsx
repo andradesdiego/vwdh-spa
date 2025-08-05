@@ -3,6 +3,8 @@ import type { CarDTO } from "@/infrastructure/dto/carDTO";
 import { useCarStore } from "@/state/useCarStore";
 import { deleteCarUseCase } from "@/application/use-cases/deleteCarUseCase";
 import toast from "react-hot-toast";
+import Trash from "@/ui/icons/Trash";
+import { T } from "vitest/dist/chunks/reporters.d.BFLkQcL6.js";
 
 type Props = {
   car: CarDTO;
@@ -50,10 +52,10 @@ export function CarRow({ car }: Props) {
             e.stopPropagation();
             handleDelete();
           }}
-          className="text-red-600 hover:text-red-400 text-sm"
+          className="text-secondary hover:text-sec_hover text-sm"
           title="Eliminar"
         >
-          🗑️
+          <Trash color="currentColor" />
         </button>
       </td>
     </motion.tr>

@@ -30,7 +30,7 @@ export function ConfirmDialog({
         >
           <h2 className="text-lg text-gray-200 font-semibold">{title}</h2>
           <p className="text-gray-100">{message}</p>
-          <div className="flex justify-end gap-2 mt-4">
+          <div className="flex justify-end gap-4 mt-6">
             <button
               onClick={onCancel}
               className="px-4 py-2 text-sm bg-secondary text-gray-600 hover:text-black rounded"
