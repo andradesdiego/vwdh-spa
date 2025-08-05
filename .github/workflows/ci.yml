@@ -28,15 +28,5 @@ jobs:
       - name: ✅ Run Tests
         run: npm run test
 
-      - name: 🚀 Upload coverage to GitHub
-        uses: dorny/paths-filter@v2
-        with:
-          filters: |
-            test:
-              - '**/*.test.ts'
-              - '**/*.test.js'
-              - '**/*.spec.ts'
-              - '**/*.spec.js'
-
       - name: 🏗️ Build project
         run: npm run build
