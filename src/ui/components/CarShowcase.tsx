@@ -16,10 +16,10 @@ export function CarShowcase({ car }: Props) {
       exit={{ opacity: 0, x: 40 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="bg-gray-900 rounded shadow">
-        <h2 className="text-xl font-semibold">{car.name}</h2>
+      <div className="flex flex-col bg-gray-900 rounded shadow space-y-4 p-6">
+        <h2 className="text-xl font-semibold">Marca: {car.brand}</h2>
         <p>
-          <strong>Marca:</strong> {car.brand}
+          <strong>Modelo:</strong> {car.name}
         </p>
         <p>
           <strong>Año:</strong> {car.year}
@@ -30,12 +30,14 @@ export function CarShowcase({ car }: Props) {
         <p>
           <strong>Combustible:</strong> {car.fuelType}
         </p>
-        <button
-          onClick={clearSelection}
-          className="mt-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
-        >
-          Cerrar
-        </button>
+        <div className="flex justify-center">
+          <button
+            onClick={clearSelection}
+            className="mt-4 px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
+          >
+            Cerrar
+          </button>
+        </div>
       </div>
     </motion.div>
   );

@@ -82,7 +82,11 @@ export function DataTable() {
                 ].map(([key, label]) => (
                   <th
                     key={key}
-                    className="p-3 cursor-pointer hover:bg-gray-600"
+                    className={`${
+                      !["year", "fuelType"].includes(key)
+                        ? "p-3 cursor-pointer hover:bg-gray-600"
+                        : "md:table-cell hidden"
+                    }`}
                     onClick={() => handleSort(key as SortKey)}
                   >
                     <div

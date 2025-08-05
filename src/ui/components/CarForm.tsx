@@ -117,6 +117,8 @@ export function CarForm({ onSubmit }: CarFormProps) {
           value={form.brand}
           onChange={handleChange}
           className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+          aria-required="true"
+          aria-label="Marca del coche"
         />
 
         <label className="sr-only" htmlFor="name">
@@ -129,6 +131,8 @@ export function CarForm({ onSubmit }: CarFormProps) {
           value={form.name}
           onChange={handleChange}
           className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+          aria-required="true"
+          aria-label="Modelo del coche"
         />
 
         <label className="sr-only" htmlFor="year">
@@ -142,6 +146,8 @@ export function CarForm({ onSubmit }: CarFormProps) {
           value={form.year}
           onChange={handleChange}
           className="mb-4 p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+          aria-required="true"
+          aria-label="Año del coche"
         />
 
         <label className="sr-only mt-4" htmlFor="horsepower">
@@ -155,6 +161,8 @@ export function CarForm({ onSubmit }: CarFormProps) {
           value={form.horsepower}
           onChange={handleChange}
           className="mt-2 p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+          aria-required="true"
+          aria-label="Potencia del coche"
         />
         <div className="flex flex-row items-center gap-2">
           <label className="mr-4" htmlFor="fuelType">
@@ -166,6 +174,8 @@ export function CarForm({ onSubmit }: CarFormProps) {
             value={form.fuelType}
             onChange={handleChange}
             className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+            aria-required="true"
+            aria-label="Combustible del coche"
           >
             <option value="Gasoline" className="pr-4">
               Gasolina
@@ -179,7 +189,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
       <div className="flex gap-4 justify-end px-4 py-2">
         <button
           type="submit"
-          className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700"
+          className="px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
         >
           {selectedCar ? "Actualizar" : "Guardar"}
         </button>

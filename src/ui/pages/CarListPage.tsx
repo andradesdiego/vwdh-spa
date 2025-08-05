@@ -32,7 +32,7 @@ export default function CarListPage() {
             src="https://assets.vw-mms.de/assets/images/cws/volkswagen_group_logo-YD6OYBJM.svg"
             alt="vw group logo"
           ></img>
-          <h1 className="text-xl text-gray-100 font-bold">
+          <h1 className="hidden md:inline-flex text-xl text-gray-100 font-bold">
             Catálogo Grupo Volkswagen
           </h1>
         </div>

@@ -43,8 +43,8 @@ export function CarRow({ car }: Props) {
     >
       <td className="p-3">{car.brand}</td>
       <td className="p-3">{car.name}</td>
-      <td className="p-3">{car.year}</td>
-      <td className="p-3">{car.fuelType}</td>
+      <td className="p-3 md:table-cell hidden">{car.year}</td>
+      <td className="p-3 md:table-cell hidden">{car.fuelType}</td>
       <td className="p-3">{car.horsepower}</td>
       <td className="p-3 flex justify-center">
         <button

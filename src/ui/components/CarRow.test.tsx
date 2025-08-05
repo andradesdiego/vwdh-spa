@@ -1,91 +1,150 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { describe, test, expect, vi, beforeEach } from "vitest";
 import { CarRow } from "./CarRow";
+import { describe, it, vi, expect, beforeEach } from "vitest";
 import { useCarStore } from "@/state/useCarStore";
-import type { CarDTO } from "@/infrastructure/dto/carDTO";
-import * as httpCar from "@/infrastructure/http/http.car";
+import { deleteCarUseCase } from "@/application/use-cases/deleteCarUseCase";
+import toast from "react-hot-toast";
+import { CarDTO } from "@/infrastructure/dto/carDTO";
 
-// Mock del store
+// Mocks
 vi.mock("@/state/useCarStore", () => ({
   useCarStore: vi.fn(),
 }));
 
-// Mock del módulo http
-vi.mock("@/infrastructure/http/http.car", () => ({
-  remove: vi.fn(),
+vi.mock("@/application/use-cases/deleteCarUseCase", () => ({
+  deleteCarUseCase: vi.fn(),
 }));
 
-const mockSelectCar = vi.fn();
-const mockDeleteCar = vi.fn();
+vi.mock("react-hot-toast", () => ({
+  default: {
+    success: vi.fn(),
+    error: vi.fn(),
+  },
+  success: vi.fn(),
+  error: vi.fn(),
+}));
 
-const mockCar: CarDTO = {
-  id: 1,
-  name: "T-Roc",
-  brand: "Volkswagen",
+// Sample car
+const sampleCar: CarDTO = {
+  id: 123,
+  brand: "Audi",
+  name: "A3 Sportback",
   year: 2021,
   fuelType: "Gasoline",
-  horsepower: 150,
+  horsepower: 140,
 };
 
-// Resetear mocks antes de cada test
-beforeEach(() => {
-  (useCarStore as any).mockImplementation((selector: any) =>
-    selector({
-      selectCar: mockSelectCar,
-      deleteCar: mockDeleteCar,
-    })
-  );
-  vi.clearAllMocks();
-});
+describe("<CarRow />", () => {
+  const selectCar = vi.fn();
+  const deleteCar = vi.fn();
+  const showConfirmDialog = vi.fn();
 
-describe("CarRow", () => {
-  test("renders car data correctly", () => {
-    render(<CarRow car={mockCar} />);
-    expect(screen.getByText("T-Roc")).toBeInTheDocument();
-    expect(screen.getByText("Volkswagen")).toBeInTheDocument();
+  beforeEach(() => {
+    // Reset mocks
+    vi.clearAllMocks();
+
+    // Zustand mock return values
+    (useCarStore as any).mockImplementation((selector: any) =>
+      selector({
+        selectCar,
+        deleteCar,
+        selectedCar: null,
+        showConfirmDialog,
+      })
+    );
   });
 
-  test("calls selectCar when row is clicked", () => {
-    render(<CarRow car={mockCar} />);
-    fireEvent.click(screen.getByText("T-Roc"));
-    expect(mockSelectCar).toHaveBeenCalledWith(mockCar);
+  it("renderiza los datos del coche correctamente", () => {
+    render(
+      <table>
+        <tbody>
+          <CarRow car={sampleCar} />
+        </tbody>
+      </table>
+    );
+
+    expect(screen.getByText("Audi")).toBeInTheDocument();
+    expect(screen.getByText("A3 Sportback")).toBeInTheDocument();
+    expect(screen.getByText("2021")).toBeInTheDocument();
+    expect(screen.getByText("Gasolina")).toBeInTheDocument();
+    expect(screen.getByText("140")).toBeInTheDocument();
   });
 
-  test("calls deleteCar when delete button is clicked with confirmation", async () => {
-    global.confirm = vi.fn(() => true);
-    vi.mocked(httpCar.remove).mockResolvedValue();
+  it("llama a selectCar al hacer click en la fila", () => {
+    render(
+      <table>
+        <tbody>
+          <CarRow car={sampleCar} />
+        </tbody>
+      </table>
+    );
 
-    render(<CarRow car={mockCar} />);
-    fireEvent.click(screen.getByTitle("Eliminar"));
+    const row = screen.getByRole("row");
+    fireEvent.click(row);
+
+    expect(selectCar).toHaveBeenCalledWith(sampleCar);
+  });
+
+  it("dispara el diálogo de confirmación al hacer click en el botón de eliminar", async () => {
+    render(
+      <table>
+        <tbody>
+          <CarRow car={sampleCar} />
+        </tbody>
+      </table>
+    );
+
+    const deleteButton = screen.getByRole("button", { name: /eliminar/i });
+    fireEvent.click(deleteButton);
+
+    expect(showConfirmDialog).toHaveBeenCalledWith(
+      expect.stringContaining("¿Eliminar A3 Sportback?"),
+      expect.any(Function)
+    );
+  });
+
+  it("ejecuta deleteCarUseCase y muestra toast de éxito si se confirma", async () => {
+    const confirmCallback = vi.fn();
+    showConfirmDialog.mockImplementation((msg, cb) => cb()); // Ejecuta la callback directamente
+    (deleteCarUseCase as any).mockResolvedValueOnce(undefined);
+
+    render(
+      <table>
+        <tbody>
+          <CarRow car={sampleCar} />
+        </tbody>
+      </table>
+    );
+
+    const deleteButton = screen.getByRole("button", { name: /eliminar/i });
+    fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(httpCar.remove).toHaveBeenCalledWith(mockCar.id);
-      expect(mockDeleteCar).toHaveBeenCalledWith(mockCar.id);
+      expect(deleteCarUseCase).toHaveBeenCalledWith("123");
+      expect(deleteCar).toHaveBeenCalledWith("123");
+      expect(toast.success).toHaveBeenCalledWith(
+        "Coche A3 Sportback eliminado correctamente"
+      );
     });
   });
 
-  test("does not call deleteCar if user cancels confirmation", async () => {
-    global.confirm = vi.fn(() => false);
+  it("muestra toast de error si falla deleteCarUseCase", async () => {
+    showConfirmDialog.mockImplementation((msg, cb) => cb());
+    (deleteCarUseCase as any).mockRejectedValueOnce(new Error("API Error"));
 
-    render(<CarRow car={mockCar} />);
-    fireEvent.click(screen.getByTitle("Eliminar"));
+    render(
+      <table>
+        <tbody>
+          <CarRow car={sampleCar} />
+        </tbody>
+      </table>
+    );
 
-    await waitFor(() => {
-      expect(httpCar.remove).not.toHaveBeenCalled();
-      expect(mockDeleteCar).not.toHaveBeenCalled();
-    });
-  });
-
-  test("handles error from httpCar.remove gracefully", async () => {
-    global.confirm = vi.fn(() => true);
-    vi.mocked(httpCar.remove).mockRejectedValue(new Error("API error"));
-
-    render(<CarRow car={mockCar} />);
-    fireEvent.click(screen.getByTitle("Eliminar"));
+    const deleteButton = screen.getByRole("button", { name: /eliminar/i });
+    fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(httpCar.remove).toHaveBeenCalledWith(mockCar.id);
-      expect(mockDeleteCar).not.toHaveBeenCalled(); // No se llama si la API falla
+      expect(toast.error).toHaveBeenCalledWith("Error al eliminar el coche");
     });
   });
 });

@@ -47,6 +47,22 @@
       "year": 2020,
       "fuelType": "Diesel",
       "horsepower": 150
+    },
+    {
+      "id": "8b5d",
+      "name": "A3 Sportback",
+      "brand": "Audi",
+      "year": 2023,
+      "fuelType": "Gasoline",
+      "horsepower": 140
+    },
+    {
+      "id": "6da4",
+      "name": "Alhambra Sport ",
+      "brand": "SEAT",
+      "year": 2024,
+      "fuelType": "Gasoline",
+      "horsepower": 240
     }
   ]
 }

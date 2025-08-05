@@ -1,4 +1,6 @@
+import { on } from "events";
 import { motion, AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 
 interface ConfirmDialogProps {
   title?: string;
@@ -13,6 +15,14 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onCancel();
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [onCancel]);
+
   return (
     <AnimatePresence>
       <motion.div
@@ -33,7 +43,7 @@ export function ConfirmDialog({
           <div className="flex justify-end gap-4 mt-6">
             <button
               onClick={onCancel}
-              className="px-4 py-2 text-sm bg-secondary text-gray-600 hover:text-black rounded"
+              className="px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
             >
               Cancelar
             </button>

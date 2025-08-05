@@ -44,7 +44,7 @@ export function Modal({ children, onClose }: ModalProps) {
         >
           <button
             onClick={onClose}
-            className="absolute top-2 right-3 text-gray-100 hover:text-white text-2xl font-light"
+            className="absolute top-2 right-3 text-secondary hover:text-sec_hover text-2xl font-light"
             aria-label="Cerrar"
           >
             &times;
