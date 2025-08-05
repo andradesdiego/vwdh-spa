@@ -12,6 +12,7 @@ export function DataTable() {
   const cars = useCarStore((state) => state.cars);
   const loading = useCarStore((state) => state.loading);
   const selectedCar = useCarStore((s) => s.selectedCar);
+  const clearSelection = useCarStore((s) => s.clearSelection);
 
   const [query, setQuery] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
@@ -62,7 +63,7 @@ export function DataTable() {
         placeholder="Buscar por cualquier campo..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="text-white placeholder-gray-100 bg-gray-800 w-full p-2 rounded shadow-sm focus:outline-secondary"
+        className="text-white placeholder-gray-100 bg-gray-800 w-full p-2 rounded shadow-sm focus:outline focus:outline-secondary"
         aria-label="Buscar por cualquier campo"
       />
 
@@ -98,7 +99,7 @@ export function DataTable() {
                       <button
                         type="button"
                         onClick={() => handleSort(key as SortKey)}
-                        className="flex items-center justify-between w-full hover:bg-gray-700 p-1 rounded focus:outline focus:outline-gray-400"
+                        className="flex items-center justify-between w-full hover:text-secondary"
                         aria-label={`Ordenar por ${label}`}
                       >
                         <span>{label}</span>
@@ -134,9 +135,32 @@ export function DataTable() {
             </tbody>
           </table>
         </div>
-        <div className="flex-1">
+        {/* Desktop: panel lateral */}
+        <div className="hidden lg:block w-1/3 pl-4">
           {selectedCar && <CarShowcase car={selectedCar} />}
         </div>
+
+        {/* Mobile: ficha encima de tabla en modo modal deslizante */}
+        {selectedCar && (
+          <div className="lg:hidden fixed inset-0 z-40 bg-gray-900 overflow-auto px-4 py-6 animate-slide-in">
+            {/* <button
+              onClick={() => useCarStore.getState().clearSelection()}
+              className="mb-4 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
+            >
+              Cerrar
+            </button> */}
+            <div className="flex flex-col space-y-12">
+              <button
+                onClick={clearSelection}
+                className="absolute top-2 right-3 text-secondary hover:text-sec_hover text-2xl font-light"
+                aria-label="Cerrar"
+              >
+                &times;
+              </button>
+              <CarShowcase car={selectedCar} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ type Props = {
 
 export function CarShowcase({ car }: Props) {
   const clearSelection = useCarStore((s) => s.clearSelection);
+  const openForm = useCarStore((s) => s.openForm);
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") clearSelection();
@@ -25,7 +26,7 @@ export function CarShowcase({ car }: Props) {
       exit={{ opacity: 0, x: 40 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex flex-col bg-gray-900 rounded shadow space-y-4 p-6">
+      <div className="flex flex-col bg-gray-900 rounded shadow space-y-4 ">
         <h2 className="text-xl font-semibold">Marca: {car.brand}</h2>
         <p>
           <strong>Modelo:</strong> {car.name}
@@ -41,10 +42,10 @@ export function CarShowcase({ car }: Props) {
         </p>
         <div className="flex justify-center">
           <button
-            onClick={clearSelection}
+            onClick={openForm}
             className="mt-4 px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
           >
-            Cerrar
+            Editar
           </button>
         </div>
       </div>

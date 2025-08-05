@@ -97,7 +97,10 @@ export function CarForm({ onSubmit }: CarFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 p-4 rounded bg-gray-900">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-3 py-4 rounded bg-gray-900"
+    >
       <h2 className="px-4 text-lg font-semibold">
         {selectedCar
           ? `Editar coche: ${selectedCar.name}`
@@ -106,7 +109,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
 
       {/* Agrupamos los campos en un fieldset */}
       <fieldset
-        className="space-y-4 gap-4 p-4 rounded"
+        className="space-y-4 gap-2 p-2 rounded"
         aria-describedby="form-description"
       >
         <legend id="form-description" className="sr-only">
@@ -197,27 +200,18 @@ export function CarForm({ onSubmit }: CarFormProps) {
       </fieldset>
 
       {/* Botones */}
-      <div className="flex gap-4 justify-end px-4 py-2">
+      <div className="flex gap-4 justify-center py-2 text-xs lg:text-sm">
         <button
           type="submit"
-          className="px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
+          className="px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 font-semibold shadow-md hover:text-white"
         >
           {selectedCar ? "Actualizar" : "Guardar"}
         </button>
 
-        {selectedCar && (
-          <button
-            type="button"
-            onClick={clearSelection}
-            className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700"
-          >
-            Cancelar edición
-          </button>
-        )}
         <button
           type="button"
           onClick={closeForm}
-          className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700"
+          className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700 border border-secondary"
         >
           Cerrar
         </button>

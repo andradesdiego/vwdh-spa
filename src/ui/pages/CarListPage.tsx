@@ -36,12 +36,14 @@ export default function CarListPage() {
             Catálogo Grupo Volkswagen
           </h1>
         </div>
-        <button
-          onClick={openForm}
-          className="px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
-        >
-          {selectedCar ? "Editar coche" : "Añadir coche"}
-        </button>
+        {!selectedCar && (
+          <button
+            onClick={openForm}
+            className="px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
+          >
+            Añadir coche
+          </button>
+        )}
       </div>
       <DataTable />
       {isFormOpen && (

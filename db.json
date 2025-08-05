@@ -71,6 +71,14 @@
       "year": 2023,
       "fuelType": "Gasoline",
       "horsepower": 375
+    },
+    {
+      "id": "e2fc",
+      "name": "Revuelto",
+      "brand": "Lamborghini",
+      "year": 2025,
+      "fuelType": "Hybrid",
+      "horsepower": 1015
     }
   ]
 }
