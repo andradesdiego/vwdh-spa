@@ -59,13 +59,13 @@ src/
 
 This architecture supports:
 
-- Adding more domains (e.g. Users, Reservations)
+- Adding more domains (e.g. Users, Maintenance, Rentals)
 - Replacing Zustand with Redux Toolkit or other libraries
 - Adding i18n or theme switcher with minimal changes
 
 ---
 
-## 📌 Future Improvements
+## 📌 Improvements
 
 - Server-side persistence (e.g., JSON Server or API backend)
 - CI/CD setup with GitHub Actions

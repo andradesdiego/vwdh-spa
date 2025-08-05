@@ -1,8 +1,8 @@
-# Volkswagen Group Car Catalog SPA
+# Volkswagen DDD React App
 
-This is a Single Page Application (SPA) built with React, TypeScript, TailwindCSS and Zustand to manage a catalog of Volkswagen Group cars. It supports CRUD operations via a mocked REST API using JSON Server. The architecture follows DDD principles with a layered approach and a focus on Clean Code and maintainability.
+## 📦 Project Overview
 
----
+This project is a front-end web application simulating a car catalogue for the Volkswagen Group. It follows Domain-Driven Design (DDD) principles and is built using React, TypeScript, Vite, TailwindCSS, and Zustand for state management. The app includes full CRUD operations powered by a mock API via JSON Server.
 
 ## 🚀 Features
 
@@ -17,16 +17,18 @@ This is a Single Page Application (SPA) built with React, TypeScript, TailwindCS
 - Architecture based on DDD: Domain / Application / Infrastructure / UI
 - Unit & Integration Testing with Vitest and Testing Library
 - Mocked API using JSON Server
+- Github Actions - CI
+- Vercel - CD
 
----
+## 🧱 Tech Stack
 
-## 🧠 Stack
-
-- **Framework**: React 18 + Vite + TypeScript
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
-- **Testing**: Vitest + Testing Library
-- **Mock API**: JSON Server
+- **React 18 + Vite** for fast dev experience
+- **TypeScript** for static typing
+- **TailwindCSS** for UI styling
+- **Zustand** for global state
+- **Vitest + React Testing Library** for testing
+- **JSON Server** as mocked backend
+- **DDD (Domain-Driven Design)** layered architecture
 
 ---
 
@@ -38,27 +40,47 @@ cd vwdh-spa
 npm install
 ```
 
-### Run dev server
+## 📋 Running the Project
 
 ```bash
 npm run dev
 ```
 
-### Run tests in watch mode
+Visit `http://localhost:5173`.
+
+## 🔌 Mock API with JSON Server
 
 ```bash
-npm run test -- --watch
+npm run api
 ```
 
-### Start JSON Server (mocked API)
+Running in port 4000
+
+## ✅ Testing
+
+Run all tests:
 
 ```bash
-npx json-server --watch db.json --port 4000
+npm run test
+```
+
+Watch mode:
+
+```bash
+npm run test:watch
 ```
 
 ---
 
-## 📐 Architectural Decisions
+## 🗂️ Architecture
+
+- `domain/`: Entities, Value Objects
+- `application/`: Use cases (business logic)
+- `infrastructure/`: API and DTOs
+- `ui/`: Components, pages, and styling
+- `state/`: Global Zustand store
+
+Please also visit dedicated file [arquitecture.md](/docs/arquitecture.md)
 
 ### 1. Repository Pattern
 
@@ -101,20 +123,14 @@ We no longer mock `fetch` in those tests, ensuring:
 - Consistent behavior
 - Better alignment with Clean Architecture principles
 
----
+#### 🧪 Coverage
 
-## 🤖 AI Tool Usage
+- Unit + integration tests for:
 
-This project was developed using [ChatGPT](https://chat.openai.com/) and [GitHub Copilot] for productivity support.
-
-- ChatGPT was used to scaffold architectural decisions, refine TypeScript types, and generate boilerplate logic for UI and tests.
-- Developer input focused on domain modeling (Volkswagen cars), DDD structure, and test refinement.
-
-All AI-generated code was reviewed and adjusted manually to meet best practices and project requirements.
-
----
-
-## 🧪 Testing
+  - UI components
+  - Store logic
+  - Use cases
+  - API adapters
 
 - **Unit tests** for all use cases and business logic
 - **Integration tests** for CarForm, DataTable, and UI interactions
@@ -124,54 +140,10 @@ Run tests:
 
 ```bash
 npm run test
+npm run test:watch
 ```
 
 ---
-
-## ✍️ Author
-
-Diego Andrades [@andradesdiego]
-Volkswagen Digital Hub – Frontend Challenge
-
----
-
-## 📄 License
-
-This project is for technical evaluation and not licensed for commercial use.
-
----
-
-### @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
----
-
-### @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
----
-
-# Volkswagen DDD React App
-
-## 📦 Project Overview
-
-This project is a front-end web application simulating a car catalogue for the Volkswagen Group. It follows Domain-Driven Design (DDD) principles and is built using React, TypeScript, Vite, TailwindCSS, and Zustand for state management. The app includes full CRUD operations powered by a mock API via JSON Server.
-
-## 🧱 Tech Stack
-
-- **React 18 + Vite** for fast dev experience
-- **TypeScript** for static typing
-- **TailwindCSS** for UI styling
-- **Zustand** for global state
-- **Vitest + React Testing Library** for testing
-- **JSON Server** as mocked backend
-- **DDD (Domain-Driven Design)** layered architecture
-
-## 🗂️ Architecture
-
-- `domain/`: Entities, Value Objects
-- `application/`: Use cases (business logic)
-- `infrastructure/`: API and DTOs
-- `ui/`: Components, pages, and styling
-- `state/`: Global Zustand store
 
 ## 📑 DDD Refactors
 
@@ -219,61 +191,28 @@ const dto = toCarDTO(model);
 
 These are located in `infrastructure/dto/carDTO.ts`.
 
-## 🤖 AI Tool Usage
-
-- **ChatGPT** was used to:
-  - Define initial architecture
-  - Draft README and documentation
-  - Generate test templates and DTO logic
-  - Review and debug Value Object design
-- Developer made manual decisions on folder structure, implementation details, testing strategy, and DDD adherence.
-
 ## 📐 Design Decisions
 
 - Value objects introduced only where semantic domain value applies (e.g. `Power` for `horsepower`).
 - DTOs help decouple external interfaces from internal domain.
 - Zustand preferred over Redux for simplicity and flexibility.
 
-## 📋 Running the Project
+## 🤖 AI Tool Usage
 
-```bash
-npm install
-npm run dev
-```
+This project was developed using [ChatGPT](https://chat.openai.com/) and [GitHub Copilot] for productivity support.
 
-Visit `http://localhost:5173`.
+- **ChatGPT** was used to:
+  - Define initial architecture
+  - Draft README and documentation
+  - ChatGPT was used to scaffold architectural decisions, refine TypeScript types, and generate boilerplate logic for UI and tests.
+  - Developer input focused on domain modeling (Volkswagen cars), DDD structure, and test refinement.
+  - Generate test templates and DTO logic
+  - Review and debug Value Object design
+  - Developer made manual decisions on folder structure, implementation details, testing strategy, and DDD adherence.
 
-## 🔌 Mock API with JSON Server
+All AI-generated code was reviewed and adjusted manually to meet best practices and project requirements.
 
-```bash
-npx json-server --watch db.json --port 4000
-```
-
-## ✅ Testing
-
-Run all tests:
-
-```bash
-npm run test
-```
-
-Watch mode:
-
-```bash
-npm run test:watch
-```
-
-## 🧪 Coverage
-
-- Unit + integration tests for:
-  - UI components
-  - Store logic
-  - Use cases
-  - API adapters
-
-## 🚀 CI/CD
-
-- Tests are integrated and designed for future GitHub Actions CI pipeline.
+---
 
 ## ♿ Accessibility & UX/UI Improvements
 
@@ -317,10 +256,128 @@ Throughout the development of the Volkswagen DDD React App, we incorporated seve
 
 - Interaction between `CarShowcase`, the form modal, and the table is managed via the Zustand store for consistent global state.
 
+These improvements ensure that the app is more inclusive, user-friendly, and responsive across devices, aligning with modern web standards and accessibility guidelines.
+
 ---
+
+## ♿ Accessibility & UX/UI Improvements
+
+Throughout the development of the Volkswagen DDD React App, we incorporated several accessibility (a11y) and user experience (UX/UI) enhancements to ensure better usability across devices and user needs.
+
+### ✅ Form Accessibility
+
+- **Proper use of `<label>`**:
+  - All form fields are now associated with visible or screen-reader-friendly `<label>` elements (`htmlFor` + `id`).
+- **Improved keyboard navigation**:
+  - Inputs are logically ordered and focusable.
+- **Use of `required` and `aria-required`**:
+  - Both HTML5 validation and ARIA attributes used for assistive technologies.
+- **Semantic grouping with `<fieldset>` and `<legend>`**:
+  - Helps screen readers contextualize related form fields.
+- **Autocomplete hints**:
+  - Added `autoComplete` attributes for better form completion.
+
+### ✅ Table Improvements
+
+- **Sortable table headers are now buttons**:
+  - Replaced `<div>`s with `<button>` in `<th>` for full keyboard and screen reader support.
+- **Added `scope="col"` to `<th>` elements**:
+  - Improves semantics and accessibility.
+- **Accessible search input**:
+  - Paired with a visually hidden `<label>` and uses `aria-label` for clarity.
+- **Responsive table layout**:
+  - Table layout adapts to screen size with column visibility adjustments (`hidden md:table-cell`).
+
+### ✅ Car Detail Responsiveness (`CarShowcase`)
+
+- **Dual layout based on screen size**:
+  - On **desktop**: `CarShowcase` appears to the right of the table in a sidebar layout.
+  - On **mobile**: It slides in as a full-width overlay modal for focused interaction.
+- **Accessible modal behavior on mobile**:
+  - Includes `role="dialog"` and `aria-modal="true"` (ready for further enhancement).
+- **"Editar" button on mobile**:
+  - Allows seamless transition from viewing to editing a car, auto-loading the selected car into the form.
+
+### 🔁 State-driven UI
+
+- Interaction between `CarShowcase`, the form modal, and the table is managed via the Zustand store for consistent global state.
 
 These improvements ensure that the app is more inclusive, user-friendly, and responsive across devices, aligning with modern web standards and accessibility guidelines.
 
-## 👤 Author
+## 🚀 CI/CD
+
+Tests are integrated and designed for GitHub Actions CI pipeline. Automated Vercel deploy
+
+---
+
+### 🔁 CI/CD Pipeline with GitHub Actions + Vercel
+
+#### ⚙️ GitHub Actions
+
+A GitHub Actions workflow runs on every push or pull request to `master` or `development`:
+
+- ✅ Lint (`npm run lint`)
+- ✅ Tests (`npm run test`)
+- ✅ Build (`npm run build`)
+
+This ensures broken code never gets deployed.
+
+#### 📄 Workflow: `.github/workflows/ci.yml`
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [master, development]
+  pull_request:
+    branches: [master, development]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🔧 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🧹 Lint
+        run: npm run lint
+
+      - name: ✅ Test
+        run: npm run test
+
+      - name: 🏗️ Build
+        run: npm run build
+```
+
+#### Added branch protection to master and development:
+
+✅ Require passing status checks
+
+✅ Block direct pushes
+
+### 🚀 Vercel Deployment
+
+Automatically deploys from `development` for PREVIEW environment via GitHub → Vercel integration
+
+Automatically deploys from `master` for PRODUCTION environment via GitHub → Vercel integration
+
+---
+
+### ✍️ Author
 
 Diego Andrades
+Volkswagen Digital Hub – Senior Frontend Engineer Challenge
+
+### 📄 License
+
+This project is for technical evaluation purposes only.
