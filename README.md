@@ -304,11 +304,11 @@ Throughout the development of the Volkswagen DDD React App, we incorporated seve
 
 These improvements ensure that the app is more inclusive, user-friendly, and responsive across devices, aligning with modern web standards and accessibility guidelines.
 
+---
+
 ## 🚀 CI/CD
 
 Tests are integrated and designed for GitHub Actions CI pipeline. Automated Vercel deploy
-
----
 
 ### 🔁 CI/CD Pipeline with GitHub Actions + Vercel
 
@@ -375,8 +375,8 @@ Automatically deploys from `master` for PRODUCTION environment via GitHub → Ve
 
 ### ✍️ Author
 
-Diego Andrades
-Volkswagen Digital Hub – Senior Frontend Engineer Challenge
+Diego Andrades | Volkswagen Digital:Hub – Senior Frontend Engineer Challenge
+[andradesdiego@gmail.com]
 
 ### 📄 License
 
