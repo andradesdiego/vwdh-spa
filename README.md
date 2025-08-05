@@ -275,6 +275,52 @@ npm run test:watch
 
 - Tests are integrated and designed for future GitHub Actions CI pipeline.
 
+## ♿ Accessibility & UX/UI Improvements
+
+Throughout the development of the Volkswagen DDD React App, we incorporated several accessibility (a11y) and user experience (UX/UI) enhancements to ensure better usability across devices and user needs.
+
+### ✅ Form Accessibility
+
+- **Proper use of `<label>`**:
+  - All form fields are now associated with visible or screen-reader-friendly `<label>` elements (`htmlFor` + `id`).
+- **Improved keyboard navigation**:
+  - Inputs are logically ordered and focusable.
+- **Use of `required` and `aria-required`**:
+  - Both HTML5 validation and ARIA attributes used for assistive technologies.
+- **Semantic grouping with `<fieldset>` and `<legend>`**:
+  - Helps screen readers contextualize related form fields.
+- **Autocomplete hints**:
+  - Added `autoComplete` attributes for better form completion.
+
+### ✅ Table Improvements
+
+- **Sortable table headers are now buttons**:
+  - Replaced `<div>`s with `<button>` in `<th>` for full keyboard and screen reader support.
+- **Added `scope="col"` to `<th>` elements**:
+  - Improves semantics and accessibility.
+- **Accessible search input**:
+  - Paired with a visually hidden `<label>` and uses `aria-label` for clarity.
+- **Responsive table layout**:
+  - Table layout adapts to screen size with column visibility adjustments (`hidden md:table-cell`).
+
+### ✅ Car Detail Responsiveness (`CarShowcase`)
+
+- **Dual layout based on screen size**:
+  - On **desktop**: `CarShowcase` appears to the right of the table in a sidebar layout.
+  - On **mobile**: It slides in as a full-width overlay modal for focused interaction.
+- **Accessible modal behavior on mobile**:
+  - Includes `role="dialog"` and `aria-modal="true"` (ready for further enhancement).
+- **"Editar" button on mobile**:
+  - Allows seamless transition from viewing to editing a car, auto-loading the selected car into the form.
+
+### 🔁 State-driven UI
+
+- Interaction between `CarShowcase`, the form modal, and the table is managed via the Zustand store for consistent global state.
+
+---
+
+These improvements ensure that the app is more inclusive, user-friendly, and responsive across devices, aligning with modern web standards and accessibility guidelines.
+
 ## 👤 Author
 
 Diego Andrades
