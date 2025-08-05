@@ -67,7 +67,7 @@ describe("CarListPage", () => {
     // El formulario está dentro del modal
     await waitFor(() => {
       expect(screen.getByRole("dialog")).toBeInTheDocument();
-      expect(screen.getByPlaceholderText(/Modelo/i)).toBeInTheDocument(); // input del CarForm
+      expect(screen.getByPlaceholderText(/Ej: Golf/i)).toBeInTheDocument(); // input del CarForm
     });
   });
 });

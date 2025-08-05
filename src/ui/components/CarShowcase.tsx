@@ -1,6 +1,7 @@
 import type { CarDTO } from "@/infrastructure/dto/carDTO";
 import { useCarStore } from "@/state/useCarStore";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 type Props = {
   car: CarDTO;
@@ -8,9 +9,17 @@ type Props = {
 
 export function CarShowcase({ car }: Props) {
   const clearSelection = useCarStore((s) => s.clearSelection);
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") clearSelection();
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [clearSelection]);
+
   return (
     <motion.div
-      className="p-4 border rounded bg-gray-900 shadow-md"
+      className="p-4 border rounded shadow-sm border-secondary"
       initial={{ opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 40 }}

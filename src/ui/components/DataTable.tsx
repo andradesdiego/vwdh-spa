@@ -53,12 +53,17 @@ export function DataTable() {
 
   return (
     <div className="space-y-6 px-4 lg:px-0">
+      <label htmlFor="search" className="sr-only">
+        Buscar coches
+      </label>
       <input
+        id="search"
         type="text"
         placeholder="Buscar por cualquier campo..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="text-white placeholder-gray-100 bg-gray-800 w-full p-2 rounded shadow-md focus:outline-gray-300"
+        className="text-white placeholder-gray-100 bg-gray-800 w-full p-2 rounded shadow-sm focus:outline-secondary"
+        aria-label="Buscar por cualquier campo"
       />
 
       <div className="flex">
@@ -70,8 +75,8 @@ export function DataTable() {
           }`}
         >
           <table className="min-w-full text-left border-collapse">
-            <thead className="text-sm text-gray-50 sticky top-0 z-10 ">
-              <tr className="bg-gray-800 text-left text-sm font-semibold text-gray-50 ">
+            <thead className="text-sm text-gray-50 sticky top-0 z-10">
+              <tr className="bg-gray-800 font-semibold text-gray-50">
                 {[
                   ["brand", "Marca"],
                   ["name", "Modelo"],
@@ -82,44 +87,45 @@ export function DataTable() {
                 ].map(([key, label]) => (
                   <th
                     key={key}
+                    scope="col"
                     className={`${
                       !["year", "fuelType"].includes(key)
-                        ? "p-3 cursor-pointer hover:bg-gray-600"
+                        ? "p-3"
                         : "md:table-cell hidden"
                     }`}
-                    onClick={() => handleSort(key as SortKey)}
                   >
-                    <div
-                      className={`${
-                        label != "Eliminar"
-                          ? "flex items-center justify-between"
-                          : "flex justify-center"
-                      }`}
-                    >
-                      <span>{label}</span>
-                      {label != "Eliminar" ? (
+                    {label !== "Eliminar" ? (
+                      <button
+                        type="button"
+                        onClick={() => handleSort(key as SortKey)}
+                        className="flex items-center justify-between w-full hover:bg-gray-700 p-1 rounded focus:outline focus:outline-gray-400"
+                        aria-label={`Ordenar por ${label}`}
+                      >
+                        <span>{label}</span>
                         <span>{renderSortArrow(key as SortKey)}</span>
-                      ) : null}
-                    </div>
+                      </button>
+                    ) : (
+                      <span className="flex justify-center">{label}</span>
+                    )}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="">
+            <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="p-4 text-center text-gray-500">
+                  <td colSpan={6} className="p-4 text-center text-gray-500">
                     Cargando...
                   </td>
                 </tr>
               ) : filteredAndSorted.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-4 text-center text-gray-500">
+                  <td colSpan={6} className="p-4 text-center text-gray-500">
                     No hay resultados
                   </td>
                 </tr>
               ) : (
-                <AnimatePresence>
+                <AnimatePresence initial={false}>
                   {filteredAndSorted.map((car) => (
                     <CarRow key={car.id} car={car} />
                   ))}
