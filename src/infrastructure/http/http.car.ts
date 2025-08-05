@@ -59,9 +59,9 @@ export async function update(car: CarDTO): Promise<CarDTO> {
 export async function remove(id: number): Promise<void> {
   try {
     const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-    if (!res.ok) throw new Error("Error al eliminar el coche");
+    if (!res.ok) throw new Error("API error");
   } catch (err) {
     console.error("[HTTP] remove error:", err);
-    throw err;
+    throw new Error("API error");
   }
 }

@@ -2,6 +2,13 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import type { CarDTO } from "@/infrastructure/dto/carDTO";
 
+type ConfirmDialogState = {
+  visible: boolean;
+  message: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+};
+
 type CarStore = {
   cars: CarDTO[];
   loading: boolean;
@@ -15,6 +22,13 @@ type CarStore = {
   openForm: () => void;
   closeForm: () => void;
   setCars: (cars: CarDTO[]) => void;
+  confirmDialog: ConfirmDialogState;
+  showConfirmDialog: (
+    message: string,
+    onConfirm: () => void,
+    onCancel?: () => void
+  ) => void;
+  hideConfirmDialog: () => void;
 };
 
 export const useCarStore = create<CarStore>()(
@@ -45,5 +59,30 @@ export const useCarStore = create<CarStore>()(
     isFormOpen: false,
     openForm: () => set({ isFormOpen: true }),
     closeForm: () => set({ isFormOpen: false, selectedCar: undefined }),
+
+    confirmDialog: {
+      visible: false,
+      message: "",
+      onConfirm: () => {},
+      onCancel: () => {},
+    },
+    showConfirmDialog: (message, onConfirm, onCancel = () => {}) =>
+      set({
+        confirmDialog: {
+          visible: true,
+          message,
+          onConfirm,
+          onCancel,
+        },
+      }),
+    hideConfirmDialog: () =>
+      set({
+        confirmDialog: {
+          visible: false,
+          message: "",
+          onConfirm: () => {},
+          onCancel: () => {},
+        },
+      }),
   }))
 );

@@ -68,7 +68,7 @@ describe("http.car", () => {
         method: "PUT",
         body: JSON.stringify(dto), // ✅ importante
         headers: {
-          "Content-Type": "application/json", // si se usa, también testearlo
+          "Content-Type": "application/json",
         },
       })
     );

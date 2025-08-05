@@ -1,11 +1,10 @@
 export class Power {
-  private constructor(private readonly value: number) {
+  private constructor(private readonly value: number) {}
+
+  static create(value: number): Power {
     if (value <= 0) {
       throw new Error("Power must be a positive number.");
     }
-  }
-
-  static create(value: number): Power {
     return new Power(value);
   }
 

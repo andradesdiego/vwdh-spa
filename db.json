@@ -9,14 +9,6 @@
       "horsepower": 750
     },
     {
-      "id": "3",
-      "name": "A3 Sportback",
-      "brand": "Audi",
-      "year": 2028,
-      "fuelType": "Diesel",
-      "horsepower": 150
-    },
-    {
       "id": "4",
       "name": "Ibiza FR",
       "brand": "SEAT",
@@ -41,20 +33,52 @@
       "horsepower": 150
     },
     {
-      "id": "3be5",
-      "name": "Alhambra 2.0 Sport",
+      "id": "088e",
+      "name": "Tourbillon",
+      "brand": "Bugatti",
+      "year": 2026,
+      "fuelType": "Hybrid",
+      "horsepower": 1800
+    },
+    {
+      "id": "65ff",
+      "name": "A4 Avant SLine ",
+      "brand": "Audi",
+      "year": 2020,
+      "fuelType": "Diesel",
+      "horsepower": 150
+    },
+    {
+      "id": "8b5d",
+      "name": "A3 Sportback",
+      "brand": "Audi",
+      "year": 2023,
+      "fuelType": "Gasoline",
+      "horsepower": 140
+    },
+    {
+      "id": "6da4",
+      "name": "Alhambra Sport ",
       "brand": "SEAT",
       "year": 2024,
       "fuelType": "Gasoline",
       "horsepower": 240
     },
     {
-      "id": "0164",
-      "name": "311 Carrera",
+      "id": "35f5",
+      "name": "311 Carrera S",
       "brand": "Porsche",
-      "year": 2020,
+      "year": 2023,
       "fuelType": "Gasoline",
-      "horsepower": 370
+      "horsepower": 375
+    },
+    {
+      "id": "e2fc",
+      "name": "Revuelto",
+      "brand": "Lamborghini",
+      "year": 2025,
+      "fuelType": "Hybrid",
+      "horsepower": 1015
     }
   ]
 }
