@@ -63,6 +63,14 @@
       "year": 2024,
       "fuelType": "Gasoline",
       "horsepower": 240
+    },
+    {
+      "id": "35f5",
+      "name": "311 Carrera S",
+      "brand": "Porsche",
+      "year": 2023,
+      "fuelType": "Gasoline",
+      "horsepower": 375
     }
   ]
 }

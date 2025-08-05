@@ -97,6 +97,121 @@ export function CarForm({ onSubmit }: CarFormProps) {
   };
 
   return (
+    // <form onSubmit={handleSubmit} className="space-y-3 p-4 rounded bg-gray-900">
+    //   <h2 className="px-4 text-lg font-semibold">
+    //     {selectedCar
+    //       ? `Editar coche: ${selectedCar.name}`
+    //       : "Añadir nuevo coche"}
+    //   </h2>
+
+    //   <div className="space-y-4 gap-4 p-4 rounded">
+    //     <label className="sr-only" htmlFor="brand">
+    //       Marca
+    //     </label>
+
+    //     <input
+    //       autoFocus
+    //       id="brand"
+    //       name="brand"
+    //       placeholder="Marca"
+    //       value={form.brand}
+    //       onChange={handleChange}
+    //       className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+    //       aria-required="true"
+    //       aria-label="Marca del coche"
+    //     />
+
+    //     <label className="sr-only" htmlFor="name">
+    //       Modelo
+    //     </label>
+    //     <input
+    //       id="name"
+    //       name="name"
+    //       placeholder="Modelo"
+    //       value={form.name}
+    //       onChange={handleChange}
+    //       className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+    //       aria-required="true"
+    //       aria-label="Modelo del coche"
+    //     />
+
+    //     <label className="sr-only" htmlFor="year">
+    //       Año
+    //     </label>
+    //     <input
+    //       id="year"
+    //       name="year"
+    //       placeholder="Año"
+    //       type="number"
+    //       value={form.year}
+    //       onChange={handleChange}
+    //       className="mb-4 p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+    //       aria-required="true"
+    //       aria-label="Año del coche"
+    //     />
+
+    //     <label className="sr-only mt-4" htmlFor="horsepower">
+    //       Potencia
+    //     </label>
+    //     <input
+    //       id="horsepower"
+    //       name="horsepower"
+    //       placeholder="Potencia"
+    //       type="number"
+    //       value={form.horsepower}
+    //       onChange={handleChange}
+    //       className="mt-2 p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+    //       aria-required="true"
+    //       aria-label="Potencia del coche"
+    //     />
+    //     <div className="flex flex-row items-center gap-2">
+    //       <label className="mr-4" htmlFor="fuelType">
+    //         Combustible
+    //       </label>
+    //       <select
+    //         id="fuelType"
+    //         name="fuelType"
+    //         value={form.fuelType}
+    //         onChange={handleChange}
+    //         className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
+    //         aria-required="true"
+    //         aria-label="Combustible del coche"
+    //       >
+    //         <option value="Gasoline" className="pr-4">
+    //           Gasolina
+    //         </option>
+    //         <option value="Diesel">Diésel</option>
+    //         <option value="Electric">Eléctrico</option>
+    //         <option value="Hybrid">Híbrido</option>
+    //       </select>
+    //     </div>
+    //   </div>
+    //   <div className="flex gap-4 justify-end px-4 py-2">
+    //     <button
+    //       type="submit"
+    //       className="px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
+    //     >
+    //       {selectedCar ? "Actualizar" : "Guardar"}
+    //     </button>
+
+    //     {selectedCar && (
+    //       <button
+    //         type="button"
+    //         onClick={clearSelection}
+    //         className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700"
+    //       >
+    //         Cancelar edición
+    //       </button>
+    //     )}
+    //     <button
+    //       type="button"
+    //       onClick={closeForm}
+    //       className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700"
+    //     >
+    //       Cerrar
+    //     </button>
+    //   </div>
+    // </form>
     <form onSubmit={handleSubmit} className="space-y-3 p-4 rounded bg-gray-900">
       <h2 className="px-4 text-lg font-semibold">
         {selectedCar
@@ -104,88 +219,99 @@ export function CarForm({ onSubmit }: CarFormProps) {
           : "Añadir nuevo coche"}
       </h2>
 
-      <div className="space-y-4 gap-4 p-4 rounded">
-        <label className="sr-only" htmlFor="brand">
+      {/* Agrupamos los campos en un fieldset */}
+      <fieldset
+        className="space-y-4 gap-4 p-4 rounded"
+        aria-describedby="form-description"
+      >
+        <legend id="form-description" className="sr-only">
+          Formulario para crear o editar un coche
+        </legend>
+
+        {/* Marca */}
+        <label htmlFor="brand" className="block text-sm text-white">
           Marca
         </label>
-
         <input
           autoFocus
           id="brand"
           name="brand"
-          placeholder="Marca"
+          placeholder="Ej: Volkswagen"
+          autoComplete="organization"
           value={form.brand}
           onChange={handleChange}
-          className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
-          aria-required="true"
-          aria-label="Marca del coche"
+          className="p-2 rounded bg-gray-800 text-white w-full shadow-md"
+          required
         />
 
-        <label className="sr-only" htmlFor="name">
+        {/* Modelo */}
+        <label htmlFor="name" className="block text-sm text-white">
           Modelo
         </label>
         <input
           id="name"
           name="name"
-          placeholder="Modelo"
+          placeholder="Ej: Golf"
+          autoComplete="off"
           value={form.name}
           onChange={handleChange}
-          className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
-          aria-required="true"
-          aria-label="Modelo del coche"
+          className="p-2 rounded bg-gray-800 text-white w-full shadow-md"
+          required
         />
 
-        <label className="sr-only" htmlFor="year">
+        {/* Año */}
+        <label htmlFor="year" className="block text-sm text-white">
           Año
         </label>
         <input
           id="year"
           name="year"
-          placeholder="Año"
           type="number"
+          placeholder="2020"
           value={form.year}
           onChange={handleChange}
-          className="mb-4 p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
-          aria-required="true"
-          aria-label="Año del coche"
+          className="p-2 rounded bg-gray-800 text-white w-full shadow-md"
+          required
+          min="1900"
+          max={new Date().getFullYear()}
         />
 
-        <label className="sr-only mt-4" htmlFor="horsepower">
-          Potencia
+        {/* Potencia */}
+        <label htmlFor="horsepower" className="block text-sm text-white">
+          Potencia (CV)
         </label>
         <input
           id="horsepower"
           name="horsepower"
-          placeholder="Potencia"
           type="number"
+          placeholder="Ej: 150"
           value={form.horsepower}
           onChange={handleChange}
-          className="mt-2 p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
-          aria-required="true"
-          aria-label="Potencia del coche"
+          className="p-2 rounded bg-gray-800 text-white w-full shadow-md"
+          required
+          min="30"
         />
-        <div className="flex flex-row items-center gap-2">
-          <label className="mr-4" htmlFor="fuelType">
-            Combustible
-          </label>
-          <select
-            id="fuelType"
-            name="fuelType"
-            value={form.fuelType}
-            onChange={handleChange}
-            className="p-2 rounded placeholder-white bg-gray-800 text-white w-full shadow-md"
-            aria-required="true"
-            aria-label="Combustible del coche"
-          >
-            <option value="Gasoline" className="pr-4">
-              Gasolina
-            </option>
-            <option value="Diesel">Diésel</option>
-            <option value="Electric">Eléctrico</option>
-            <option value="Hybrid">Híbrido</option>
-          </select>
-        </div>
-      </div>
+
+        {/* Combustible */}
+        <label htmlFor="fuelType" className="block text-sm text-white">
+          Tipo de combustible
+        </label>
+        <select
+          id="fuelType"
+          name="fuelType"
+          value={form.fuelType}
+          onChange={handleChange}
+          className="p-2 rounded bg-gray-800 text-white w-full shadow-md"
+          required
+        >
+          <option value="Gasoline">Gasolina</option>
+          <option value="Diesel">Diésel</option>
+          <option value="Electric">Eléctrico</option>
+          <option value="Hybrid">Híbrido</option>
+        </select>
+      </fieldset>
+
+      {/* Botones */}
       <div className="flex gap-4 justify-end px-4 py-2">
         <button
           type="submit"
