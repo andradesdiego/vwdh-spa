@@ -12,19 +12,19 @@ export function CarRow({ car }: Props) {
   const selectCar = useCarStore((s) => s.selectCar);
   const deleteCar = useCarStore((s) => s.deleteCar);
   const selectedCar = useCarStore((s) => s.selectedCar);
-  const handleDelete = (e: React.MouseEvent) => {
+
+  const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
     const confirmDelete = confirm(`¿Eliminar ${car.name}?`);
-    if (confirmDelete) {
-      const res = deleteCarUseCase(car.id);
-      if (res instanceof Error) {
-        console.error("Error al eliminar el coche:", res);
-        toast.error(`Error al eliminar ${car.name}`);
-      } else {
-        toast.success(`Coche ${car.name} eliminado correctamente`);
-        deleteCar(car.id);
-      }
-      // Update the store after deletion
+    if (!confirmDelete) return;
+
+    try {
+      await deleteCarUseCase(car.id);
+      deleteCar(car.id);
+      toast.success(`Coche ${car.name} eliminado correctamente`);
+    } catch (error) {
+      console.error("Error al eliminar el coche:", error);
+      toast.error(`Error al eliminar ${car.name}`);
     }
   };
 
@@ -34,13 +34,11 @@ export function CarRow({ car }: Props) {
       initial={{ opacity: 0, y: 5 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -5 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
       onClick={() => selectCar(car)}
       className={`${
-        selectedCar && selectedCar.id === car.id
-          ? "bg-gray-800 hover:bg-gray-700 cursor-pointer transition-colors duration-200 text-sm group border-b border-gray-800 hover:border-gray-600"
-          : "bg-gray-900 hover:bg-gray-800 hover:bg-opacity-50 cursor-pointer transition-colors duration-200 text-sm group border-b border-gray-800 hover:border-gray-600"
-      } `}
+        selectedCar?.id === car.id ? "bg-gray-800" : "bg-gray-900"
+      } hover:bg-gray-800 hover:bg-opacity-50 cursor-pointer transition-colors duration-200 text-sm border-b border-gray-800`}
     >
       <td className="p-3">{car.brand}</td>
       <td className="p-3">{car.name}</td>
@@ -50,7 +48,7 @@ export function CarRow({ car }: Props) {
       <td className="p-3 flex justify-center">
         <button
           onClick={handleDelete}
-          className="text-red-600 hover:text-red-800 text-sm transition-colors "
+          className="text-red-600 hover:text-red-400 text-sm transition-colors"
           title="Eliminar"
         >
           🗑️

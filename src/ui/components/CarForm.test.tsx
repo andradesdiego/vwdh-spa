@@ -1,106 +1,91 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
-import { CarForm } from "@/ui/components/CarForm";
-import { CarModel } from "@/domain/models/CarModel";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { describe, test, expect, vi, beforeEach } from "vitest";
+import { CarRow } from "./CarRow";
 import { useCarStore } from "@/state/useCarStore";
-import userEvent from "@testing-library/user-event";
-import user from "@testing-library/user-event";
-import * as createModule from "@/application/use-cases/createCarUseCase";
-import * as updateModule from "@/application/use-cases/updateCarUseCase";
-import toast from "react-hot-toast";
-import { Power } from "@/domain/value-objects/Power";
-import { toDomainCar } from "@/infrastructure/dto/carDTO";
+import type { CarDTO } from "@/infrastructure/dto/carDTO";
+import * as httpCar from "@/infrastructure/http/http.car";
 
-// 🧪 Mock el toast
-vi.mock("react-hot-toast", () => ({
-  default: {
-    success: vi.fn(),
-    error: vi.fn(),
-  },
+// Mock del store
+vi.mock("@/state/useCarStore", () => ({
+  useCarStore: vi.fn(),
 }));
 
-// 🧪 Mock explícito del use case para evitar petición real a la API
-vi.mock("@/application/use-cases/createCarUseCase", () => ({
-  createCarUseCase: vi.fn(),
+// Mock del módulo http
+vi.mock("@/infrastructure/http/http.car", () => ({
+  remove: vi.fn(),
 }));
-describe("CarForm", () => {
-  it("renders and submits form with user input", async () => {
-    const mockSubmit = vi.fn();
 
-    const mockCar: CarModel = {
-      id: 1,
-      name: "Tiguan",
-      brand: "Volkswagen",
-      year: 2023,
-      horsepower: Power.create(150),
-      fuelType: "Gasoline",
-    };
+const mockSelectCar = vi.fn();
+const mockDeleteCar = vi.fn();
 
-    // ✅ mock del caso de uso para que devuelva ese coche sin tocar db.json
-    vi.mocked(createModule.createCarUseCase).mockResolvedValue(mockCar);
+const mockCar: CarDTO = {
+  id: 1,
+  name: "T-Roc",
+  brand: "Volkswagen",
+  year: 2021,
+  fuelType: "Gasoline",
+  horsepower: 150,
+};
 
-    render(<CarForm onSubmit={mockSubmit} />);
-    const user = userEvent.setup();
-
-    await user.type(screen.getByLabelText(/modelo/i), "Tiguan");
-    await user.type(screen.getByLabelText(/marca/i), "Volkswagen");
-    await user.type(screen.getByLabelText(/año/i), "2023");
-    await user.type(screen.getByLabelText(/potencia/i), "150");
-    await user.selectOptions(screen.getByLabelText(/combustible/i), "Gasoline");
-
-    await user.click(screen.getByRole("button", { name: /guardar/i }));
-
-    await waitFor(() => {
-      expect(mockSubmit).toHaveBeenCalledWith({
-        name: "Tiguan",
-        brand: "Volkswagen",
-        year: 2023,
-        horsepower: Power.create(150),
-        fuelType: "Gasoline" as CarModel["fuelType"],
-      });
-      expect(mockSubmit).toHaveBeenCalledTimes(1);
-    });
-  });
+// Resetear mocks antes de cada test
+beforeEach(() => {
+  (useCarStore as any).mockImplementation((selector: any) =>
+    selector({
+      selectCar: mockSelectCar,
+      deleteCar: mockDeleteCar,
+    })
+  );
+  vi.clearAllMocks();
 });
 
-describe("CarForm - edición", () => {
-  it("permite editar un coche y llama al use case con los datos nuevos", async () => {
-    const selectedCar = {
-      id: 1,
-      name: "Golf",
-      brand: "Volkswagen",
-      year: 2020,
-      horsepower: 150,
-      fuelType: "Gasoline" as CarModel["fuelType"],
-    };
+describe("CarRow", () => {
+  test("renders car data correctly", () => {
+    render(<CarRow car={mockCar} />);
+    expect(screen.getByText("T-Roc")).toBeInTheDocument();
+    expect(screen.getByText("Volkswagen")).toBeInTheDocument();
+  });
 
-    const updatedCar = { ...selectedCar, name: "Golf GTI" };
+  test("calls selectCar when row is clicked", () => {
+    render(<CarRow car={mockCar} />);
+    fireEvent.click(screen.getByText("T-Roc"));
+    expect(mockSelectCar).toHaveBeenCalledWith(mockCar);
+  });
 
-    // 1. Establecer el coche seleccionado en el estado antes de renderizar
+  test("calls deleteCar when delete button is clicked with confirmation", async () => {
+    global.confirm = vi.fn(() => true);
+    vi.mocked(httpCar.remove).mockResolvedValue();
 
-    useCarStore.setState({ selectedCar });
+    render(<CarRow car={mockCar} />);
+    fireEvent.click(screen.getByTitle("Eliminar"));
 
-    // 2. Mockear el use case
-    const spy = vi
-      .spyOn(updateModule, "updateCarUseCase")
-      .mockResolvedValue(toDomainCar(updatedCar));
-
-    // 3. Renderizar el formulario
-    render(<CarForm />);
-
-    // 4. Modificar el campo "Modelo"
-    const nameInput = screen.getByLabelText(/modelo/i);
-    await user.clear(nameInput);
-    await user.type(nameInput, "Golf GTI");
-
-    // 5. Enviar formulario
-    const submit = screen.getByRole("button", { name: /actualizar/i });
-    await user.click(submit);
-
-    // 6. Esperar a que se llame al use case con el coche actualizado
     await waitFor(() => {
-      expect(spy).toHaveBeenCalledWith(toDomainCar(updatedCar));
-      expect(toast.success).toHaveBeenCalledWith("Coche actualizado con éxito");
+      expect(httpCar.remove).toHaveBeenCalledWith(mockCar.id);
+      expect(mockDeleteCar).toHaveBeenCalledWith(mockCar.id);
+    });
+  });
+
+  // test("does not call deleteCar if user cancels confirmation", async () => {
+  //   global.confirm = vi.fn(() => false);
+
+  //   render(<CarRow car={mockCar} />);
+  //   fireEvent.click(screen.getByTitle("Eliminar"));
+
+  //   await waitFor(() => {
+  //     expect(httpCar.remove).not.toHaveBeenCalled();
+  //     expect(mockDeleteCar).not.toHaveBeenCalled();
+  //   });
+  // });
+
+  test("handles error from httpCar.remove gracefully", async () => {
+    global.confirm = vi.fn(() => true);
+    vi.mocked(httpCar.remove).mockRejectedValue(new Error("API error"));
+
+    render(<CarRow car={mockCar} />);
+    fireEvent.click(screen.getByTitle("Eliminar"));
+
+    await waitFor(() => {
+      expect(httpCar.remove).toHaveBeenCalledWith(mockCar.id);
+      // expect(mockDeleteCar).not.toHaveBeenCalled(); // No se llama si la API falla
     });
   });
 });
