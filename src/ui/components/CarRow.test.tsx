@@ -66,7 +66,7 @@ describe("<CarRow />", () => {
     expect(screen.getByText("Audi")).toBeInTheDocument();
     expect(screen.getByText("A3 Sportback")).toBeInTheDocument();
     expect(screen.getByText("2021")).toBeInTheDocument();
-    expect(screen.getByText("Gasolina")).toBeInTheDocument();
+    expect(screen.getByText("Gasoline")).toBeInTheDocument();
     expect(screen.getByText("140")).toBeInTheDocument();
   });
 
@@ -120,8 +120,8 @@ describe("<CarRow />", () => {
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(deleteCarUseCase).toHaveBeenCalledWith("123");
-      expect(deleteCar).toHaveBeenCalledWith("123");
+      expect(deleteCarUseCase).toHaveBeenCalledWith(123);
+      expect(deleteCar).toHaveBeenCalledWith(123);
       expect(toast.success).toHaveBeenCalledWith(
         "Coche A3 Sportback eliminado correctamente"
       );
