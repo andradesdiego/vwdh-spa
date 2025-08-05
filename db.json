@@ -9,14 +9,6 @@
       "horsepower": 750
     },
     {
-      "id": "3",
-      "name": "A3 Sportback",
-      "brand": "Audi",
-      "year": 2025,
-      "fuelType": "Diesel",
-      "horsepower": 150
-    },
-    {
       "id": "4",
       "name": "Ibiza FR",
       "brand": "SEAT",
@@ -39,22 +31,6 @@
       "year": 2023,
       "fuelType": "Gasoline",
       "horsepower": 150
-    },
-    {
-      "id": "3be5",
-      "name": "Alhambra 2.0 Sport",
-      "brand": "SEAT",
-      "year": 2024,
-      "fuelType": "Gasoline",
-      "horsepower": 240
-    },
-    {
-      "id": "0164",
-      "name": "311 Carrera",
-      "brand": "Porsche",
-      "year": 2021,
-      "fuelType": "Gasoline",
-      "horsepower": 370
     },
     {
       "id": "088e",

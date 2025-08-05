@@ -12,20 +12,19 @@ export function CarRow({ car }: Props) {
   const selectCar = useCarStore((s) => s.selectCar);
   const deleteCar = useCarStore((s) => s.deleteCar);
   const selectedCar = useCarStore((s) => s.selectedCar);
+  const showConfirmDialog = useCarStore((s) => s.showConfirmDialog);
 
-  const handleDelete = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const confirmDelete = confirm(`¿Eliminar ${car.name}?`);
-    if (!confirmDelete) return;
-
-    try {
-      await deleteCarUseCase(car.id);
-      deleteCar(car.id);
-      toast.success(`Coche ${car.name} eliminado correctamente`);
-    } catch (error) {
-      console.error("Error al eliminar el coche:", error);
-      toast.error(`Error al eliminar ${car.name}`);
-    }
+  const handleDelete = () => {
+    showConfirmDialog(`¿Eliminar ${car.name}?`, async () => {
+      try {
+        await deleteCarUseCase(car.id);
+        deleteCar(car.id);
+        toast.success(`Coche ${car.name} eliminado correctamente`);
+      } catch (error) {
+        console.error("Error al eliminar:", error);
+        toast.error("Error al eliminar el coche");
+      }
+    });
   };
 
   return (
@@ -47,8 +46,11 @@ export function CarRow({ car }: Props) {
       <td className="p-3">{car.horsepower}</td>
       <td className="p-3 flex justify-center">
         <button
-          onClick={handleDelete}
-          className="text-red-600 hover:text-red-400 text-sm transition-colors"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete();
+          }}
+          className="text-red-600 hover:text-red-400 text-sm"
           title="Eliminar"
         >
           🗑️

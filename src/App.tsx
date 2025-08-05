@@ -1,17 +1,14 @@
 import CarListPage from "@/ui/pages/CarListPage";
-import { Toaster } from "react-hot-toast";
-import Footer from "./ui/components/Footer";
+import { AppLayout, GlobalConfirmDialog } from "./Layout";
 
 function App() {
   return (
     <div className="flex flex-col h-screen justify-between bg-gray-900 min-h-screen text-white">
-      <Toaster position="top-right" />
-      <main className="">
+      <AppLayout>
         <CarListPage />
-      </main>
-      <Footer />
+        <GlobalConfirmDialog />
+      </AppLayout>
     </div>
   );
 }
-
 export default App;
