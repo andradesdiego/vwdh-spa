@@ -25,14 +25,14 @@ export default function CarListPage() {
 
   return (
     <div className="bg-gray-900 lg:mx-12 pb-4">
-      <div className="flex flex-col lg:flex-row space-y-4 justify-between items-center mb-6 sticky top-0 z-10 bg-gray-900 py-6 border-b border-gray-500">
+      <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 justify-between items-center sticky top-0 z-10 bg-gray-900 py-6 border-b border-gray-500">
         <div className="flex flex-col lg:flex-row items-center justify-center lg:space-x-12 space-y-2 lg:space-y-0">
           <img
             className="w-48 lg:w-72"
             src="https://assets.vw-mms.de/assets/images/cws/volkswagen_group_logo-YD6OYBJM.svg"
             alt="vw group logo"
           ></img>
-          <h1 className="hidden md:inline-flex text-xl text-gray-100 font-bold">
+          <h1 className="hidden lg:inline-flex text-xl text-gray-100 font-bold">
             Catálogo Grupo Volkswagen
           </h1>
         </div>
