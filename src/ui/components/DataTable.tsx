@@ -53,7 +53,7 @@ export function DataTable() {
     sortKey === key ? (sortDirection === "asc" ? "↑" : "↓") : "";
 
   return (
-    <div className="space-y-6 px-4 lg:px-0">
+    <div className="space-y-6 px-4 lg:px-0 h-full">
       <label htmlFor="search" className="sr-only">
         Buscar coches
       </label>
@@ -71,12 +71,12 @@ export function DataTable() {
         <div
           className={`${
             !selectedCar
-              ? "min-w-full h-96 overflow-auto"
+              ? "min-w-full h-screen overflow-auto"
               : "w-3/4 flex-2 mr-4 h-96 overflow-auto"
           }`}
         >
           <table className="min-w-full text-left border-collapse">
-            <thead className="text-sm text-gray-50 sticky top-0 z-10">
+            <thead className="text-sm text-gray-50 sticky top-0 z-9">
               <tr className="bg-gray-800 font-semibold text-gray-50">
                 {[
                   ["brand", "Marca"],
@@ -143,12 +143,6 @@ export function DataTable() {
         {/* Mobile: ficha encima de tabla en modo modal deslizante */}
         {selectedCar && (
           <div className="lg:hidden fixed inset-0 z-40 bg-gray-900 overflow-auto px-4 py-6 animate-slide-in">
-            {/* <button
-              onClick={() => useCarStore.getState().clearSelection()}
-              className="mb-4 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
-            >
-              Cerrar
-            </button> */}
             <div className="flex flex-col space-y-12">
               <button
                 onClick={clearSelection}

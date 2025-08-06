@@ -6,9 +6,9 @@ import { ConfirmDialog } from "@/ui/components/ConfirmDialog";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col h-screen justify-between bg-gray-900 min-h-screen text-white">
+    <div className="flex flex-col min-h-screen justify-between bg-gray-900 text-white">
       <Toaster position="top-right" />
-      <main className="flex-1">{children}</main>
+      <main className="flex-grow">{children}</main>
       <Footer />
     </div>
   );
