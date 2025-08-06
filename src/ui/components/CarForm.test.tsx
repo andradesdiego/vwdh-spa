@@ -135,7 +135,7 @@ describe("CarRow", () => {
     );
     fireEvent.click(screen.getByTitle("Eliminar"));
     expect(mockShowConfirmDialog).toHaveBeenCalledWith(
-      expect.stringContaining("¿Eliminar T-Roc?"),
+      expect.stringContaining("¿Eliminar Volkswagen T-Roc?"),
       expect.any(Function)
     );
   });

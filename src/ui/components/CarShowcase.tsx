@@ -2,6 +2,7 @@ import type { CarDTO } from "@/infrastructure/dto/carDTO";
 import { useCarStore } from "@/state/useCarStore";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
+import Button from "./Button";
 
 type Props = {
   car: CarDTO;
@@ -41,12 +42,14 @@ export function CarShowcase({ car }: Props) {
           <strong>Combustible:</strong> {car.fuelType}
         </p>
         <div className="flex justify-center">
-          <button
-            onClick={openForm}
-            className="mt-4 px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
-          >
-            Editar
-          </button>
+          <div className="flex gap-4">
+            <Button onClick={openForm} variant="primary" text="Editar" />
+            <Button
+              onClick={clearSelection}
+              variant="secondary"
+              text="Cerrar"
+            />
+          </div>
         </div>
       </div>
     </motion.div>

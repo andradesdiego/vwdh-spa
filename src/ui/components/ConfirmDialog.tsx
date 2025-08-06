@@ -1,6 +1,7 @@
 import { on } from "events";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
+import Button from "./Button";
 
 interface ConfirmDialogProps {
   title?: string;
@@ -38,21 +39,13 @@ export function ConfirmDialog({
           exit={{ scale: 0.95, opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
-          <h2 className="text-lg text-gray-200 font-semibold">{title}</h2>
-          <p className="text-gray-100">{message}</p>
-          <div className="flex justify-end gap-4 mt-6">
-            <button
-              onClick={onCancel}
-              className="px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={onConfirm}
-              className="px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700"
-            >
-              Confirmar
-            </button>
+          <div className="flex flex-col justify-center text-center mb-6">
+            <h2 className="text-lg text-gray-200 font-semibold">{title}</h2>
+            <p className="text-gray-100">{message}</p>
+          </div>
+          <div className="flex justify-center gap-4 mt-6">
+            <Button onClick={onConfirm} variant="primary" text="Confirmar" />
+            <Button onClick={onCancel} variant="secondary" text="Cancelar" />
           </div>
         </motion.div>
       </motion.div>

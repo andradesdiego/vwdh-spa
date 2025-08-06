@@ -17,7 +17,7 @@ export function CarRow({ car }: Props) {
   const showConfirmDialog = useCarStore((s) => s.showConfirmDialog);
 
   const handleDelete = () => {
-    showConfirmDialog(`¿Eliminar ${car.name}?`, async () => {
+    showConfirmDialog(`¿Eliminar ${car.brand} ${car.name}?`, async () => {
       try {
         await deleteCarUseCase(car.id);
         deleteCar(car.id);

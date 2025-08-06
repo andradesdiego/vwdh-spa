@@ -6,6 +6,7 @@ import { CarForm } from "@/ui/components/CarForm";
 import { Modal } from "@/ui/components/Modal";
 import toast from "react-hot-toast";
 import { toCarDTO } from "@/infrastructure/dto/carDTO";
+import Button from "../components/Button";
 
 export default function CarListPage() {
   const setCars = useCarStore((state) => state.setCars);
@@ -37,12 +38,7 @@ export default function CarListPage() {
           </h1>
         </div>
         {!selectedCar && (
-          <button
-            onClick={openForm}
-            className="px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 text-sm font-semibold shadow-md hover:text-white"
-          >
-            Añadir coche
-          </button>
+          <Button onClick={openForm} variant="primary" text="Añadir coche" />
         )}
       </div>
       <DataTable />

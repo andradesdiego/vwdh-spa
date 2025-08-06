@@ -98,7 +98,7 @@ describe("<CarRow />", () => {
     fireEvent.click(deleteButton);
 
     expect(showConfirmDialog).toHaveBeenCalledWith(
-      expect.stringContaining("¿Eliminar A3 Sportback?"),
+      expect.stringContaining("¿Eliminar Audi A3 Sportback?"),
       expect.any(Function)
     );
   });

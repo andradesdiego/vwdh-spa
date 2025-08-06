@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { updateCarUseCase } from "@/application/use-cases/updateCarUseCase";
 import { Power } from "@/domain/value-objects/Power";
 import { toCarDTO } from "@/infrastructure/dto/carDTO";
+import Button from "./Button";
 
 interface CarFormProps {
   onSubmit?: (data: Partial<CarModel>) => void;
@@ -22,7 +23,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
     brand: "",
     year: "",
     fuelType: "Gasoline",
-    horsepower: "", // mantener como string para facilitar el binding
+    horsepower: "",
   });
 
   const resetForm = () => {
@@ -107,7 +108,6 @@ export function CarForm({ onSubmit }: CarFormProps) {
           : "Añadir nuevo coche"}
       </h2>
 
-      {/* Agrupamos los campos en un fieldset */}
       <fieldset
         className="space-y-4 gap-2 p-2 rounded"
         aria-describedby="form-description"
@@ -116,7 +116,6 @@ export function CarForm({ onSubmit }: CarFormProps) {
           Formulario para crear o editar un coche
         </legend>
 
-        {/* Marca */}
         <label htmlFor="brand" className="block text-sm text-white">
           Marca
         </label>
@@ -132,7 +131,6 @@ export function CarForm({ onSubmit }: CarFormProps) {
           required
         />
 
-        {/* Modelo */}
         <label htmlFor="name" className="block text-sm text-white">
           Modelo
         </label>
@@ -147,7 +145,6 @@ export function CarForm({ onSubmit }: CarFormProps) {
           required
         />
 
-        {/* Año */}
         <label htmlFor="year" className="block text-sm text-white">
           Año
         </label>
@@ -164,7 +161,6 @@ export function CarForm({ onSubmit }: CarFormProps) {
           max={new Date().getFullYear()}
         />
 
-        {/* Potencia */}
         <label htmlFor="horsepower" className="block text-sm text-white">
           Potencia (CV)
         </label>
@@ -180,7 +176,6 @@ export function CarForm({ onSubmit }: CarFormProps) {
           min="30"
         />
 
-        {/* Combustible */}
         <label htmlFor="fuelType" className="block text-sm text-white">
           Tipo de combustible
         </label>
@@ -203,18 +198,12 @@ export function CarForm({ onSubmit }: CarFormProps) {
       <div className="flex gap-4 justify-center py-2 text-xs lg:text-sm">
         <button
           type="submit"
-          className="px-4 py-2 bg-secondary text-brand rounded hover:bg-sec_hover transition-colors duration-200 font-semibold shadow-md hover:text-white"
+          className="px-4 py-2 bg-secondary text-brand border rounded border-secondary hover:bg-gray-700 hover:border-secondary hover:text-secondary transition-colors duration-200 text-sm font-semibold shadow-md"
         >
           {selectedCar ? "Actualizar" : "Guardar"}
         </button>
 
-        <button
-          type="button"
-          onClick={closeForm}
-          className="px-4 py-2 bg-gray-800 text-white shadow-md rounded hover:bg-gray-700 border border-secondary"
-        >
-          Cerrar
-        </button>
+        <Button onClick={closeForm} variant="secondary" text="Cerrar" />
       </div>
     </form>
   );
