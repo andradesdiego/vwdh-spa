@@ -9,7 +9,7 @@ describe("Power Value Object", () => {
 
   it("should convert horsepower to kilowatts correctly", () => {
     const power = Power.create(100);
-    expect(power.toKilowatts()).toBeCloseTo(73.55, 2); // redondeo a 2 decimales
+    expect(power.toKilowatts()).toBeCloseTo(73.55, 2);
   });
 
   it("should throw an error if value is zero or negative", () => {

@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { ConfirmDialog } from "./ConfirmDialog";
 
-// Helpers para props comunes
 const defaultProps = {
   message: "¿Estás seguro de eliminar esto?",
   onConfirm: vi.fn(),

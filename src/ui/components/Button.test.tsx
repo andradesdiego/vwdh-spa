@@ -19,7 +19,7 @@ describe("Button Component", () => {
     expect(button).toHaveClass("border-secondary");
   });
 
-  it('should apply secondary variant styles when "secondary" is passed as variant', () => {
+  it("should apply secondary variant styles when 'secondary' is passed as variant", () => {
     render(<Button onClick={() => {}} variant="secondary" />);
 
     const button = screen.getByRole("button");

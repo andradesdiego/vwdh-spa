@@ -26,7 +26,7 @@ Before getting started, ensure you have:
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/your-username/vwdh-spa.git
+git clone https://github.com/andradesdiego/vwdh-spa.git
 cd vwdh-spa
 npm install
 ```
@@ -37,11 +37,17 @@ To start the development server:
 npm run dev
 ```
 
+To start the development api:
+
+```bash
+npm run api
+```
+
 ---
 
 ## 🔀 Git Workflow
 
-1. Create a new branch from `main`:
+1. Create a new branch from `master`:
 
 ```bash
 git checkout -b feature/your-feature-name

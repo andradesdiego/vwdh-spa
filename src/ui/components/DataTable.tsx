@@ -135,12 +135,12 @@ export function DataTable() {
             </tbody>
           </table>
         </div>
-        {/* Desktop: panel lateral */}
+        {/* Desktop: side panel */}
         <div className="hidden lg:block w-1/3 pl-4">
           {selectedCar && <CarShowcase car={selectedCar} />}
         </div>
 
-        {/* Mobile: ficha encima de tabla en modo modal deslizante */}
+        {/* Mobile: card above table in sliding modal mode */}
         {selectedCar && (
           <div className="lg:hidden fixed inset-0 z-40 bg-gray-900 overflow-auto px-4 py-6 animate-slide-in">
             <div className="flex flex-col space-y-12">

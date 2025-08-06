@@ -1,8 +1,8 @@
-# VW Digital:Hub DDD React App
+# VW Digital:Hub | DDD React SPA
 
 ## 📦 Project Overview
 
-This project is a front-end web application simulating a car catalogue for the Volkswagen Group. It follows Domain-Driven Design (DDD) principles and is built using React, TypeScript, Vite, TailwindCSS, and Zustand for state management. The app includes full CRUD operations powered by a mock API via JSON Server.
+This project is a front-end web application (SPA) simulating a car catalogue for the Volkswagen Group. It follows Domain-Driven Design (DDD) principles and is built using React, TypeScript, Vite, TailwindCSS, and Zustand for state management. The app includes full CRUD operations powered by a mock API via JSON Server.
 
 ## 🚀 Features
 

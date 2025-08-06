@@ -7,7 +7,6 @@ import { CarModel } from "@/domain/models/CarModel";
 import userEvent from "@testing-library/user-event";
 import { Power } from "@/domain/value-objects/Power";
 
-// Mock de coches
 const mockCars: CarModel[] = [
   {
     id: 1,
@@ -33,7 +32,6 @@ vi.mock("@/application/use-cases/fetchCarsUseCase", () => ({
 
 describe("CarListPage", () => {
   beforeEach(() => {
-    // Reset Zustand entre tests
     useCarStore.setState({
       cars: [],
       selectedCar: undefined,
@@ -44,7 +42,6 @@ describe("CarListPage", () => {
       closeForm: () => useCarStore.setState({ isFormOpen: false }),
     });
 
-    // Mockear la llamada al use case
     vi.mocked(fetchUseCase.fetchCarsUseCase).mockResolvedValue(mockCars);
   });
 
@@ -54,7 +51,6 @@ describe("CarListPage", () => {
     await waitFor(() => {
       expect(screen.getByText("Golf")).toBeInTheDocument();
       expect(screen.getByText("Ibiza")).toBeInTheDocument();
-      // expect(screen.getByText("Catálogo Grupo Volkswagen")).toBeInTheDocument();
     });
   });
 
@@ -64,10 +60,9 @@ describe("CarListPage", () => {
     const button = screen.getByRole("button", { name: /añadir coche/i });
     await userEvent.click(button);
 
-    // El formulario está dentro del modal
     await waitFor(() => {
       expect(screen.getByRole("dialog")).toBeInTheDocument();
-      expect(screen.getByPlaceholderText(/Ej: Golf/i)).toBeInTheDocument(); // input del CarForm
+      expect(screen.getByPlaceholderText(/Ej: Golf/i)).toBeInTheDocument();
     });
   });
 });
