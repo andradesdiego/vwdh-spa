@@ -16,11 +16,11 @@ export default function CarListPage() {
   const selectedCar = useCarStore((s) => s.selectedCar);
   useEffect(() => {
     fetchCarsUseCase()
-      .then((cars) => setCars(cars.map(toCarDTO))) // ✅ conversión aquí
+      .then((cars) => setCars(cars.map(toCarDTO)))
       .catch((err) => {
         console.error("Failed to load cars:", err);
         toast.error("Error al cargar los coches");
-        setCars([]); // Limpia la lista en caso de error
+        setCars([]);
       });
   }, [setCars]);
 

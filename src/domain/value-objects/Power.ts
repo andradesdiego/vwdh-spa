@@ -13,7 +13,7 @@ export class Power {
   }
 
   toKilowatts(): number {
-    return Math.round(this.value * 0.7355 * 100) / 100; // redondea a 2 decimales
+    return Math.round(this.value * 0.7355 * 100) / 100;
   }
 
   equals(other: Power): boolean {

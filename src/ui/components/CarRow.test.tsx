@@ -105,7 +105,7 @@ describe("<CarRow />", () => {
 
   it("ejecuta deleteCarUseCase y muestra toast de éxito si se confirma", async () => {
     const confirmCallback = vi.fn();
-    showConfirmDialog.mockImplementation((msg, cb) => cb()); // Ejecuta la callback directamente
+    showConfirmDialog.mockImplementation((msg, cb) => cb());
     (deleteCarUseCase as any).mockResolvedValueOnce(undefined);
 
     render(

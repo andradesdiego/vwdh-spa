@@ -66,7 +66,7 @@ describe("http.car", () => {
       "http://localhost:4000/cars/1",
       expect.objectContaining({
         method: "PUT",
-        body: JSON.stringify(dto), // ✅ importante
+        body: JSON.stringify(dto),
         headers: {
           "Content-Type": "application/json",
         },

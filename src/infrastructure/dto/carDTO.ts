@@ -11,7 +11,7 @@ export type CarDTO = {
 };
 
 /**
- * Convierte un DTO plano a un modelo de dominio con VO Power
+ * Convert a flat DTO to a domain model with VO Power
  */
 export function toDomainCar(dto: CarDTO): CarModel {
   return {
@@ -25,7 +25,7 @@ export function toDomainCar(dto: CarDTO): CarModel {
 }
 
 /**
- * Convierte un modelo de dominio a un DTO plano para persistencia
+ * Converts a domain model to a flat DTO for persistence
  */
 export function toCarDTO(car: CarModel): CarDTO {
   return {

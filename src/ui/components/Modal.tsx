@@ -15,7 +15,7 @@ export function Modal({ children, onClose }: ModalProps) {
     }
   };
 
-  // Cerrar con ESC
+  // close ESC
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
