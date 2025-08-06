@@ -1,4 +1,4 @@
-# Volkswagen DDD React App
+# VW Digital:Hub DDD React App
 
 ## 📦 Project Overview
 
