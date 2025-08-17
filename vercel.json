@@ -6,10 +6,7 @@
     "API_URL": "https://vwdh.vercel.app/api"
   },
   "builds": [
-    {
-      "src": "src/infrastructure/api/**/*.ts",
-      "use": "@vercel/node"
-    }
+    { "src": "src/infrastructure/api/**/*.ts", "use": "@vercel/node" }
   ],
   "functions": {
     "src/infrastructure/api/**/*.ts": {

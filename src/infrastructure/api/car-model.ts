@@ -1,9 +1,13 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
-import { Power } from "../../domain/value-objects/Power";
-import { CarDTO, toCarDTO, toDomainCar } from "../../infrastructure/dto/carDTO";
-import { CarModel } from "../../domain/models/CarModel";
+import { Power } from "../../domain/value-objects/Power.js";
+import {
+  CarDTO,
+  toCarDTO,
+  toDomainCar,
+} from "../../infrastructure/dto/carDTO.js";
+import { CarModel } from "../../domain/models/CarModel.js";
 
 // --- Carga segura del JSON con guardas y logs:
 function loadDB() {
