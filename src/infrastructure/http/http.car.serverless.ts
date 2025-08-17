@@ -1,7 +1,7 @@
 import { CarDTO } from "@/infrastructure/dto/carDTO";
 
-// const BASE_URL = "https://vwdh.vercel.app/api/car-models";
-const BASE_URL = "http://localhost:3000/api/car-models";
+const BASE_URL = "https://vwdh.vercel.app/api/car-model";
+// const BASE_URL = "http://localhost:4173/api/car-model";
 
 export async function getAll(): Promise<CarDTO[]> {
   const res = await fetch(BASE_URL);
