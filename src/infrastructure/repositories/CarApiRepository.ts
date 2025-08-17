@@ -1,6 +1,6 @@
 import { CarModel } from "@/domain/models/CarModel";
 import { CarRepository } from "@/domain/repositories/CarRepository";
-import * as http from "../http/http.car";
+import * as http from "../http/";
 import { toCarDTO, toDomainCar } from "@/infrastructure/dto/carDTO";
 
 export const CarApiRepository: CarRepository = {
