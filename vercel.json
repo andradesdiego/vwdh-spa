@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "vwdh",
+  "name": "vwdh-spa",
   "env": {
     "NODE_ENV": "production",
     "API_URL": "https://vwdh.vercel.app/api"
@@ -10,12 +10,11 @@
   ],
   "functions": {
     "src/infrastructure/api/**/*.ts": {
-      "includeFiles": ["db.json"]
+      "includeFiles": "db.json"
     }
   },
   "routes": [
     { "src": "^/api/(.*)$", "dest": "src/infrastructure/api/$1.ts" },
-
     { "handle": "filesystem" },
     { "src": "^(?!/api/).*", "dest": "/index.html" }
   ]
