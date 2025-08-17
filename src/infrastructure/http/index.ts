@@ -1,14 +1,37 @@
-let http: typeof import("./http.car");
+import type * as Http from "./http.car";
+import type * as HttpServerless from "./http.car.serverless";
 
-if (process.env.NODE_ENV === "production") {
-  console.log("Using serverless HTTP client");
+let http: typeof Http | typeof HttpServerless | undefined;
 
-  http = await import("./http.car.serverless");
-} else {
-  http = await import("./http.car");
+async function getHttp() {
+  if (!http) {
+    if (import.meta.env.MODE === "production") {
+      console.log("Using serverless HTTP client");
+      http = await import("./http.car.serverless");
+    } else {
+      console.log("Using local JSON Server HTTP client");
+      http = await import("./http.car");
+    }
+  }
+  return http;
 }
 
-export const getAll = http.getAll;
-export const create = http.create;
-export const update = http.update;
-export const remove = http.remove;
+export async function getAll() {
+  const client = await getHttp();
+  return client.getAll();
+}
+
+export async function create(dto: any) {
+  const client = await getHttp();
+  return client.create(dto);
+}
+
+export async function update(dto: any) {
+  const client = await getHttp();
+  return client.update(dto);
+}
+
+export async function remove(id: number) {
+  const client = await getHttp();
+  return client.remove(id);
+}
