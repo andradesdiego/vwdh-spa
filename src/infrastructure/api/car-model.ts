@@ -1,16 +1,15 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import { Power } from "@/domain/value-objects/Power";
-import { CarDTO, toCarDTO, toDomainCar } from "@/infrastructure/dto/carDTO";
-import { CarModel } from "@/domain/models/CarModel";
-
 import { readFileSync } from "fs";
-import path from "path";
+import { join } from "path";
+import { Power } from "../../domain/value-objects/Power";
+import { CarDTO, toCarDTO, toDomainCar } from "../../infrastructure/dto/carDTO";
+import { CarModel } from "../../domain/models/CarModel";
 
-const dbPath = path.resolve(__dirname, "../../../db.json");
-const rawData = readFileSync(dbPath, "utf8");
+// Cargar base de datos simulada desde db.json
+const dbPath = join(process.cwd(), "db.json");
+const rawData = readFileSync(dbPath, "utf-8");
 const carsDB = JSON.parse(rawData);
 
-// // Simulamos una "base de datos" en memoria
 let cars: CarModel[] = (carsDB.cars as CarDTO[]).map(toDomainCar);
 
 export default function handler(req: VercelRequest, res: VercelResponse) {

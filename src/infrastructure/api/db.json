@@ -1,0 +1,84 @@
+{
+  "cars": [
+    {
+      "id": 1,
+      "name": "Taycan Turbo S",
+      "brand": "Porsche",
+      "year": 2024,
+      "fuelType": "Electric",
+      "horsepower": 750
+    },
+    {
+      "id": 2,
+      "name": "Ibiza FR",
+      "brand": "SEAT",
+      "year": 2022,
+      "fuelType": "Gasoline",
+      "horsepower": 110
+    },
+    {
+      "id": 3,
+      "name": "Enyaq iV",
+      "brand": "Škoda",
+      "year": 2023,
+      "fuelType": "Electric",
+      "horsepower": 204
+    },
+    {
+      "id": 4,
+      "name": "Tiguan",
+      "brand": "Volkswagen",
+      "year": 2023,
+      "fuelType": "Gasoline",
+      "horsepower": 150
+    },
+    {
+      "id": 5,
+      "name": "Tourbillon",
+      "brand": "Bugatti",
+      "year": 2026,
+      "fuelType": "Hybrid",
+      "horsepower": 1800
+    },
+    {
+      "id": 6,
+      "name": "A4 Avant SLine ",
+      "brand": "Audi",
+      "year": 2020,
+      "fuelType": "Diesel",
+      "horsepower": 150
+    },
+    {
+      "id": 7,
+      "name": "A3 Sportback",
+      "brand": "Audi",
+      "year": 2023,
+      "fuelType": "Gasoline",
+      "horsepower": 140
+    },
+    {
+      "id": 8,
+      "name": "Alhambra Sport ",
+      "brand": "SEAT",
+      "year": 2024,
+      "fuelType": "Gasoline",
+      "horsepower": 240
+    },
+    {
+      "id": 9,
+      "name": "311 Carrera S",
+      "brand": "Porsche",
+      "year": 2023,
+      "fuelType": "Gasoline",
+      "horsepower": 375
+    },
+    {
+      "id": 10,
+      "name": "Revuelto",
+      "brand": "Lamborghini",
+      "year": 2025,
+      "fuelType": "Hybrid",
+      "horsepower": 1015
+    }
+  ]
+}
