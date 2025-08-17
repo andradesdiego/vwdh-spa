@@ -1,7 +1,7 @@
 {
   "cars": [
     {
-      "id": "2",
+      "id": 1,
       "name": "Taycan Turbo S",
       "brand": "Porsche",
       "year": 2024,
@@ -9,7 +9,7 @@
       "horsepower": 750
     },
     {
-      "id": "4",
+      "id": 2,
       "name": "Ibiza FR",
       "brand": "SEAT",
       "year": 2022,
@@ -17,7 +17,7 @@
       "horsepower": 110
     },
     {
-      "id": "5",
+      "id": 3,
       "name": "Enyaq iV",
       "brand": "Škoda",
       "year": 2023,
@@ -25,7 +25,7 @@
       "horsepower": 204
     },
     {
-      "id": "7961",
+      "id": 4,
       "name": "Tiguan",
       "brand": "Volkswagen",
       "year": 2023,
@@ -33,7 +33,7 @@
       "horsepower": 150
     },
     {
-      "id": "088e",
+      "id": 5,
       "name": "Tourbillon",
       "brand": "Bugatti",
       "year": 2026,
@@ -41,7 +41,7 @@
       "horsepower": 1800
     },
     {
-      "id": "65ff",
+      "id": 6,
       "name": "A4 Avant SLine ",
       "brand": "Audi",
       "year": 2020,
@@ -49,7 +49,7 @@
       "horsepower": 150
     },
     {
-      "id": "8b5d",
+      "id": 7,
       "name": "A3 Sportback",
       "brand": "Audi",
       "year": 2023,
@@ -57,7 +57,7 @@
       "horsepower": 140
     },
     {
-      "id": "6da4",
+      "id": 8,
       "name": "Alhambra Sport ",
       "brand": "SEAT",
       "year": 2024,
@@ -65,7 +65,7 @@
       "horsepower": 240
     },
     {
-      "id": "35f5",
+      "id": 9,
       "name": "311 Carrera S",
       "brand": "Porsche",
       "year": 2023,
@@ -73,7 +73,7 @@
       "horsepower": 375
     },
     {
-      "id": "e2fc",
+      "id": 10,
       "name": "Revuelto",
       "brand": "Lamborghini",
       "year": 2025,
