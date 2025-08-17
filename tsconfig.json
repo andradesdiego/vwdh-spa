@@ -9,10 +9,10 @@
     "lib": ["DOM", "ES2020"],
     "jsx": "react-jsx",
     "strict": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["api/**/*", "src"]
+  "include": ["src"]
 }
