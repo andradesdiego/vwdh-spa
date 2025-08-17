@@ -4,13 +4,7 @@
   "alias": "vwdh-spa",
   "env": {
     "NODE_ENV": "production",
-    "API_URL": "https://vwdh-spa.vercel.app/api"
-  },
-  "regions": ["all"],
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "nodejs22.x"
-    }
+    "API_URL": "https://vwdh.vercel.app/api"
   },
   "builds": [
     {
