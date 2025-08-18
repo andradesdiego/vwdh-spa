@@ -1,16 +1,18 @@
-import { VercelRequest, VercelResponse } from "@vercel/node";
-import { Power } from "@/domain/value-objects/Power";
-import { CarDTO, toCarDTO, toDomainCar } from "@/infrastructure/dto/carDTO";
-import { CarModel } from "@/domain/models/CarModel";
+// api/car-model.ts  (o donde tengas la function)
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+
+import { Power } from "../../domain/value-objects/Power";
+import { CarDTO, toCarDTO, toDomainCar } from "../dto/carDTO";
+import { CarModel } from "../../domain/models/CarModel";
 
 import { readFileSync } from "fs";
 import path from "path";
 
-const dbPath = path.resolve(__dirname, "../../../db.json");
+// __dirname no existe en ESM; usa process.cwd() o import.meta.url
+const dbPath = path.join(process.cwd(), "db.json");
 const rawData = readFileSync(dbPath, "utf8");
 const carsDB = JSON.parse(rawData);
 
-// // Simulamos una "base de datos" en memoria
 let cars: CarModel[] = (carsDB.cars as CarDTO[]).map(toDomainCar);
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
