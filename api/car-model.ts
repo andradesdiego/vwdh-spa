@@ -1,37 +1,41 @@
-// api/car-model.ts  (o donde tengas la function)
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-import { Power } from "../../domain/value-objects/Power";
-import { CarDTO, toCarDTO, toDomainCar } from "../dto/carDTO";
-import { CarModel } from "../../domain/models/CarModel";
+import { Power } from "../src/domain/value-objects/Power";
+import {
+  CarDTO,
+  toCarDTO,
+  toDomainCar,
+} from "../src/infrastructure/dto/carDTO";
+import { CarModel } from "../src/domain/models/CarModel";
 
 import { readFileSync } from "fs";
 import path from "path";
 
-// __dirname no existe en ESM; usa process.cwd() o import.meta.url
+// En runtime serverless, usa process.cwd() para resolver archivos del proyecto.
+// db.json debe estar en la raíz y ser incluido vía vercel.json -> functions.includeFiles
 const dbPath = path.join(process.cwd(), "db.json");
 const rawData = readFileSync(dbPath, "utf8");
-const carsDB = JSON.parse(rawData);
+const carsDB = JSON.parse(rawData) as { cars: CarDTO[] };
 
-let cars: CarModel[] = (carsDB.cars as CarDTO[]).map(toDomainCar);
+// "Base de datos" en memoria (se reinicia entre despliegues/instancias)
+let cars: CarModel[] = (carsDB.cars ?? []).map(toDomainCar);
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   const { method, query, body } = req;
-  const id = query.id ? parseInt(query.id as string) : undefined;
+  const id = query.id ? parseInt(query.id as string, 10) : undefined;
 
   switch (method) {
-    case "GET":
-      if (id) {
+    case "GET": {
+      if (id != null && !Number.isNaN(id)) {
         const car = cars.find((c) => c.id === id);
-        car
+        return car
           ? res.status(200).json(toCarDTO(car))
           : res.status(404).json({ error: "Not found" });
-      } else {
-        res.status(200).json(cars.map(toCarDTO));
       }
-      break;
+      return res.status(200).json(cars.map(toCarDTO));
+    }
 
-    case "POST":
+    case "POST": {
       try {
         const newCar: CarModel = {
           id: Date.now(),
@@ -42,14 +46,16 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
           horsepower: Power.create(body.horsepower),
         };
         cars.push(newCar);
-        res.status(201).json(toCarDTO(newCar));
+        return res.status(201).json(toCarDTO(newCar));
       } catch (error: any) {
-        res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
       }
-      break;
+    }
 
-    case "PUT":
-      if (!id) return res.status(400).json({ error: "ID required" });
+    case "PUT": {
+      if (!id || Number.isNaN(id))
+        return res.status(400).json({ error: "ID required" });
+
       const index = cars.findIndex((c) => c.id === id);
       if (index === -1) return res.status(404).json({ error: "Not found" });
 
@@ -62,20 +68,22 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
             : cars[index].horsepower,
         };
         cars[index] = updated;
-        res.status(200).json(toCarDTO(updated));
+        return res.status(200).json(toCarDTO(updated));
       } catch (error: any) {
-        res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
       }
-      break;
+    }
 
-    case "DELETE":
-      if (!id) return res.status(400).json({ error: "ID required" });
+    case "DELETE": {
+      if (!id || Number.isNaN(id))
+        return res.status(400).json({ error: "ID required" });
       cars = cars.filter((c) => c.id !== id);
-      res.status(204).end();
-      break;
+      return res.status(204).end();
+    }
 
-    default:
+    default: {
       res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
-      res.status(405).end(`Method ${method} Not Allowed`);
+      return res.status(405).end(`Method ${method} Not Allowed`);
+    }
   }
 }

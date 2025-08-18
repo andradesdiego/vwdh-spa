@@ -5,12 +5,9 @@
     "NODE_ENV": "production",
     "API_URL": "https://vwdh.vercel.app/api"
   },
-  "builds": [
-    {
-      "src": "src/infrastructure/api/**/*.ts",
-      "use": "@vercel/node@3.0.0",
-      "config": { "includeFiles": ["db.json"] }
+  "functions": {
+    "api/**/*.ts": {
+      "includeFiles": "db.json"
     }
-  ],
-  "routes": [{ "src": "^/api/(.*)$", "dest": "src/infrastructure/api/$1.ts" }]
+  }
 }
