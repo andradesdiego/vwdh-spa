@@ -4,5 +4,6 @@
     "api/**/*.ts": {
       "includeFiles": "db.json"
     }
-  }
+  },
+  "routes": [{ "src": "^/api/cars/(\\d+)/?$", "dest": "/api/cars?id=$1" }]
 }
