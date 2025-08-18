@@ -28,7 +28,7 @@ describe("http.car", () => {
 
     const result = await httpCar.getAll();
     expect(result).toEqual([mockCar]);
-    expect(fetch).toHaveBeenCalledWith("http://localhost:4000/cars");
+    expect(fetch).toHaveBeenCalledWith("/api/cars");
   });
 
   test("create() envía POST con datos", async () => {
@@ -42,7 +42,7 @@ describe("http.car", () => {
     const result = await httpCar.create(newCar as any);
     expect(result).toEqual(mockCar);
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:4000/cars",
+      "/api/cars",
       expect.objectContaining({
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -63,7 +63,7 @@ describe("http.car", () => {
 
     expect(result).toEqual(mockCar);
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:4000/cars/1",
+      "/api/cars/1",
       expect.objectContaining({
         method: "PUT",
         body: JSON.stringify(dto),
@@ -78,7 +78,7 @@ describe("http.car", () => {
     vi.mocked(fetch).mockResolvedValue({ ok: true } as Response);
 
     await httpCar.remove(1);
-    expect(fetch).toHaveBeenCalledWith("http://localhost:4000/cars/1", {
+    expect(fetch).toHaveBeenCalledWith("/api/cars/1", {
       method: "DELETE",
     });
   });

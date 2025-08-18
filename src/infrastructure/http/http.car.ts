@@ -1,14 +1,17 @@
 import type { CarModel } from "@/domain/models/CarModel";
 import { CarDTO } from "../dto/carDTO";
 
-const API_URL = "http://localhost:4000/cars";
+const baseURL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:4000" // JSON Server local
+    : "/api"; // Vercel Function en PROD
 
 /**
  * GET /cars
  */
 export async function getAll(): Promise<CarDTO[]> {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(`${baseURL}/cars`);
     if (!res.ok) throw new Error("Error al obtener los coches");
     return await res.json();
   } catch (err) {
@@ -22,7 +25,7 @@ export async function getAll(): Promise<CarDTO[]> {
  */
 export async function create(car: CarDTO): Promise<CarDTO> {
   try {
-    const res = await fetch(API_URL, {
+    const res = await fetch(`${baseURL}/cars`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(car),
@@ -40,7 +43,7 @@ export async function create(car: CarDTO): Promise<CarDTO> {
  */
 export async function update(car: CarDTO): Promise<CarDTO> {
   try {
-    const res = await fetch(`${API_URL}/${car.id}`, {
+    const res = await fetch(`${baseURL}/cars/${car.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(car),
@@ -58,7 +61,7 @@ export async function update(car: CarDTO): Promise<CarDTO> {
  */
 export async function remove(id: number): Promise<void> {
   try {
-    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    const res = await fetch(`${baseURL}/cars/${id}`, { method: "DELETE" });
     if (!res.ok) throw new Error("API error");
   } catch (err) {
     console.error("[HTTP] remove error:", err);

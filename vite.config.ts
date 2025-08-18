@@ -9,6 +9,11 @@ export default defineConfig({
       "@": "/src",
     },
   },
+  server: {
+    proxy: {
+      "/api": { target: "http://localhost:4000", changeOrigin: true },
+    },
+  },
   test: {
     environment: "jsdom",
     globals: true,
