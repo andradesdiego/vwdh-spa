@@ -8,14 +8,5 @@
   "builds": [
     { "src": "src/infrastructure/api/**/*.ts", "use": "@vercel/node" }
   ],
-  "functions": {
-    "src/infrastructure/api/**/*.ts": {
-      "includeFiles": "db.json"
-    }
-  },
-  "routes": [
-    { "src": "^/api/(.*)$", "dest": "src/infrastructure/api/$1.ts" },
-    { "handle": "filesystem" },
-    { "src": "^(?!/api/).*", "dest": "/index.html" }
-  ]
+  "routes": [{ "src": "^/api/(.*)$", "dest": "src/infrastructure/api/$1.ts" }]
 }
