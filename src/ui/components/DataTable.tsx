@@ -8,7 +8,7 @@ import { AnimatePresence } from "framer-motion";
 type SortKey = keyof CarModel;
 type SortDirection = "asc" | "desc";
 
-export function DataTable() {
+export default function DataTable() {
   const cars = useCarStore((state) => state.cars);
   const loading = useCarStore((state) => state.loading);
   const selectedCar = useCarStore((s) => s.selectedCar);

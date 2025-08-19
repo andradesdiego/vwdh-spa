@@ -1,28 +1,62 @@
-import { useEffect } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
+import { CarsTableSkeleton } from "@/ui/components/skeletons/CarsTableSkeleton";
 import { fetchCarsUseCase } from "@/application/use-cases/fetchCarsUseCase";
 import { useCarStore } from "@/state/useCarStore";
-import { DataTable } from "@/ui/components/DataTable";
-import { CarForm } from "@/ui/components/CarForm";
-import { Modal } from "@/ui/components/Modal";
 import toast from "react-hot-toast";
 import { toCarDTO } from "@/infrastructure/dto/carDTO";
 import Button from "../components/Button";
-
+import { FormSkeleton } from "../components/skeletons/FormSkeleton";
+const DataTable = lazy(() => import("@/ui/components/DataTable"));
+const Modal = lazy(() => import("@/ui/components/Modal"));
+const CarForm = lazy(() =>
+  import("@/ui/components/CarForm").then((m) => ({ default: m.CarForm }))
+);
 export default function CarListPage() {
-  const setCars = useCarStore((state) => state.setCars);
+  const setCars = useCarStore((s) => s.setCars);
+  const setLoading = useCarStore((s) => s.setLoading);
+  const setError = useCarStore((s) => s.setError);
+  const loading = useCarStore((s) => s.loading);
+  const error = useCarStore((s) => s.error);
+
   const isFormOpen = useCarStore((s) => s.isFormOpen);
   const openForm = useCarStore((s) => s.openForm);
   const closeForm = useCarStore((s) => s.closeForm);
   const selectedCar = useCarStore((s) => s.selectedCar);
+
   useEffect(() => {
-    fetchCarsUseCase()
-      .then((cars) => setCars(cars.map(toCarDTO)))
-      .catch((err) => {
+    let mounted = true;
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const cars = await fetchCarsUseCase();
+        if (mounted) setCars(cars.map(toCarDTO));
+      } catch (err) {
         console.error("Failed to load cars:", err);
-        toast.error("Error al cargar los coches");
-        setCars([]);
-      });
-  }, [setCars]);
+        if (mounted) {
+          setCars([]);
+          setError("Error al cargar los coches");
+          toast.error("Error al cargar los coches");
+        }
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [setCars, setLoading, setError]);
+
+  function DelayedForm({ ms = 300 }: { ms?: number }) {
+    const [ready, setReady] = useState(!import.meta.env.DEV); // en prod no retrasamos
+    useEffect(() => {
+      if (!ready) {
+        const t = setTimeout(() => setReady(true), ms);
+        return () => clearTimeout(t);
+      }
+    }, [ready, ms]);
+    return ready ? <CarForm /> : <FormSkeleton />;
+  }
 
   return (
     <div className="bg-gray-900 lg:mx-12 pb-4">
@@ -32,7 +66,7 @@ export default function CarListPage() {
             className="w-48 lg:w-72"
             src="https://assets.vw-mms.de/assets/images/cws/volkswagen_group_logo-YD6OYBJM.svg"
             alt="vw group logo"
-          ></img>
+          />
           <h1 className="hidden lg:inline-flex text-xl text-gray-100 font-bold">
             Catálogo Grupo Volkswagen
           </h1>
@@ -41,11 +75,28 @@ export default function CarListPage() {
           <Button onClick={openForm} variant="primary" text="Añadir coche" />
         )}
       </div>
-      <DataTable />
+
+      {/* Datos: skeleton/error/tabla */}
+      {loading ? (
+        <CarsTableSkeleton rows={6} />
+      ) : error ? (
+        <div role="alert" className="p-4 text-red-400">
+          {error}
+        </div>
+      ) : (
+        // Code-splitting de la tabla
+        <Suspense fallback={<CarsTableSkeleton rows={6} />}>
+          <DataTable />
+        </Suspense>
+      )}
+
+      {/* Modal lazy (code-splitting del contenedor) */}
       {isFormOpen && (
-        <Modal onClose={closeForm}>
-          <CarForm />
-        </Modal>
+        <Suspense fallback={<FormSkeleton />}>
+          <Modal onClose={closeForm}>
+            <DelayedForm ms={600} />
+          </Modal>
+        </Suspense>
       )}
     </div>
   );

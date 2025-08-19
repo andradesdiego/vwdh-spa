@@ -1,3 +1,4 @@
+// src/state/useCarStore.ts
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import type { CarDTO } from "@/infrastructure/dto/carDTO";
@@ -12,16 +13,27 @@ type ConfirmDialogState = {
 type CarStore = {
   cars: CarDTO[];
   loading: boolean;
+  error: string | null;
   selectedCar?: CarDTO;
+
+  // setters ya existentes
+  setCars: (cars: CarDTO[]) => void;
   selectCar: (car: CarDTO) => void;
   clearSelection: () => void;
   addCar: (car: CarDTO) => void;
   updateCar: (car: CarDTO) => void;
   deleteCar: (id: number) => void;
+
+  // helpers de estado
+  setLoading: (v: boolean) => void;
+  setError: (msg: string | null) => void;
+
+  // form / modal
   isFormOpen: boolean;
   openForm: () => void;
   closeForm: () => void;
-  setCars: (cars: CarDTO[]) => void;
+
+  // confirm dialog
   confirmDialog: ConfirmDialogState;
   showConfirmDialog: (
     message: string,
@@ -35,9 +47,13 @@ export const useCarStore = create<CarStore>()(
   devtools((set, get) => ({
     cars: [],
     loading: false,
+    error: null,
     selectedCar: undefined,
 
     setCars: (cars) => set({ cars }),
+    setLoading: (v) => set({ loading: v }),
+    setError: (msg) => set({ error: msg }),
+
     selectCar: (car) => set({ selectedCar: car }),
     clearSelection: () => set({ selectedCar: undefined }),
 
@@ -67,14 +83,7 @@ export const useCarStore = create<CarStore>()(
       onCancel: () => {},
     },
     showConfirmDialog: (message, onConfirm, onCancel = () => {}) =>
-      set({
-        confirmDialog: {
-          visible: true,
-          message,
-          onConfirm,
-          onCancel,
-        },
-      }),
+      set({ confirmDialog: { visible: true, message, onConfirm, onCancel } }),
     hideConfirmDialog: () =>
       set({
         confirmDialog: {

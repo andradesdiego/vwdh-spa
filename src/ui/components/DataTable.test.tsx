@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, test, expect, vi } from "vitest";
-import { DataTable } from "./DataTable";
+import DataTable from "./DataTable";
 import { useCarStore } from "@/state/useCarStore";
 import { Power } from "@/domain/value-objects/Power";
 import { toCarDTO, toDomainCar } from "@/infrastructure/dto/carDTO";
