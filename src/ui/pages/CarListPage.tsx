@@ -47,8 +47,8 @@ export default function CarListPage() {
     };
   }, [setCars, setLoading, setError]);
 
-  function DelayedForm({ ms = 300 }: { ms?: number }) {
-    const [ready, setReady] = useState(!import.meta.env.DEV); // en prod no retrasamos
+  function DelayedForm({ ms = 600 }: { ms?: number }) {
+    const [ready, setReady] = useState(false);
     useEffect(() => {
       if (!ready) {
         const t = setTimeout(() => setReady(true), ms);
