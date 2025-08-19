@@ -5,6 +5,8 @@ import { useCarStore } from "@/state/useCarStore";
 import { deleteCarUseCase } from "@/application/use-cases/deleteCarUseCase";
 import toast from "react-hot-toast";
 import { CarDTO } from "@/infrastructure/dto/carDTO";
+import { CarModel } from "@/domain/models/CarModel";
+import { Power } from "@/domain/value-objects/Power";
 
 // Mocks
 vi.mock("@/state/useCarStore", () => ({
@@ -25,13 +27,13 @@ vi.mock("react-hot-toast", () => ({
 }));
 
 // Sample car
-const sampleCar: CarDTO = {
+const sampleCar: CarModel = {
   id: 123,
   brand: "Audi",
   name: "A3 Sportback",
   year: 2021,
   fuelType: "Gasoline",
-  horsepower: 140,
+  horsepower: Power.create(140),
 };
 
 describe("<CarRow />", () => {
@@ -67,7 +69,7 @@ describe("<CarRow />", () => {
     expect(screen.getByText("A3 Sportback")).toBeInTheDocument();
     expect(screen.getByText("2021")).toBeInTheDocument();
     expect(screen.getByText("Gasoline")).toBeInTheDocument();
-    expect(screen.getByText("140")).toBeInTheDocument();
+    expect(screen.getByText("140 CV")).toBeInTheDocument();
   });
 
   it("llama a selectCar al hacer click en la fila", () => {

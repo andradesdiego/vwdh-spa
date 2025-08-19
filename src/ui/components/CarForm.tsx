@@ -1,32 +1,41 @@
+// src/ui/components/CarForm.tsx
 import { useEffect, useState } from "react";
 import { useCarStore } from "@/state/useCarStore";
 import type { CarModel } from "@/domain/models/CarModel";
-import { createCarUseCase } from "@/application/use-cases/createCarUseCase";
-import toast from "react-hot-toast";
-import { updateCarUseCase } from "@/application/use-cases/updateCarUseCase";
+import { createCarUseCase } from "@/application/use-cases/createCarUseCase"; // V1
+import { updateCarUseCase } from "@/application/use-cases/updateCarUseCase"; // V1
 import { Power } from "@/domain/value-objects/Power";
-import { toCarDTO } from "@/infrastructure/dto/carDTO";
 import Button from "./Button";
+import toast from "react-hot-toast";
 
 interface CarFormProps {
   onSubmit?: (data: Partial<CarModel>) => void;
 }
 
 export function CarForm({ onSubmit }: CarFormProps) {
-  const addCar = useCarStore((s) => s.addCar);
-  const updateCar = useCarStore((s) => s.updateCar);
+  // Store actions (V1 + V2)
+  const mode = useCarStore(
+    (s) => s.mode ?? (import.meta.env.VITE_USE_ENTITY === "true" ? "v2" : "v1")
+  );
+  const addCar = useCarStore((s) => s.addCar); // V1 (sync)
+  const updateCar = useCarStore((s) => s.updateCar); // V1 (sync)
+  const createV2 = useCarStore((s) => s.create); // V2 (async)
+  const saveV2 = useCarStore((s) => s.save); // V2 (async)
+
   const selectedCar = useCarStore((s) => s.selectedCar);
   const clearSelection = useCarStore((s) => s.clearSelection);
   const closeForm = useCarStore((s) => s.closeForm);
+
+  // Estado del formulario (inputs controlados como string para comodidad)
   const [form, setForm] = useState({
     name: "",
     brand: "",
     year: "",
-    fuelType: "Gasoline",
+    fuelType: "Gasoline" as CarModel["fuelType"],
     horsepower: "",
   });
 
-  const resetForm = () => {
+  const resetForm = () =>
     setForm({
       name: "",
       brand: "",
@@ -34,8 +43,8 @@ export function CarForm({ onSubmit }: CarFormProps) {
       fuelType: "Gasoline",
       horsepower: "",
     });
-  };
 
+  // Cargar datos al editar (usar VO.getValue() para el input numérico)
   useEffect(() => {
     if (selectedCar) {
       setForm({
@@ -43,8 +52,10 @@ export function CarForm({ onSubmit }: CarFormProps) {
         brand: selectedCar.brand,
         year: String(selectedCar.year),
         fuelType: selectedCar.fuelType,
-        horsepower: String(selectedCar.horsepower),
+        horsepower: String(selectedCar.horsepower.getValue()),
       });
+    } else {
+      resetForm();
     }
   }, [selectedCar]);
 
@@ -58,33 +69,57 @@ export function CarForm({ onSubmit }: CarFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validación simple
+    const yearNum = Number(form.year);
+    const hpNum = Number(form.horsepower);
+    const currentYear = new Date().getFullYear();
     if (
-      !form.name ||
-      !form.brand ||
+      !form.name.trim() ||
+      !form.brand.trim() ||
       !form.year ||
       !form.horsepower ||
-      isNaN(Number(form.horsepower))
+      Number.isNaN(yearNum) ||
+      Number.isNaN(hpNum) ||
+      yearNum < 1950 ||
+      yearNum > currentYear + 1 ||
+      hpNum <= 0
     ) {
-      alert("Por favor, completa todos los campos.");
+      alert("Por favor, completa todos los campos con valores válidos.");
       return;
     }
 
+    // Modelo listo para V1 (CarModel)
     const data: Omit<CarModel, "id"> = {
-      name: form.name,
-      brand: form.brand,
-      year: Number(form.year),
-      fuelType: form.fuelType as CarModel["fuelType"],
-      horsepower: Power.create(Number(form.horsepower)),
+      name: form.name.trim(),
+      brand: form.brand.trim(),
+      year: yearNum,
+      fuelType: form.fuelType,
+      horsepower: Power.create(hpNum),
     };
 
     try {
       if (selectedCar) {
-        const updatedCar = await updateCarUseCase({ ...selectedCar, ...data });
-        updateCar(toCarDTO(updatedCar));
+        // EDITAR
+        if (mode === "v2" && saveV2) {
+          // V2: store gestiona optimistic update + repo
+          await saveV2({ ...selectedCar, ...data });
+        } else {
+          // V1: use-case + sync store
+          const updatedCar = await updateCarUseCase({
+            ...selectedCar,
+            ...data,
+          });
+          updateCar(updatedCar);
+        }
         toast.success("Coche actualizado con éxito");
       } else {
-        const createdCar = await createCarUseCase(data);
-        addCar(toCarDTO(createdCar));
+        // CREAR
+        if (mode === "v2" && createV2) {
+          await createV2(data);
+        } else {
+          const createdCar = await createCarUseCase(data);
+          addCar(createdCar);
+        }
         toast.success("Coche añadido con éxito");
       }
 
@@ -93,6 +128,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
       resetForm();
       closeForm();
     } catch (error) {
+      console.error(error);
       toast.error("Error al guardar el coche");
     }
   };
@@ -157,8 +193,8 @@ export function CarForm({ onSubmit }: CarFormProps) {
           onChange={handleChange}
           className="p-2 rounded bg-gray-800 text-white w-full shadow-md"
           required
-          min="1900"
-          max={new Date().getFullYear()}
+          min={1950}
+          max={new Date().getFullYear() + 1}
         />
 
         <label htmlFor="horsepower" className="block text-sm text-white">
@@ -173,7 +209,7 @@ export function CarForm({ onSubmit }: CarFormProps) {
           onChange={handleChange}
           className="p-2 rounded bg-gray-800 text-white w-full shadow-md"
           required
-          min="30"
+          min={30}
         />
 
         <label htmlFor="fuelType" className="block text-sm text-white">
@@ -194,7 +230,6 @@ export function CarForm({ onSubmit }: CarFormProps) {
         </select>
       </fieldset>
 
-      {/* Botones */}
       <div className="flex gap-4 justify-center py-2 text-xs lg:text-sm">
         <button
           type="submit"
@@ -202,7 +237,6 @@ export function CarForm({ onSubmit }: CarFormProps) {
         >
           {selectedCar ? "Actualizar" : "Guardar"}
         </button>
-
         <Button onClick={closeForm} variant="secondary" text="Cerrar" />
       </div>
     </form>

@@ -1,14 +1,11 @@
 import { motion } from "framer-motion";
-import type { CarDTO } from "@/infrastructure/dto/carDTO";
+import type { CarModel } from "@/domain/models/CarModel"; // ⬅️ usa CarModel
 import { useCarStore } from "@/state/useCarStore";
 import { deleteCarUseCase } from "@/application/use-cases/deleteCarUseCase";
 import toast from "react-hot-toast";
 import Trash from "@/ui/icons/Trash";
-import { T } from "vitest/dist/chunks/reporters.d.BFLkQcL6.js";
 
-type Props = {
-  car: CarDTO;
-};
+type Props = { car: CarModel }; // ⬅️ aquí
 
 export function CarRow({ car }: Props) {
   const selectCar = useCarStore((s) => s.selectCar);
@@ -45,7 +42,7 @@ export function CarRow({ car }: Props) {
       <td className="p-3">{car.name}</td>
       <td className="p-3 md:table-cell hidden">{car.year}</td>
       <td className="p-3 md:table-cell hidden">{car.fuelType}</td>
-      <td className="p-3">{car.horsepower}</td>
+      <td className="p-3">{car.horsepower.toString()}</td>
       <td className="p-3 flex justify-center">
         <button
           onClick={(e) => {

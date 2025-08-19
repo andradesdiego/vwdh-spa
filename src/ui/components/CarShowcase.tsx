@@ -1,16 +1,18 @@
-import type { CarDTO } from "@/infrastructure/dto/carDTO";
+// src/ui/components/CarShowcase.tsx
+import type { CarModel } from "@/domain/models/CarModel"; // ⬅️ usa CarModel (no CarDTO)
 import { useCarStore } from "@/state/useCarStore";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import Button from "./Button";
 
 type Props = {
-  car: CarDTO;
+  car: CarModel;
 };
 
 export function CarShowcase({ car }: Props) {
   const clearSelection = useCarStore((s) => s.clearSelection);
   const openForm = useCarStore((s) => s.openForm);
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") clearSelection();
@@ -27,7 +29,7 @@ export function CarShowcase({ car }: Props) {
       exit={{ opacity: 0, x: 40 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex flex-col bg-gray-900 rounded shadow space-y-4 ">
+      <div className="flex flex-col bg-gray-900 rounded shadow space-y-4">
         <h2 className="text-xl font-semibold">Marca: {car.brand}</h2>
         <p>
           <strong>Modelo:</strong> {car.name}
@@ -36,7 +38,10 @@ export function CarShowcase({ car }: Props) {
           <strong>Año:</strong> {car.year}
         </p>
         <p>
-          <strong>Potencia:</strong> {car.horsepower} CV
+          <strong>Potencia:</strong> {car.horsepower.toString()}{" "}
+          <span className="text-gray-400">
+            ({car.horsepower.toKilowatts()} kW)
+          </span>
         </p>
         <p>
           <strong>Combustible:</strong> {car.fuelType}

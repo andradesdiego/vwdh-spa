@@ -42,7 +42,7 @@
     },
     {
       "id": "65ff",
-      "name": "A4 Avant SLine ",
+      "name": "A4 Avant Sline",
       "brand": "Audi",
       "year": 2020,
       "fuelType": "Diesel",
@@ -55,14 +55,6 @@
       "year": 2023,
       "fuelType": "Gasoline",
       "horsepower": 140
-    },
-    {
-      "id": "6da4",
-      "name": "Alhambra Sport ",
-      "brand": "SEAT",
-      "year": 2024,
-      "fuelType": "Gasoline",
-      "horsepower": 240
     },
     {
       "id": "35f5",
@@ -79,6 +71,14 @@
       "year": 2025,
       "fuelType": "Hybrid",
       "horsepower": 1015
+    },
+    {
+      "id": "9784",
+      "name": "Alhambra Sport",
+      "brand": "SEAT",
+      "year": 2024,
+      "fuelType": "Gasoline",
+      "horsepower": 240
     }
   ]
 }

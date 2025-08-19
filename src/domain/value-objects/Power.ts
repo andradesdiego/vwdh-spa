@@ -20,6 +20,11 @@ export class Power {
     return this.value === other.getValue();
   }
 
+  // HINT: permite comparaciones/coerciones numéricas accidentales
+  valueOf(): number {
+    return this.value;
+  }
+
   toString(): string {
     return `${this.value} CV`;
   }

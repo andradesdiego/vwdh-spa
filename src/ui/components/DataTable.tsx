@@ -4,6 +4,7 @@ import type { CarModel } from "@/domain/models/CarModel";
 import { useCarStore } from "@/state/useCarStore";
 import { CarRow } from "./CarRow";
 import { AnimatePresence } from "framer-motion";
+import { CarDTO } from "@/infrastructure/dto/carDTO";
 
 type SortKey = keyof CarModel;
 type SortDirection = "asc" | "desc";

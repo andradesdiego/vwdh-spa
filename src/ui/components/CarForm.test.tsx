@@ -6,6 +6,8 @@ import { deleteCarUseCase } from "@/application/use-cases/deleteCarUseCase";
 import toast from "react-hot-toast";
 import type { CarDTO } from "@/infrastructure/dto/carDTO";
 import { type Mock } from "vitest";
+import { CarModel } from "@/domain/models/CarModel";
+import { Power } from "@/domain/value-objects/Power";
 
 // ✅ Mocks
 vi.mock("@/state/useCarStore", () => ({
@@ -26,13 +28,13 @@ vi.mock("react-hot-toast", () => ({
 }));
 
 // Sample car
-const mockCar: CarDTO = {
+const mockCar: CarModel = {
   id: 1,
   name: "T-Roc",
   brand: "Volkswagen",
   year: 2021,
   fuelType: "Gasoline",
-  horsepower: 150,
+  horsepower: Power.create(150),
 };
 
 // Variables para los mocks del store
@@ -66,7 +68,7 @@ describe("CarRow", () => {
     expect(screen.getByText("Volkswagen")).toBeInTheDocument();
     expect(screen.getByText("2021")).toBeInTheDocument();
     expect(screen.getByText("Gasoline")).toBeInTheDocument();
-    expect(screen.getByText("150")).toBeInTheDocument();
+    expect(screen.getByText("150 CV")).toBeInTheDocument();
   });
 
   test("calls selectCar when row is clicked", () => {

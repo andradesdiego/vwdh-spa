@@ -2,14 +2,16 @@ import { render, screen } from "@testing-library/react";
 import { describe, test, expect } from "vitest";
 import { CarShowcase } from "./CarShowcase";
 import type { CarDTO } from "@/infrastructure/dto/carDTO";
+import { CarModel } from "@/domain/models/CarModel";
+import { Power } from "@/domain/value-objects/Power";
 
-const mockCar: CarDTO = {
+const mockCar: CarModel = {
   id: 2,
   name: "ID.3",
   brand: "Volkswagen",
   year: 2024,
   fuelType: "Electric",
-  horsepower: 204,
+  horsepower: Power.create(204),
 };
 
 describe("CarShowcase", () => {
@@ -20,6 +22,6 @@ describe("CarShowcase", () => {
     expect(screen.getByText(/Volkswagen/)).toBeInTheDocument();
     expect(screen.getByText(/2024/)).toBeInTheDocument();
     expect(screen.getByText(/Electric/)).toBeInTheDocument();
-    expect(screen.getByText(/204/)).toBeInTheDocument();
+    expect(screen.getByText(/204 CV/)).toBeInTheDocument();
   });
 });

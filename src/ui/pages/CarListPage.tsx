@@ -5,24 +5,56 @@ import { DataTable } from "@/ui/components/DataTable";
 import { CarForm } from "@/ui/components/CarForm";
 import { Modal } from "@/ui/components/Modal";
 import toast from "react-hot-toast";
-import { toCarDTO } from "@/infrastructure/dto/carDTO";
 import Button from "../components/Button";
 
+const USE_V2 = import.meta.env.VITE_USE_ENTITY === "true";
+
 export default function CarListPage() {
-  const setCars = useCarStore((state) => state.setCars);
+  const setCars = useCarStore((s) => s.setCars);
+  const load = useCarStore((s) => s.load); // acción async V2
   const isFormOpen = useCarStore((s) => s.isFormOpen);
   const openForm = useCarStore((s) => s.openForm);
   const closeForm = useCarStore((s) => s.closeForm);
   const selectedCar = useCarStore((s) => s.selectedCar);
+
   useEffect(() => {
-    fetchCarsUseCase()
-      .then((cars) => setCars(cars.map(toCarDTO)))
-      .catch((err) => {
-        console.error("Failed to load cars:", err);
-        toast.error("Error al cargar los coches");
-        setCars([]);
-      });
-  }, [setCars]);
+    let cancelled = false;
+
+    const bootstrap = async () => {
+      try {
+        if (USE_V2) {
+          // Ruta nueva (Entidad + Repo V2)
+          await load();
+          return;
+        }
+        // Ruta legacy (V1)
+        const cars = await fetchCarsUseCase();
+        if (!cancelled) setCars(cars);
+      } catch (err) {
+        // Fallback: si V2 falla, intenta V1
+        if (USE_V2) {
+          try {
+            const cars = await fetchCarsUseCase();
+            if (!cancelled) setCars(cars);
+            return;
+          } catch (e2) {
+            console.error("Failed to load cars (V2 & V1):", e2);
+          }
+        } else {
+          console.error("Failed to load cars (V1):", err);
+        }
+        if (!cancelled) {
+          toast.error("Error al cargar los coches");
+          setCars([]);
+        }
+      }
+    };
+
+    bootstrap();
+    return () => {
+      cancelled = true;
+    };
+  }, [load, setCars]);
 
   return (
     <div className="bg-gray-900 lg:mx-12 pb-4">
@@ -32,7 +64,7 @@ export default function CarListPage() {
             className="w-48 lg:w-72"
             src="https://assets.vw-mms.de/assets/images/cws/volkswagen_group_logo-YD6OYBJM.svg"
             alt="vw group logo"
-          ></img>
+          />
           <h1 className="hidden lg:inline-flex text-xl text-gray-100 font-bold">
             Catálogo Grupo Volkswagen
           </h1>
@@ -41,7 +73,9 @@ export default function CarListPage() {
           <Button onClick={openForm} variant="primary" text="Añadir coche" />
         )}
       </div>
+
       <DataTable />
+
       {isFormOpen && (
         <Modal onClose={closeForm}>
           <CarForm />
