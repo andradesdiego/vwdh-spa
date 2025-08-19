@@ -313,7 +313,7 @@ jobs:
         run: npm run build
 ```
 
-#### Added branch protection to master and development:
+#### 📦 Added branch protection to master and development:
 
 ✅ Require passing status checks
 
