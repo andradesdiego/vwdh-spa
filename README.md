@@ -12,6 +12,7 @@ This project is a front-end web application (SPA) simulating a car catalogue for
 - Modal form with validation
 - Showcase selected car
 - Full CRUD integration
+- Asynchronous Views & Code Splitting
 - Fully typed with TypeScript
 - State management with Zustand
 - Architecture based on DDD: Domain / Application / Infrastructure / UI
@@ -217,6 +218,12 @@ All AI-generated code was reviewed and adjusted manually to meet best practices 
 ## ♿ Accessibility & UX/UI Improvements
 
 Throughout the development of the Volkswagen DDD React App, we incorporated several accessibility (a11y) and user experience (UX/UI) enhancements to ensure better usability across devices and user needs.
+
+### ✅ Asynchronous Views & Code Splitting
+
+- This application uses **React.lazy + Suspense** to split large parts of the UI into separate chunks that are loaded only when needed. For example, pages (`CarListPage`), tables (`DataTable`), and modal forms (`Modal`, `CarForm`) are not bundled into the main file, but downloaded asynchronously the first time they are rendered. This reduces the initial bundle size and improves performance.
+
+- While these chunks are being loaded, the UI shows **fallbacks and skeletons** to provide a smooth user experience. For instance, the table skeleton (`CarsTableSkeleton`) is displayed while data is fetched from the API or while the `DataTable` component is loading, and the form skeleton (`FormSkeleton`) is shown while the modal form code is being retrieved. This ensures that users always see responsive feedback, even during asynchronous loading of code or data.
 
 ### ✅ Form Accessibility
 

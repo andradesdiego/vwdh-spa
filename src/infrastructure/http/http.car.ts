@@ -6,10 +6,14 @@ const baseURL =
     ? "http://localhost:4000" // JSON Server local
     : "/api"; // Vercel Function en PROD
 
+const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const DEV_DELAY = Number(import.meta.env.VITE_HTTP_DELAY_MS ?? 600);
+
 /**
  * GET /cars
  */
 export async function getAll(): Promise<CarDTO[]> {
+  if (import.meta.env.DEV && DEV_DELAY > 0) await delay(DEV_DELAY);
   try {
     const res = await fetch(`${baseURL}/cars`);
     if (!res.ok) throw new Error("Error al obtener los coches");

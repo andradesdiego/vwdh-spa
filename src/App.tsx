@@ -1,5 +1,11 @@
-import CarListPage from "@/ui/pages/CarListPage";
-import { AppLayout, GlobalConfirmDialog } from "./Layout";
+// src/App.tsx
+import { lazy } from "react";
+import { AppLayout } from "./Layout";
+
+const CarListPage = lazy(() => import("@/ui/pages/CarListPage"));
+const GlobalConfirmDialog = lazy(() =>
+  import("./Layout").then((m) => ({ default: m.GlobalConfirmDialog }))
+);
 
 function App() {
   return (
