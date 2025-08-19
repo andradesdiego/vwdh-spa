@@ -2,7 +2,7 @@
 
 ## 📦 Project Overview
 
-This project is a front-end web application (SPA) simulating a car catalogue for the Volkswagen Group. It follows Domain-Driven Design (DDD) principles and is built using React, TypeScript, Vite, TailwindCSS, and Zustand for state management. The app includes full CRUD operations powered by a mock API via JSON Server.
+This project is a front-end web application (SPA) simulating a car catalogue for the Volkswagen Group. It follows Domain-Driven Design (DDD) principles and is built using React, TypeScript, Vite, TailwindCSS, and Zustand for state management. The app includes full CRUD operations: in development it uses a mock API via JSON Server (proxied under /api), while in production the same endpoints are served by a lightweight Vercel Serverless Function exposed at /api, so the frontend code remains identical across environments.
 
 ## 🚀 Features
 
@@ -19,7 +19,8 @@ This project is a front-end web application (SPA) simulating a car catalogue for
 - Unit & Integration Testing with Vitest and Testing Library
 - Mocked API using JSON Server
 - Github Actions - CI
-- Vercel - CD
+- Production deployment serves a lighweight api serverless function
+- Vercel - CD @ [https://vwdh.vercel.app]
 
 ## 🧱 Tech Stack
 
@@ -28,7 +29,8 @@ This project is a front-end web application (SPA) simulating a car catalogue for
 - **TailwindCSS** for UI styling
 - **Zustand** for global state
 - **Vitest + React Testing Library** for testing
-- **JSON Server** as mocked backend
+- **JSON Server** as development mocked backend
+- **Vercel Serverless Function** as production mocked backend
 - **DDD (Domain-Driven Design)** layered architecture
 
 ---
@@ -80,6 +82,7 @@ npm run test:watch
 - `infrastructure/`: API and DTOs
 - `ui/`: Components, pages, and styling
 - `state/`: Global Zustand store
+- `api/`: Vercel Serverless function (production deployment)
 
 Please also visit dedicated file [arquitecture.md](/docs/arquitecture.md)
 
@@ -95,8 +98,12 @@ To decouple the application logic from data access and improve maintainability, 
 
 ### 2. HTTP Adapter
 
-The actual HTTP logic (with `fetch`, `try/catch`, headers, etc.) is encapsulated in a dedicated file:
-`src/infrastructure/http/http.car.ts`.
+The actual HTTP logic (with fetch, error handling, headers, and DTO–Domain mapping) lives in `src/infrastructure/http/http.car.ts`.
+We use a single base path, `/api`, so the frontend code is identical across environments:
+
+- **Development**: Vite proxies /api → http://localhost:4000 (JSON Server).
+
+- **Production**: the same `/api` endpoints are served by a lightweight Vercel Serverless Function (`/api/cars` and `/api/cars/:id`).
 
 This adapter is used internally by `CarApiRepository` and contains all the side-effect logic.
 
