@@ -319,11 +319,11 @@ jobs:
 
 ✅ Block direct pushes
 
-### 🚀 Vercel Deployment
+#### 🚀 Vercel Deployment
 
-Automatically deploys from `development` for PREVIEW environment via GitHub → Vercel integration
+- Automatically deploys from `development` for PREVIEW environment via GitHub → Vercel integration
 
-Automatically deploys from `master` for PRODUCTION environment via GitHub → Vercel integration
+- Automatically deploys from `master` for PRODUCTION environment via GitHub → Vercel integration
 
 ---
 
